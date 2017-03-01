@@ -1,0 +1,16 @@
+{
+  "name": "doc-management",
+  "scripts": {
+  },
+  "env": {
+    "SECRET": "ilovecoding"
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+
+  ]
+}
