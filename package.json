@@ -4,7 +4,7 @@
   "description": "A full stack document management system",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\""
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/andela-osubair/doc-management/issues"
   },
-  "homepage": "https://github.com/andela-osubair/doc-management#readme"
+  "homepage": "https://github.com/andela-osubair/doc-management#readme",
+  "dependencies": {
+    "eslint": "^3.16.1",
+    "eslint-config-airbnb-base": "^11.1.0",
+    "eslint-plugin-import": "^2.2.0"
+  }
 }
