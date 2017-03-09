@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       viewAccess: {
-        type: Sequelize.ENUM('public', 'private'),
+        type: Sequelize.ENUM('public', 'private', 'role'),
         defaultValue: 'public'
       },
       userId: {

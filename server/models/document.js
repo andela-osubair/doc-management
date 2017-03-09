@@ -6,7 +6,7 @@ export default (sequelize, DataTypes) => {
     docType: DataTypes.STRING,
     viewAccess: {
       defaultValue: 'public',
-      type: DataTypes.ENUM('public', 'private')
+      type: DataTypes.ENUM('public', 'private', 'role')
     }
   }, {
     classMethods: {
