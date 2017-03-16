@@ -5,7 +5,9 @@ export default (sequelize, DataTypes) => {
   const Users = sequelize.define('Users', {
     name: { type: DataTypes.STRING, allowNull: false, },
     username: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false
     },
     email: {
       type: DataTypes.STRING,
@@ -18,7 +20,10 @@ export default (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
     },
   }, {
     classMethods: {
@@ -31,6 +36,17 @@ export default (sequelize, DataTypes) => {
           foreignKey: 'userId',
           as: 'documents',
         });
+      }
+    },
+    instanceMethods: {
+      /**
+       * verify plain password against user's hashed password
+       * @method
+       * @param {String} password
+       * @returns {Boolean} Validity of passowrd
+       */
+      verifyPassword(password) {
+        return bcrypt.compareSync(password, this.password);
       }
     },
     hooks: {
