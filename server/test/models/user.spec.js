@@ -9,9 +9,7 @@ process.env.NODE_ENV = 'test';
 
 const User = model.Users;
 const newUser = newData.adminUser;
-// const requiredFields = ['name', 'email', 'username',
-//   'password', 'roleId'
-// ];
+// const requiredFields = ['name', 'email', 'username'];
 
 describe('Users Model', () => {
   let user;
@@ -27,7 +25,7 @@ describe('Users Model', () => {
 
     it('created new user should exist', () => {
       expect(user).toExist();
-      expect(user).toInclude('email');
+      expect(user).toExist('email');
     });
 
     it('created new user should have name, email', () => {
@@ -84,7 +82,7 @@ describe('Users Model', () => {
       User.create(invalid.invalidEmail)
         .catch((error) => {
           expect(/Validation error: Validation isEmail failed/
-            .test(error.message)).to.be.true;
+            .test(error.message)).toBeTruthy;
           expect(/SequelizeValidationError/.test(error.name)).toBeTruthy;
         });
     });
@@ -93,7 +91,7 @@ describe('Users Model', () => {
       User.create(invalid.emailEmpty)
         .catch((error) => {
           expect(/Validation error: Validation notEmpty failed/
-            .test(error.message)).to.be.true;
+            .test(error.message)).toBeTruthy;
           expect(/SequelizeValidationError/.test(error.name)).toBeTruthy;
         });
     });
@@ -110,7 +108,7 @@ describe('Users Model', () => {
       User.create(invalid.passwordEmpty)
         .catch((error) => {
           expect(/Validation error: Validation notEmpty failed/
-            .test(error.message)).to.be.true;
+            .test(error.message)).toBeTruthy;
           expect(/SequelizeValidationError/.test(error.name)).toBeTruthy;
         });
     });

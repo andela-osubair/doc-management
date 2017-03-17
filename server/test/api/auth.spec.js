@@ -1,5 +1,3 @@
-/* eslint no-unused-expressions: "off"*/
-
 import { agent } from 'supertest';
 import expect from 'expect';
 
@@ -26,7 +24,7 @@ describe('Login/Logout API', () => {
         });
     });
     it('logged in user should have a token', () => {
-      expect(user.token).to.exist;
+      expect(user.token).toExist();
     });
     it('should return Wrong Password login user', (done) => {
       server
@@ -43,7 +41,7 @@ describe('Login/Logout API', () => {
       server
         .get('/users')
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).toEqual(401);
           done();
         });
     });

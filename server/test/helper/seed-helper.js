@@ -16,9 +16,14 @@ export const users = [{
 }];
 
 export const documents = [{
-  title: faker.company.catchPhrase(),
+  title: 'seed document test',
   docContent: faker.lorem.paragraph(),
   viewAccess: 'private',
+  userId: 1
+}, {
+  title: 'public seed document test',
+  docContent: faker.lorem.paragraph(),
+  viewAccess: 'public',
   userId: 1
 }];
 

@@ -35,10 +35,10 @@ describe('Document Model', () => {
         });
     });
     it('created new document should exist', () => {
-      expect(docData).to.exist;
+      expect(docData).toExist();
       expect(typeof docData).toEqual('object');
-      expect(docData).toIncludeKeys('title');
-      expect(docData).toIncludeKeys('docContent');
+      expect(docData).toExist('title');
+      expect(docData).toExist('docContent');
     });
     it('created new document should have name, email', () => {
       expect(docData.title).toEqual(publicDocument.title);
