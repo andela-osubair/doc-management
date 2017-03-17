@@ -20,24 +20,24 @@ const newData = {
   administrator: {
     name: faker.name.findName(),
     username: faker.internet.userName(),
-    email: faker.internet.email(),
-    password: faker.internet.password(),
+    email: 'administrator@gmail.com',
+    password: 'admin',
     roleId: 1
   },
 
   regUser: {
     name: faker.name.findName(),
     username: faker.internet.userName(),
-    email: faker.internet.email(),
-    password: faker.internet.password(),
+    email: 'oyindamola@andela.com',
+    password: 'andela',
     roleId: 2
   },
 
   regular: {
     name: faker.name.findName(),
     username: faker.internet.userName(),
-    email: faker.internet.email(),
-    password: faker.internet.password(),
+    email: 'regular@gmail.com',
+    password: 'regular',
     roleId: 2
   },
 
@@ -63,7 +63,7 @@ const newData = {
   },
 
   publicDoc: {
-    title: faker.company.catchPhrase(),
+    title: 'This is a new document in test',
     docContent: faker.lorem.paragraph(),
     viewAccess: 'public',
   },

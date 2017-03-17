@@ -1,7 +1,11 @@
 'use strict';
 export default (sequelize, DataTypes) => {
   const Documents = sequelize.define('Documents', {
-    title: DataTypes.STRING,
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
     docContent: DataTypes.TEXT,
     docType: DataTypes.STRING,
     viewAccess: {

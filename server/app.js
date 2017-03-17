@@ -5,10 +5,12 @@ import Routes from './routes';
 
 require('dotenv').config();
 
+const secret = process.env.SECRET || 'thisisademosecret';
+
 // Set up the express app
 const app = express();
 
-app.set('superSecret', process.env.SECRET);
+app.set('superSecret', secret);
 
 // Log requests to the console.
 app.use(logger('dev'));

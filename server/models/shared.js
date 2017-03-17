@@ -1,7 +1,14 @@
 'use strict';
 export default (sequelize, DataTypes) => {
   const Shared = sequelize.define('Shared', {
-    email: DataTypes.STRING,
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isEmail: true,
+        notEmpty: true,
+      }
+    },
     canEdit: {
       type: DataTypes.BOOLEAN,
       defaultValue: false

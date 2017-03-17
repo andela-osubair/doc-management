@@ -1,16 +1,11 @@
 /* eslint no-unused-expressions: "off"*/
 
-// import { agent } from 'supertest';
 import expect from 'expect';
-
-// import app from '../../../bin/www';
 import newData from '../helper/test-helper';
 import model from '../../models';
 
 process.env.NODE_ENV = 'test';
 
-// This agent refers to PORT where program is runninng.
-// const server = agent(app);
 const Role = model.Roles;
 const newRole = newData.newRole;
 
@@ -28,7 +23,7 @@ describe('Roles Model', () => {
 
     it('created new role should exist', () => {
       expect(role).toExist();
-      expect(role).toIncludeKeys('title');
+      expect(role).toExist('title');
     });
   });
 

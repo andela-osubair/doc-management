@@ -36,7 +36,7 @@ describe('Document Model', () => {
     it('shared document data should exist', () => {
       expect(sharedData).toExist();
       expect(typeof sharedData).toEqual('object');
-      expect(sharedData).toIncludeKeys('email');
+      expect(sharedData).toExist('email');
     });
     it('created new document should have name, email', () => {
       expect(sharedData.email).toEqual(sharedDoc.email);
@@ -61,7 +61,7 @@ describe('Document Model', () => {
       Shared.create(invalid.emptyEmail)
         .catch((error) => {
           expect(/Validation error: Validation notEmpty failed/
-            .test(error.message)).to.be.true;
+            .test(error.message)).toBeTruthy;
           expect(/SequelizeValidationError/.test(error.name)).toBeTruthy;
         });
     });
