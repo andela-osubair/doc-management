@@ -30,11 +30,11 @@ export default {
           user,
           token
         });
-      });
-      // .catch(error => res.status(400).send({
-      //   err: error,
-      //   message: 'Error occurred while authenticating user'
-      // }));
+      })
+      .catch(error => res.status(400).send({
+        err: error,
+        message: 'Error occurred while authenticating user'
+      }));
   },
   logout(req, res) {
     return res.status(200).send({
