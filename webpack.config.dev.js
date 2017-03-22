@@ -21,19 +21,28 @@ export default {
   devServer: {
     contentBase: path.resolve(__dirname, 'client')
   },
+  resolve: {
+    alias: {
+      'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js')
+    }
+  },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      "window.jQuery": "jquery",
+      Hammer: "hammerjs/hammer"
+    }),
   ],
   module: {
     loaders: [
       {
         test: /\.js$/,
-        include: path.join(__dirname, 'client'),
-        loaders: ['babel-loader']
-      }, {
-        test: /\.js$/,
-        include: path.join(__dirname, 'server'),
+        include: [
+          path.join(__dirname, 'client'),
+          path.join(__dirname, 'server')],
         loaders: ['babel-loader']
       }, {
         test: /(\.css)$/,
@@ -56,7 +65,9 @@ export default {
         options: {
           limit: 25000,
         },
-      }
+      }, {
+        test: /materialize-css\/bin\//,
+        loader: 'imports?jQuery=jquery,$=jquery,hammerjs' },
     ]
   }
 };
