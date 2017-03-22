@@ -23,6 +23,9 @@ class Header extends React.Component {
 
     const userLinks = (
       <ul>
+        <li activeClassName="active">
+          <Link to="/dashboard">Dashboard</Link>
+        </li>
         <li>
           <a href="#" onClick={this.logout}>Logout</a>
         </li>
@@ -46,12 +49,6 @@ class Header extends React.Component {
             <i className="material-icons">menu</i>
           </a>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li activeClassName="active">
-              <IndexLink to="/">Home</IndexLink>
-            </li>
-            <li activeClassName="active">
-              <a href="badges.html">Components</a>
-            </li>
             <li>
               {isAuthenticated
                 ? userLinks

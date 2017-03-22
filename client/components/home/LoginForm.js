@@ -38,11 +38,10 @@ class LoginForm extends React.Component {
       this.setState({ errors: {}, isLoading: true });
       this.props.login(this.state).then(
         (res) => this.context.router.push('/dashboard'),
-        (err) => this.setState({ errors: err, isLoading: false })
+        (err) => this.setState({
+          errors: err.response.data.errors, isLoading: false })
       );
     }
-    console.log('error', this.state.errors);
-
   }
 
   onChange(event) {
@@ -65,6 +64,7 @@ class LoginForm extends React.Component {
               label="email"
               icon="email"
               onChange={this.onChange}
+              error={errors.email}
               />
           </div>
           <div className="row margin">
@@ -74,6 +74,7 @@ class LoginForm extends React.Component {
               label="password"
               icon="lock"
               onChange={this.onChange}
+              error={errors.password}
               />
           </div>
           <div className="row">

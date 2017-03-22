@@ -92,7 +92,7 @@ class SignupForm extends React.Component {
       .props
       .saveUser(this.state.user)
       .then(() => this.redirect())
-      .catch(error => {
+      .catch(() => {
         toastr.error('Unable sign up user, please confirm your username and password and try again');
       });
   }
@@ -186,7 +186,8 @@ SignupForm.contextTypes = {
 };
 // const SignupForm = ({user, onSave, onChange, saving, errors}) => {};
 SignupForm.propTypes = {
-  isUserExists: React.PropTypes.func.isRequired
+  isUserExists: React.PropTypes.func.isRequired,
+  saveUser: React.PropTypes.func.isRequired
 };
 
 export default SignupForm;
