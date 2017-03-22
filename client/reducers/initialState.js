@@ -1,3 +1,4 @@
 export default {
-  users : []
+  users : [],
+  isAuthenticated: false,
 };

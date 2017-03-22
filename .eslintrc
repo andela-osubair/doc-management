@@ -68,16 +68,16 @@
     "react/sort-comp": 1,
     "react/wrap-multilines": 1,
     "valid-jsdoc": [1, {
-      "requireReturn": true,
-      "requireReturnType": true,
+      "requireReturn": false,
+      "requireReturnType": false,
       "requireParamDescription": false,
-      "requireReturnDescription": true
+      "requireReturnDescription": false
     }],
     "require-jsdoc": [1, {
       "require": {
         "FunctionDeclaration": true,
-        "MethodDefinition": true,
-        "ClassDeclaration": true
+        "MethodDefinition": false,
+        "ClassDeclaration": false
       }
     }]
   }

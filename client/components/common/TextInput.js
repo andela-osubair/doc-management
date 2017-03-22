@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 
-const TextInput = ({type, name, label, onChange, icon, value, error}) => {
+const TextInput = (
+  {type, name, label, onChange, icon, value, error, checkUserExists, clearError}) => {
   let wrapperClass = 'input-field col s12';
   if (error && error.length > 0) {
     wrapperClass += " red-text";
@@ -14,12 +15,12 @@ const TextInput = ({type, name, label, onChange, icon, value, error}) => {
       name={name}
       className="validate"
       value={value}
-      onChange={onChange}/>
-      {error && <div id="card-alert" className="card red">
-        <div className="card-content white-text">
-          <p>{error}</p>
-        </div>
-      </div>}
+      onChange={onChange}
+      onBlur={checkUserExists}
+      onFocus={clearError}
+      />
+      {error && <span className="red-text">
+        <i className="material-icons">error_outline</i> {error}</span>}
       <label htmlFor={name}>{label}</label>
     </div>
   );
@@ -32,7 +33,9 @@ TextInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   icon: PropTypes.string.isRequired,
   value: PropTypes.string,
-  error: PropTypes.string
+  error: PropTypes.string,
+  checkUserExists: React.PropTypes.func,
+  clearError: React.PropTypes.func
 };
 
 export default TextInput;

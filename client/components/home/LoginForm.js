@@ -1,59 +1,114 @@
 import React from 'react';
 import {Link} from 'react-router';
+import { connect } from 'react-redux';
+import TextInput from '../common/TextInput';
+import toastr from 'toastr';
+import { login } from '../../actions/userActions';
 
-const LoginForm = () => {
-  return (
-    <div className="col s12 z-depth-6 card-panel">
-    <form className="login-form">
-    <div className="row margin">
-          <div className="input-field col s12">
-            <i className="material-icons prefix">email</i>
-            <input className="validate"
-            type ="text"
-            id="email"
-            />
-            <label htmlFor="email">Email</label>
+class LoginForm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      user: {},
+      errors: {},
+      isLoading: false
+    };
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onChange = this
+      .onChange
+      .bind(this);
+  }
+
+  isFormValid() {
+    let formIsValid = true;
+    let errors = {};
+
+    if (this.state.user.password.length < 0) {
+      errors.password = 'Password must be at least 5 characters.';
+      formIsValid = false;
+    }
+    this.setState({errors});
+    return formIsValid;
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    if (this.isFormValid()) {
+      this.setState({ errors: {}, isLoading: true });
+      this.props.login(this.state).then(
+        (res) => this.context.router.push('/dashboard'),
+        (err) => this.setState({ errors: err, isLoading: false })
+      );
+    }
+    console.log('error', this.state.errors);
+
+  }
+
+  onChange(event) {
+    const field = event.target.name;
+    let user = this.state.user;
+    user[field] = event.target.value;
+    this.setState({user});
+  }
+
+  render() {
+    const { errors, isLoading } = this.state;
+    const form = (
+      <div className="col s12 z-depth-5 card-panel">
+        <form className="login-form">
+
+          <div className="row margin">
+            <TextInput
+              type="email"
+              name="email"
+              label="email"
+              icon="email"
+              onChange={this.onChange}
+              />
           </div>
-        </div>
-        <div className="row margin">
-          <div className="input-field col s12">
-            <i className="material-icons prefix">lock</i>
-            <input id="password" type="password" className="validate"/>
-            <label htmlFor="password">Password</label>
+          <div className="row margin">
+            <TextInput
+              type="password"
+              name="password"
+              label="password"
+              icon="lock"
+              onChange={this.onChange}
+              />
           </div>
-        </div>
-        <div className="row">
-          <div className="input-field col s12 m12 l12  login-text">
-              <input type="checkbox" id="remember-me" />
-              <label htmlFor="remember-me">Remember me</label>
+          <div className="row">
+            <div className="input-field col s12">
+              <input
+                type="submit"
+                value="Login"
+                className="btn waves-effect waves-light col s12 pink darken-1"
+                disabled={isLoading}
+                onClick={this.onSubmit}/>
+            </div>
+            <div className="input-field col s12">
+              <p className="margin center medium-small sign-up">
+                Don't have an account?
+                <Link to="/signup"> Sign Up</Link>
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="input-field col s12">
-            <Link to="/login"
-            className="btn waves-effect waves-light col s12 pink darken-1">
-            Login</Link>
-          </div>
-        </div>
-        <div className="row">
-          <div className="input-field col s6 m6 l6">
-            <p className="margin medium-small">
-              <Link to="/signup">Sign Up</Link>
-            </p>
-          </div>
-</div>
-    </form>
-    </div>
-  );
-};
+        </form>
+      </div>
+    )
+    return (
+      <div>
+      {form}
+      </div>
+    );
+  }
+}
 
 LoginForm.propTypes = {
-  course: React.PropTypes.object.isRequired,
-  allAuthors: React.PropTypes.array,
-  onSave: React.PropTypes.func.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  saving: React.PropTypes.bool,
-  errors: React.PropTypes.object
-};
+  login: React.PropTypes.func.isRequired
+}
 
-export default LoginForm;
+LoginForm.contextTypes = {
+  router: React.PropTypes.object.isRequired
+}
+
+export default connect(null, { login })(LoginForm);

@@ -18,7 +18,7 @@ export default class HomePage extends React.Component {
         <div className="col s7">
           <div className="col s12 z-depth-5 card-panel">
             <h4>Document Management System</h4>
-            <img src={docman}/>
+            <img src={docman} className="responsive-img"/>
           </div>
         </div>
         <div className="col s5">

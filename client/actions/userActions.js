@@ -1,20 +1,20 @@
 import jwtDecode from 'jwt-decode';
 import * as types from './actionTypes';
+import axios from 'axios';
+import setAuthorizationToken from '../utils/setAuthorizationToken';
 
 /**
- *  handle response
  *
- * @param {any} response
- * @returns {Object} json object
+ *
+ * @export
+ * @param {any} user
+ * @returns {any} data
  */
-function handleResponse(response) {
-  if (response.ok) {
-    return response.json();
-  } else {
-    let error = new Error(response.statusText);
-    error.response = response;
-    throw error;
-  }
+export function setCurrentUser(user) {
+  return {
+    type: types.SET_CURRENT_USER,
+    user
+  };
 }
 
 /**
@@ -44,15 +44,15 @@ export function createUserFailure(user) {
  *  login users
  *
  * @export
- * @param {any} user
+ * @param {any} token
  * @returns {Object} json object
  */
-export function loginUserSuccess(user) {
-  localStorage.setItem('token', user.token);
+export function loginUserSuccess(token) {
+  localStorage.setItem('token', token);
   return {
     type: type.LOGIN_USER_SUCCESS,
     payload: {
-      token: user.token
+      token: token
     }
   }
 }
@@ -65,22 +65,53 @@ export function loginUserSuccess(user) {
  * @returns {Object} json object
  */
 export function saveUser(user){
-  console.log('useractions', user);
-
   return (dispatch) => {
-    return fetch('/users', {
-      method: 'post',
-      body: JSON.stringify(user),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(handleResponse)
-    .then(data => {
-      console.log('users:', data);
-
-      let decoded = jwtDecode(data.user.token);
-      dispatch(createUserSuccess(data.user));
-      dispatch(loginUserSuccess(data.user.token));
+    return axios.post('/users', user)
+    .then(res => {
+      const token = res.data.token;
+      dispatch(createUserSuccess(res.data.newUser));
+      localStorage.setItem('jwtToken', token);
+      setAuthorizationToken(token);
+      dispatch(setCurrentUser(jwtDecode(token)));
     });
+  }
+}
+
+
+export function isUserExists(identifier) {
+  return dispatch => {
+    return axios.get(`/users/${identifier}`);
+  }
+}
+
+/**
+ *
+ *
+ * @export
+ * @param {any} user
+ * @returns {any} data
+ */
+export function login(user) {
+  return dispatch => {
+    return axios.post('/users/login', user.user).then(res => {
+      const token = res.data.token;
+      localStorage.setItem('jwtToken', token);
+      setAuthorizationToken(token);
+      dispatch(setCurrentUser(jwtDecode(token)));
+    });
+  }
+}
+
+/**
+ *
+ *
+ * @export
+ * @returns {any} data
+ */
+export function logout() {
+  return dispatch => {
+    localStorage.removeItem('jwtToken');
+    setAuthorizationToken(false);
+    dispatch(setCurrentUser({}));
   }
 }
