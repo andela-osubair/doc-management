@@ -160,5 +160,30 @@ export default {
       })
       .catch(error => res.status(400).send({
         error, message: 'Error occurred while retrieving user document'}));
+  },
+  getExistingUser(req, res){
+    return User
+      .find({
+        where: {
+          $or: [
+            { email: req.params.identifier
+            },{
+              username: req.params.identifier
+            }
+          ]
+        }
+      })
+      .then((user) => {
+        if (!user) {
+          return res
+            .status(404)
+            .send({message: 'User Not Found'});
+        }
+        return res
+          .status(200)
+          .send({user});
+      })
+      .catch(error => res.status(400).send({
+        error, message: 'Error occurred while retrieving user'}));
   }
 };

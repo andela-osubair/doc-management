@@ -27,12 +27,11 @@ export default {
         });
         return res.status(200).send({
           message: 'User authenticated successfully',
-          user,
           token
         });
       })
       .catch(error => res.status(400).send({
-        err: error,
+        error,
         message: 'Error occurred while authenticating user'
       }));
   },
