@@ -151,6 +151,7 @@ class SignupForm extends React.Component {
               label="password"
               icon="lock"
               onChange={this.onChange}
+              clearError={this.clearError}
               error={errors.password}/>
           </div>
           <div className="row">

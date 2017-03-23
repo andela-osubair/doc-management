@@ -80,7 +80,7 @@ export function saveUser(user){
 
 export function isUserExists(identifier) {
   return dispatch => {
-    return axios.get(`/users/${identifier}`);
+    return axios.get(`/api/users/${identifier}`);
   }
 }
 
