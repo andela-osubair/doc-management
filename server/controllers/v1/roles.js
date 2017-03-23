@@ -20,12 +20,7 @@ export default {
   },
   list(req, res) {
     return Roles
-      .findAll({
-        include: [{
-          model: Users,
-          as: 'users',
-        }],
-      })
+      .findAll()
       .then(roles => res.status(200).send({ roles }))
       .catch(error => res.status(400).send({
         err: error,

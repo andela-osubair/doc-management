@@ -16,9 +16,6 @@ module.exports = {
       docContent: {
         type: Sequelize.TEXT
       },
-      docType: {
-        type: Sequelize.STRING
-      },
       viewAccess: {
         type: Sequelize.ENUM('public', 'private', 'role'),
         defaultValue: 'public'

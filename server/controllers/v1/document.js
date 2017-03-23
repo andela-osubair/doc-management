@@ -24,7 +24,7 @@ export default {
   },
   list(req, res) {
     return Documents
-      .findAll()
+      .findAll({ offset: `${req.query.offset}`, limit: `${req.query.limit}` })
       .then(document => res.status(200).send(document))
       .catch(error => res.status(400).send({
         err: error,
