@@ -43,10 +43,6 @@ const Routes = (app) => {
    */
 
   app
-    .route('/users/:identifier')
-    .get(usersController.getExistingUser);
-
-  app
     .route('/users')
     .post(usersController.create)
     .get(verify, adminAccess, usersController.list);
@@ -56,6 +52,10 @@ const Routes = (app) => {
     .get(verify, usersController.retrieve)
     .put(verify, usersController.update)
     .delete(verify, usersController.destroy);
+
+  app
+    .route('/api/users/:identifier')
+    .get(usersController.getExistingUser);
 
 
 

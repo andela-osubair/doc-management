@@ -33,7 +33,7 @@ app.get('*', (req, res) => {
 app.listen(port, (err) => {
   if (err) {
     console.log(err);
-  } else {
+  } else if(process.env.NODE_ENV !== 'test') {
     open(`http://localhost:${port}`);
   }
 });

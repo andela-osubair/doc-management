@@ -50,9 +50,6 @@ export default (sequelize, DataTypes) => {
       }
     },
     hooks: {
-      beforeBulkCreate: (user) => {
-        user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10));
-      },
       beforeCreate: (user) => {
         user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10));
       },

@@ -76,6 +76,30 @@ describe('User API', () => {
           done();
         });
     });
+    it('should return user with specified username or email', (done) => {
+      server
+        .get(`/api/users/${userData.newUser.username}`)
+        .set('x-access-token', userData.token)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(200);
+          expect(res.body.user.email).toEqual(userData.newUser.email);
+          if (err) return done(err);
+          done();
+        });
+    });
+    it('should return 404 with specified username or email', (done) => {
+      server
+        .get(`/api/users/${userData.newUser.username}`)
+        .set('x-access-token', userData.token)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(200);
+          expect(res.body.user.email).toEqual(userData.newUser.email);
+          if (err) return done(err);
+          done();
+        });
+    });
     it('should return User Not Found for invalid user Id', (done) => {
       server
         .get('/users/99910')

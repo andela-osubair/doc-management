@@ -21,10 +21,11 @@ describe('Login/Logout API', () => {
           expect(res.body.message).toEqual(
             'User authenticated successfully');
           done();
-        });
+        })
     });
-    it('logged in user should have a token', () => {
+    it('logged in user should have a token', (done) => {
       expect(user.token).toExist();
+      done();
     });
     it('should return Wrong Password login user', (done) => {
       server
@@ -60,6 +61,14 @@ describe('Login/Logout API', () => {
     });
   });
   describe('Logout API', () => {
-
+    it('Should return a message on logout', (done)=>{
+      server
+      .post('/users/logout')
+      .end((err, res) => {
+        expect(res.body.message).toEqual(
+            'You have successfully logged out');
+        done();
+      });
+    })
   });
 });
