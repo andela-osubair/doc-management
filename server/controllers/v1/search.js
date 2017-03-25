@@ -19,12 +19,6 @@ export default {
         }
       })
       .then((user) => {
-        if (!user) {
-          return res.status(404)
-            .send({
-              message: 'User Not Found',
-            });
-        }
         if (user.length <= 0) {
           return res.status(404)
             .send({
@@ -35,7 +29,7 @@ export default {
           .send(user);
       })
     .catch(error => res.status(400).send({
-      err: error,
+      error,
       message: 'Error occurred while retrieving Users'
     }));
   },
@@ -49,12 +43,6 @@ export default {
         }
       })
       .then((document) => {
-        if (!document) {
-          return res.status(404)
-            .send({
-              message: 'Document Not Found',
-            });
-        }
         if (document.length <= 0) {
           return res.status(404)
             .send({
@@ -66,7 +54,7 @@ export default {
       })
       .catch(error => res.status(400)
         .send({
-          err: error,
+          error,
           message: 'Error occurred while retrieving documents'
         }));
   }

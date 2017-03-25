@@ -28,6 +28,7 @@ describe('Roles API', () => {
         done();
       });
   });
+
   describe('Create Role', () => {
     before((done) => {
       server
@@ -38,6 +39,7 @@ describe('Roles API', () => {
           done();
         });
     });
+
     it('should create new role', (done) => {
       server
         .post('/roles')
@@ -67,6 +69,19 @@ describe('Roles API', () => {
           done();
         });
     });
+
+    it('should not create new role, should return 400', (done) => {
+      server
+        .post('/roles')
+        .set('x-access-token', userData.token)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.body.message).toEqual('Error creating new role');
+          expect(res.status).toEqual(400);
+          if (err) return done(err);
+          done();
+        });
+    });
   });
 
   describe('/GET Role', () => {
@@ -81,6 +96,7 @@ describe('Roles API', () => {
           done();
         });
     });
+
     it('should return administrator for role id 1', (done) => {
       server
         .get('/roles/1')
@@ -93,13 +109,39 @@ describe('Roles API', () => {
           done();
         });
     });
+
+    it('should return Role not found', (done) => {
+      server
+        .get('/roles/10')
+        .set('x-access-token', userData.token)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(404);
+          expect(res.body.message).toEqual('Role Not Found');
+          if (err) return done(err);
+          done();
+        });
+    });
+    it('should return Role not found', (done) => {
+      server
+        .get('/roles/role')
+        .set('x-access-token', userData.token)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(400);
+          expect(res.body.message).toEqual(
+            'Error occured while retrieving role');
+          if (err) return done(err);
+          done();
+        });
+    });
   });
 
   describe('/PUT Role', () => {
     const fieldsToUpdate = {
       title: 'normal',
     };
-    it('should update rola data ', (done) => {
+    it('should update role data ', (done) => {
       server
         .put(`/roles/${roleData.role.id}`)
         .set('x-access-token', userData.token)
@@ -130,9 +172,39 @@ describe('Roles API', () => {
           });
       });
 
-    describe('/DELETE Role', () => {
-      it('should delete user data ', (done) => {
-        server
+    it('should return Role Not Found when udating invalid role', (done) => {
+      server
+        .put(`/roles/10`)
+        .set('x-access-token', userData.token)
+        .send(fieldsToUpdate)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(404);
+          expect(res.body.message).toEqual('Role Not Found');
+          if (err) return done(err);
+          done();
+        });
+    });
+
+    it('should return Error updating role when udating invalid role', (done) => {
+      server
+        .put('/roles/role')
+        .set('x-access-token', userData.token)
+        .send(fieldsToUpdate)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(400);
+          expect(res.body.message).toEqual('Error updating role');
+          if (err) return done(err);
+          done();
+        });
+    });
+  });
+
+  describe('/DELETE Role', () => {
+
+    it('should delete role data ', (done) => {
+      server
           .delete(`/roles/${roleData.role.id}`)
           .set('x-access-token', userData.token)
           .expect('Content-Type', /json/)
@@ -142,11 +214,23 @@ describe('Roles API', () => {
             if (err) return done(err);
             done();
           });
-      });
+    });
 
-      it(
-        'should return Not Authorize when user other than admin tries to delete another user', (done) => {
-          server
+    it('should not delete invalid role', (done) => {
+      server
+          .delete(`/roles/10`)
+          .set('x-access-token', userData.token)
+          .expect('Content-Type', /json/)
+          .end((err, res) => {
+            expect(res.status).toEqual(404);
+            expect(res.body.message).toEqual('Role Not Found');
+            if (err) return done(err);
+            done();
+          });
+    });
+
+    it('should return Not Authorize when user other than admin tries to delete another user', (done) => {
+      server
           .delete('/roles/1')
           .set('x-access-token', regData.token)
           .expect('Content-Type', /json/)
@@ -157,6 +241,19 @@ describe('Roles API', () => {
             if (err) return done(err);
             done();
           });
+    });
+
+    it('should return Error deleting role when deleting invalid role',
+    (done) => {
+      server
+        .delete('/roles/role')
+        .set('x-access-token', userData.token)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(400);
+          expect(res.body.message).toEqual('Error deleting Role.');
+          if (err) return done(err);
+          done();
         });
     });
   });

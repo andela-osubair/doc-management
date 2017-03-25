@@ -49,7 +49,7 @@ SignupPage.propTypes = {
  *  map state to props
  *
  * @param {any} state
- * @returns
+ * @returns {object}
  */
 function mapStateToProps(state) {
   return {user: state.user};

@@ -25,7 +25,6 @@ class SignupForm extends React.Component {
   *
   *
   * @param {any} event
-  * @returns
   *
   * @memberOf SignupPage
   */
@@ -80,7 +79,6 @@ class SignupForm extends React.Component {
    *
    *
    * @param {any} event
-   *@return {boolean} false
    * @memberOf SignupPage
   */
   saveUser(event) {
@@ -93,16 +91,11 @@ class SignupForm extends React.Component {
       .saveUser(this.state.user)
       .then(() => this.redirect())
       .catch(() => {
-        toastr.error('Unable sign up user, please confirm your username and password and try again');
+        toastr.error(
+          'please confirm your username and password and try again');
       });
   }
 
-  /**
-   *
-   *
-   *@returns {any} new route
-   * @memberOf SignupPage
-   */
   redirect() {
     toastr.success('User Successfully Created');
     this.context.router.push('/dashboard');

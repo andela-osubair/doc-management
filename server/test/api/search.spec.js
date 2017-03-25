@@ -49,6 +49,19 @@ describe('Search API', () => {
         });
     });
 
+    it('Should return users not found', (done) => {
+      server
+        .get('/search/users/?q=zu')
+        .set({
+          'x-access-token': adminDetails.token
+        })
+        .end((err, res) => {
+          expect(res.status).toEqual(404);
+          expect(res.body.message).toEqual('Users Not Found');
+          done();
+        });
+    });
+
     it('Should return error for non-admin search', (done) => {
       server
         .get('/search/users/?q=r')
@@ -73,6 +86,19 @@ describe('Search API', () => {
           if (res.body.message) {
             expect(res.body.message).toEqual('Documents Not Found');
           }
+          done();
+        });
+    });
+
+    it('Should return documents not found', (done) => {
+      server
+        .get('/search/documents/?q=zu')
+        .set({
+          'x-access-token': adminDetails.token
+        })
+        .end((err, res) => {
+          expect(res.status).toEqual(404);
+          expect(res.body.message).toEqual('Documents Not Found');
           done();
         });
     });

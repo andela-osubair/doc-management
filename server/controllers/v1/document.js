@@ -10,24 +10,26 @@ export default {
         title: req.body.title,
         docContent: req.body.docContent,
         viewAccess: req.body.viewAccess,
-        userId: req.body.userId,
-        docType: req.body.docType
+        userId: req.body.userId
       })
       .then(document => res.status(201).send({
         document,
         message: 'Document created successfully.'
       }))
       .catch(error => res.status(400).send({
-        err: error,
+        error,
         message: 'An error occured while creating document'
       }));
   },
   list(req, res) {
     return Documents
-      .findAll({ offset: `${req.query.offset}`, limit: `${req.query.limit}` })
+      .findAll({
+        offset: `${req.query.offset}`,
+        limit: `${req.query.limit}`,
+      })
       .then(document => res.status(200).send(document))
       .catch(error => res.status(400).send({
-        err: error,
+        error,
         message: 'Error retrieving documents'
       }));
   },
@@ -43,7 +45,7 @@ export default {
         return res.status(200).send(document);
       })
       .catch(error => res.status(400).send({
-        err: error,
+        error,
         message: 'Error occurred while retrieving documents'
       }));
   },
@@ -66,20 +68,19 @@ export default {
             title: req.body.title || document.title,
             docContent: req.body.docContent || document.docContent,
             viewAccess: req.body.access || document.viewAccess,
-            userId: req.body.userId || document.userId,
-            docType: req.body.docType || document.docType
+            userId: req.body.userId || document.userId
           })
           .then(updatedDoc => res.status(200).send({
             updatedDoc,
             message: 'Document updated successfully'
           }))
           .catch(error => res.status(400).send({
-            err: error,
-            message: `Error updating user: ${document.title}`
+            error,
+            message: `Error updating document: ${document.title}`
           }));
       })
       .catch(error => res.status(400).send({
-        err: error,
+        error,
         message: 'Error updating document'
       }));
   },
@@ -102,13 +103,9 @@ export default {
           .then(() => res.status(200).send({
             message: `${document.title}, was successfully deleted`
           }))
-          .catch(error => res.status(400).send({
-            err: error,
-            message: `Error deleting ${document.title}`
-          }));
       })
       .catch(error => res.status(400).send({
-        err: error,
+        error,
         message: 'Error deleting document'
       }));
   },

@@ -1,7 +1,14 @@
 'use strict';
 export default (sequelize, DataTypes) => {
   const Roles = sequelize.define('Roles', {
-    title: { type: DataTypes.STRING, unique: true, allowNull: false }
+    title: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+      validate:{
+        notEmpty: true
+      }
+     }
   }, {
     classMethods: {
       associate: (models) => {

@@ -2,6 +2,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {addFlashMessage} from '../actions/flashMessages';
 
+/**
+ *
+ *
+ * @export
+ * @param {any} ComposedComponent
+ * @returns {any}
+ */
 export default function (ComposedComponent) {
   class Authenticate extends React.Component {
     componentWillMount() {
@@ -40,6 +47,12 @@ export default function (ComposedComponent) {
     router: React.PropTypes.object.isRequired
   }
 
+/**
+ *
+ *
+ * @param {any} state
+ * @returns {boolean}
+ */
   function mapStateToProps(state) {
     return {isAuthenticated: state.auth.isAuthenticated};
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, IndexLink} from 'react-router';
+import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import {logout} from '../../actions/userActions';
 
@@ -26,6 +26,9 @@ class Header extends React.Component {
         <li activeClassName="active">
           <Link to="/dashboard">Dashboard</Link>
         </li>
+        <li activeClassName="active">
+          <Link to="/document">My Documents</Link>
+        </li>
         <li>
           <a href="#" onClick={this.logout}>Logout</a>
         </li>
@@ -43,7 +46,7 @@ class Header extends React.Component {
       <nav className="pink darken-3">
         <div className="nav-wrapper">
           <div className="navheader">
-            <Link to="/" className="brand-logo">Doc Management</Link>
+            <Link to="/dashboard" className="brand-logo">Doc Management</Link>
           </div>
           <a href="#" data-activates="mobile-demo" className="button-collapse">
             <i className="material-icons">menu</i>
@@ -56,12 +59,6 @@ class Header extends React.Component {
             </li>
           </ul>
           <ul id="mobile-demo" className="side-nav">
-            <li activeClassName="active">
-              <IndexLink to="/">Home</IndexLink>
-            </li>
-            <li activeClassName="active">
-              <a href="badges.html">Components</a>
-            </li>
             <li>
               {isAuthenticated
                 ? userLinks

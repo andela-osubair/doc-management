@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router';
 import { connect } from 'react-redux';
 import TextInput from '../common/TextInput';
-import toastr from 'toastr';
+// import toastr from 'toastr';
 import { login } from '../../actions/userActions';
 
 class LoginForm extends React.Component {
@@ -37,7 +37,7 @@ class LoginForm extends React.Component {
     if (this.isFormValid()) {
       this.setState({ errors: {}, isLoading: true });
       this.props.login(this.state).then(
-        (res) => this.context.router.push('/dashboard'),
+        () => this.context.router.push('/dashboard'),
         (err) => this.setState({
           errors: err.response.data.errors, isLoading: false })
       );
