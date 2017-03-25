@@ -14,13 +14,17 @@ import '../node_modules/toastr/build/toastr.min.css';
 import setAuthorizationToken from './utils/setAuthorizationToken';
 import jwtDecode from 'jwt-decode';
 import { setCurrentUser } from './actions/userActions';
+import { loadUserDocument } from './actions/documentActions';
+import axios from 'axios';
 
 
 const store = configureStore();
 
 if (localStorage.jwtToken) {
   setAuthorizationToken(localStorage.jwtToken);
+  axios.defaults.headers.common['Authorization'] = localStorage.jwtToken;
   store.dispatch(setCurrentUser(jwtDecode(localStorage.jwtToken)));
+  store.dispatch(loadUserDocument());
 }
 
 render(

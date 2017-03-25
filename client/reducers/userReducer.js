@@ -9,7 +9,7 @@ import initialState from './initialState';
  * @param {any} action
  * @returns {object} user object
  */
-export default function userReducer(state = initialState, action) {
+export default function userReducer(state = initialState.users, action) {
   switch (action.type) {
   case types.CREATE_USER_SUCCESS:
     return [

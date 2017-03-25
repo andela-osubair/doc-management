@@ -35,8 +35,8 @@ export function createUserSuccess(user) {
  * @param {any} user
  * @returns {Object} json object
  */
-export function createUserFailure(user) {
-  return {type: types.CREATE_USER_FAILURE, user};
+export function createUserFailure() {
+  return {type: types.CREATE_USER_FAILURE, };
 }
 
 
@@ -58,6 +58,19 @@ export function loginUserSuccess(token) {
 }
 
 /**
+ *  login users
+ *
+ * @export
+ * @param {any} token
+ * @returns {Object} json object
+ */
+export function loginUserFailure() {
+  return {
+    type: type.LOGIN_USER_FAILURE
+  }
+}
+
+/**
  *
  *
  * @export saveUser
@@ -73,11 +86,17 @@ export function saveUser(user){
       localStorage.setItem('jwtToken', token);
       setAuthorizationToken(token);
       dispatch(setCurrentUser(jwtDecode(token)));
-    });
+    }).catch(error => dispatch(createUserFailure(error)))
   }
 }
 
-
+/**
+ *
+ *
+ * @export
+ * @param {any} identifier
+ * @returns {objeect} uuser
+ */
 export function isUserExists(identifier) {
   return dispatch => {
     return axios.get(`/api/users/${identifier}`);
@@ -98,7 +117,7 @@ export function login(user) {
       localStorage.setItem('jwtToken', token);
       setAuthorizationToken(token);
       dispatch(setCurrentUser(jwtDecode(token)));
-    });
+    }).catch(error => dispatch(loginUserFailure(error)));
   }
 }
 

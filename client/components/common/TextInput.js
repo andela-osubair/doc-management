@@ -1,7 +1,8 @@
 import React, {PropTypes} from 'react';
 
 const TextInput = (
-  {type, name, label, onChange, icon, value, error, checkUserExists, clearError}) => {
+  {type, name, label, onChange, icon, value,
+    error, checkUserExists, clearError}) => {
   let wrapperClass = 'input-field col s12';
   if (error && error.length > 0) {
     wrapperClass += " red-text";

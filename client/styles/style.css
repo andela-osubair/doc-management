@@ -5,3 +5,8 @@ body{
 .navheader{
   padding: 5px;
 }
+
+.edit{
+  position: absolute !important;
+}
+
