@@ -16,7 +16,8 @@ describe('Document API', () => {
   let regUserData;
   let updatedDoc;
 
-  before((done) => {
+  before( function(done) {
+    this.timeout(10000)
     server
       .post('/users')
       .send(regUser)
@@ -28,7 +29,8 @@ describe('Document API', () => {
   });
 
   describe('Create Document', () => {
-    it('should create new document', (done) => {
+    it('should create new document', function(done) {
+      this.timeout(10000)
       server
         .post('/documents')
         .set('x-access-token', regUserData.token)
@@ -43,14 +45,48 @@ describe('Document API', () => {
           done();
         });
     });
+    it('should 400 for invalid document data', (done) => {
+      server
+        .post('/documents')
+        .set('x-access-token', regUserData.token)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(400);
+          expect(res.body.message).toEqual(
+            'An error occured while creating document');
+          if (err) return done(err);
+          done();
+        });
+    });
   });
 
   describe('/GET Documents', () => {
-    it('should 401 for unautorized user without token', (done) => {
+    it('should 401 for unauthorized user without token', (done) => {
       server
-        .get('/documents')
+        .get('/documents/?limit=10&offset=1')
         .end((err, res) => {
           expect(res.status).toEqual(401);
+          if (err) return done(err);
+          done();
+        });
+    });
+
+    it('should 200 for authorized user with token', (done) => {
+      server
+        .get('/documents/?limit=10&offset=1')
+        .set('x-access-token', regUserData.token)
+        .end((err, res) => {
+          expect(res.status).toEqual(200);
+          if (err) return done(err);
+          done();
+        });
+    });
+    it('should 400 without limit and offset', (done) => {
+      server
+        .get('/documents/')
+        .set('x-access-token', regUserData.token)
+        .end((err, res) => {
+          expect(res.status).toEqual(400);
           if (err) return done(err);
           done();
         });
@@ -91,6 +127,46 @@ describe('Document API', () => {
           done();
         });
     });
+    it('should return user not found', (done) => {
+      server
+        .get('/users/100/documents')
+        .set('x-access-token', regUserData.token)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(404);
+          expect(res.body.message).toEqual('User Not Found');
+          if (err) return done(err);
+          done();
+        });
+    });
+
+    it('should return Error occurred while retrieving user document',
+    (done) => {
+      server
+        .get('/users/oyendah/documents')
+        .set('x-access-token', regUserData.token)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(400);
+          expect(res.body.message).toEqual(
+            'Error occurred while retrieving user document');
+          if (err) return done(err);
+          done();
+        });
+    });
+    it('should return 400 code status for invalid document Id', (done) => {
+      server
+        .get('/documents/oyendah')
+        .set('x-access-token', regUserData.token)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(400);
+          expect(res.body.message).toEqual(
+            'Error occurred while retrieving documents');
+          if (err) return done(err);
+          done();
+        });
+    });
   });
   describe('/PUT update document', () => {
     const fieldsToUpdate = {
@@ -112,10 +188,54 @@ describe('Document API', () => {
           done();
         });
     });
+    it('should return Document Not Found for invalid Id', (done) => {
+      server
+        .put(`/documents/100`)
+        .set('x-access-token', regUserData.token)
+        .send(fieldsToUpdate)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(404);
+          expect(res.body.message).toEqual('Document Not Found');
+          if (err) {
+            done(err);
+          }
+          done();
+        });
+    });
+    it('should return Document Not Found for invalid Id', (done) => {
+      server
+        .put(`/documents/oyendah`)
+        .set('x-access-token', regUserData.token)
+        .send(fieldsToUpdate)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(400);
+          expect(res.body.message).toEqual('Error updating document');
+          if (err) {
+            done(err);
+          }
+          done();
+        });
+    });
+    it('should return Error updating document ', (done) => {
+      server
+        .put(`/documents/${docData.document.id}`)
+        .set('x-access-token', regUserData.token)
+        .send({userId: 10})
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(400);
+          if (err) {
+            done(err);
+          }
+          done();
+        });
+    });
   });
 
-  describe('/DELETE user data', () => {
-    it('should delete user data ', (done) => {
+  describe('/DELETE document data', () => {
+    it('should delete document data ', (done) => {
       server
         .delete(`/documents/${docData.document.id}`)
         .set('x-access-token', regUserData.token)
@@ -124,6 +244,30 @@ describe('Document API', () => {
           expect(res.status).toEqual(200);
           expect(res.body.message).toEqual(
             `${updatedDoc.updatedDoc.title}, was successfully deleted`);
+          if (err) return done(err);
+          done();
+        });
+    });
+    it('should return document not found ', (done) => {
+      server
+        .delete('/documents/100')
+        .set('x-access-token', regUserData.token)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(404);
+          expect(res.body.message).toEqual('Document Not Found');
+          if (err) return done(err);
+          done();
+        });
+    });
+    it('should return document not found ', (done) => {
+      server
+        .delete('/documents/oyendah')
+        .set('x-access-token', regUserData.token)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(400);
+          expect(res.body.message).toEqual('Error deleting document');
           if (err) return done(err);
           done();
         });

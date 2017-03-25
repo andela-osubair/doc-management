@@ -11,7 +11,10 @@ module.exports = {
       title: {
         type: Sequelize.STRING,
         unique: true,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       createdAt: {
         allowNull: false,
@@ -23,6 +26,5 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface /* , Sequelize */ ) =>
-    queryInterface.dropTable('Roles'),
+  down: (queryInterface/* , Sequelize */) => queryInterface.dropTable('Roles')
 };

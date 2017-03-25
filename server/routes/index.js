@@ -13,9 +13,6 @@ const adminAccess = auth.adminAccess;
 // const userAccess = auth.userAccess;
 
 const Routes = (app) => {
-  // app.get('/', (req, res) => res.status(200).send({   message: 'Welcome to the
-  // Document Manager API!', }));
-
   /**
    * crud api for roles model
    */

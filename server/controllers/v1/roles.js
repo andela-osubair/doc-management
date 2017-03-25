@@ -14,16 +14,23 @@ export default {
         message: 'Role created succesfully'
       }))
       .catch(error => res.status(400).send({
-        err: error,
+        error,
         message: 'Error creating new role'
       }));
   },
   list(req, res) {
     return Roles
       .findAll()
-      .then(roles => res.status(200).send({ roles }))
+      .then((role) => {
+        if (!role) {
+          return res.status(404).send({
+            message: 'Roles Not Found',
+          });
+        }
+        return res.status(200).send({ role });
+      })
       .catch(error => res.status(400).send({
-        err: error,
+        error,
         message: 'Error retrieving all roles'
       }));
   },
@@ -44,18 +51,13 @@ export default {
         return res.status(200).send({ role });
       })
       .catch(error => res.status(400).send({
-        err: error,
+        error,
         message: 'Error occured while retrieving role'
       }));
   },
   update(req, res) {
     return Roles
-      .findById(req.params.id, {
-        include: [{
-          model: Users,
-          as: 'users',
-        }],
-      })
+      .findById(req.params.id)
       .then((role) => {
         if (!role) {
           return res.status(404).send({
@@ -71,13 +73,13 @@ export default {
             message: 'Role updated successfully.'
           }))
           .catch(error => res.status(400).send({
-            err: error,
+            error,
             message: 'Role did not update successfully.'
           }));
       })
       .catch(error => res.status(400).send({
-        err: error,
-        message: 'Error updating Role.'
+        error,
+        message: 'Error updating role'
       }));
   },
   destroy(req, res) {
@@ -85,7 +87,7 @@ export default {
       .findById(req.params.id)
       .then((role) => {
         if (!role) {
-          return res.status(400).send({
+          return res.status(404).send({
             message: 'Role Not Found',
           });
         }
@@ -94,13 +96,9 @@ export default {
           .then(() => res.status(200).send({
             message: 'Role deleted successfully.'
           }))
-          .catch(error => res.status(400).send({
-            err: error,
-            message: 'Role did not delete successfull.'
-          }));
       })
       .catch(error => res.status(400).send({
-        err: error,
+        error,
         message: 'Error deleting Role.'
       }));
   },
