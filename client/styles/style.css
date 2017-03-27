@@ -1,12 +1,30 @@
-body{
-  background-color: #fbe8ef;
+body {
+    font-family: 'Arsenal', sans-serif;
+    background-color: #fbe8ef;
 }
 
-.navheader{
-  padding: 5px;
+.navheader {
+    padding: 5px;
 }
 
-.edit{
-  position: absolute !important;
+.edit {
+    position: absolute !important;
 }
 
+.modal {
+    width: 75% !important;
+    max-height: 100%;
+}
+
+
+/* increase the width, height and prevent vertical scroll! However, i don't recommend this, its better to turn on vertical scrolling. */
+
+#modal2 {
+    width: 95% !important;
+    max-height: 100%;
+}
+
+.closeModal{
+  margin: 10px !important;
+  float: right;
+}

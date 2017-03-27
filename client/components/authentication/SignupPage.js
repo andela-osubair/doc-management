@@ -1,6 +1,6 @@
-import React, {PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as userActions from '../../actions/userActions';
 import SignupForm from './SignupForm';
 
@@ -52,13 +52,13 @@ SignupPage.propTypes = {
  * @returns {object}
  */
 function mapStateToProps(state) {
-  return {user: state.user};
+  return { user: state.user };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(userActions, dispatch)
   };
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignupPage);

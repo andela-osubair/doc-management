@@ -9,9 +9,9 @@ import DocumentPage from '../components/document/DocumentPage';
 
 export default (
   <Route path="/" component={App}>
-    <IndexRoute component={HomePage} />
+    <IndexRoute component={requireAuth(DashboardPage)} />
+    <Route path="login" component={HomePage} />
     <Route path="signup" component={SignupPage} />
-    <Route path="dashboard" component={requireAuth(DashboardPage)} />
     <Route path="document" component={requireAuth(DocumentPage)} />
     <Route path="document/:id" component={requireAuth(DocumentPage)} />
   </Route>

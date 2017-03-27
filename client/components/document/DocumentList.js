@@ -1,32 +1,29 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as documentActions from '../../actions/documentActions';
 import toastr from 'toastr';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as documentActions from '../../actions/documentActions';
 
 class DocumentList extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.editDocument = this.editDocument.bind(this);
     this.deleteDocument = this.deleteDocument.bind(this);
-
   }
 
   componentDidMount() {
-
     $('.editDoc').click(this.editDocument);
   }
-  editDocument(e){
+  editDocument(e) {
     e.preventDefault();
-    let documentId = e.target.id
+    const documentId = e.target.id;
     this.props.actions.setCurrentDocument(documentId);
   }
-  deleteDocument(e){
+  deleteDocument(e) {
     e.preventDefault();
-    let documentId = e.target.id
+    const documentId = e.target.id;
     this.props.actions.deleteDocument(documentId)
-    .then(() => toastr.success('Document Successfully Deleted'))
-
+    .then(() => toastr.success('Document Successfully Deleted'));
   }
   render() {
     return (
@@ -34,7 +31,7 @@ class DocumentList extends React.Component {
 
         {this
           .props
-          .documents
+          .myDocuments
           .map(document => <div id="card-alert" className="card white"
           key={document.id}>
             <div className="card-content pink-text">
@@ -46,7 +43,7 @@ class DocumentList extends React.Component {
               </a>
               <ul>
                 <li onClick={this.editDocument} className="editDoc">
-                  <a  title="edit" href="#modal1"
+                  <a title="edit" href="#modal1"
                   className="btn-floating pink">
                     <i id={document.id} className="material-icons">mode_edit</i>
                   </a>
@@ -66,7 +63,7 @@ class DocumentList extends React.Component {
 
 DocumentList.propsTypes = {
   actions: React.PropTypes.object.isRequired
-}
+};
 
 /**
  *

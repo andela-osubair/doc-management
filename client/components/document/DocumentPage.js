@@ -1,66 +1,53 @@
-import React, {PropTypes} from 'react';
+/* eslint class-methods-use-this: "off"*/
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import DocumentList from './DocumentList';
-import DocumentForm from './DocumentForm';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import * as documentActions from '../../actions/documentActions';
+import Modal from '../common/Modal';
+
 class DocumentPage extends React.Component {
   constructor(props) {
     super(props);
-  }
 
+    this.deleteClick = this.deleteClick.bind(this);
+  }
   componentDidMount() {
     $('.modal').modal();
     $('select').material_select();
   }
 
+  deleteClick() {
+    this.props.actions.deleteCurrentDocument();
+    $('#modal1').modal('open');
+  }
+
   render() {
-    const {auth, documents} = this.props;
+    const { myDocuments } = this.props;
     return (
-      <div>
-        <div className="fixed-action-btn">
+      <div className="row">
+        <div className="col s12">
+          <div className="col s12 z-depth-5 card-panel">
+            <h4>My Documents</h4>
+        <div className="fixed-action-btn" onClick={this.deleteClick}>
           <a
-            href="#modal1"
             className="btn-floating btn-large waves-effect waves-light red">
             <i className="material-icons">add</i>
           </a>
         </div>
-        <DocumentList documents={documents}/>
-        <div id="modal1" className="modal">
-          <div className="modal-content">
-            <h4>Document</h4>
-            <DocumentForm auth={auth}/>
-          </div>
-          <div className="modal-footer">
-          </div>
-        </div>
+        <DocumentList myDocuments={myDocuments}/>
+        <Modal />
+      </div>
+      </div>
       </div>
     );
   }
 }
 
 DocumentPage.propTypes = {
-  documents: PropTypes.array.isRequired,
-  docValue: PropTypes.object.isRequired,
+  myDocuments: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired,
-  auth: React.PropTypes.object.isRequired
 };
-
-/**
- *
- *
- * @param {any} documents
- * @param {any} id
- * @returns {any} object
- */
-function getDocumentById(documents, id) {
-  const document = documents.filter(doc => doc.id == id);
-  if (document)
-    {
-    return document[0];
-  } //since filter returns an array, have to grab the first.
-  return null;
-}
 
 /**
  *
@@ -70,22 +57,15 @@ function getDocumentById(documents, id) {
  * @returns {any}
  */
 function mapStateToProps(state) {
-  let currentState = state.manageDocuments;
-  const documentId = currentState.selectedDocument;
-  let document = {
-    id: '',
-    title: '',
-    docContent: '',
-    viewAccess: ''
-  };
-  if (documentId > 0) {
-    document = getDocumentById(currentState.documents, documentId);
-  }
+  const currentState = state.manageDocuments;
+  const myDocuments = currentState.documents.filter(
+    doc => doc.userId === state.auth.user.data.id);
+  const publicDocuments = currentState.documents.filter(
+      doc => doc.viewAccess === 'public');
   return {
-    documents: currentState.documents,
-    currentDocument: currentState.selectedDocument,
-    auth: state.auth,
-    docValue: document
+    myDocuments,
+    publicDocuments,
+    currentDocument: currentState.selectedDocument
   };
 }
 

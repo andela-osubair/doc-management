@@ -1,6 +1,6 @@
+import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import * as types from './actionTypes';
-import axios from 'axios';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 
 /**
@@ -25,7 +25,7 @@ export function setCurrentUser(user) {
  * @returns {Object} json object
  */
 export function createUserSuccess(user) {
-  return {type: types.CREATE_USER_SUCCESS, user};
+  return { type: types.CREATE_USER_SUCCESS, user };
 }
 
 /**
@@ -35,8 +35,8 @@ export function createUserSuccess(user) {
  * @param {any} user
  * @returns {Object} json object
  */
-export function createUserFailure() {
-  return {type: types.CREATE_USER_FAILURE, };
+export function getUserSuccess(name) {
+  return { type: types.GET_USER_SUCCESSS, name };
 }
 
 
@@ -52,9 +52,9 @@ export function loginUserSuccess(token) {
   return {
     type: type.LOGIN_USER_SUCCESS,
     payload: {
-      token: token
+      token
     }
-  }
+  };
 }
 
 /**
@@ -67,7 +67,7 @@ export function loginUserSuccess(token) {
 export function loginUserFailure() {
   return {
     type: type.LOGIN_USER_FAILURE
-  }
+  };
 }
 
 /**
@@ -77,17 +77,34 @@ export function loginUserFailure() {
  * @param {any} user
  * @returns {Object} json object
  */
-export function saveUser(user){
+export function saveUser(user) {
   return (dispatch) => {
     return axios.post('/users', user)
-    .then(res => {
+    .then((res) => {
       const token = res.data.token;
       dispatch(createUserSuccess(res.data.newUser));
       localStorage.setItem('jwtToken', token);
       setAuthorizationToken(token);
+      axios.defaults.headers.common.Authorization = token;
       dispatch(setCurrentUser(jwtDecode(token)));
-    }).catch(error => dispatch(createUserFailure(error)))
-  }
+    }).catch((error) => { throw (error); });
+  };
+}
+
+/**
+ *
+ *
+ * @export saveUser
+ * @param {any} id
+ * @returns {Object} json object
+ */
+export function getUser(id) {
+  return (dispatch) => {
+    return axios.get(`/users/${id}`)
+    .then((res) => {
+      dispatch(getUserSuccess(res.data.user.name));
+    }).catch((error) => { throw (error); });
+  };
 }
 
 /**
@@ -98,9 +115,9 @@ export function saveUser(user){
  * @returns {objeect} uuser
  */
 export function isUserExists(identifier) {
-  return dispatch => {
+  return (dispatch) => {
     return axios.get(`/api/users/${identifier}`);
-  }
+  };
 }
 
 /**
@@ -111,14 +128,15 @@ export function isUserExists(identifier) {
  * @returns {any} data
  */
 export function login(user) {
-  return dispatch => {
-    return axios.post('/users/login', user.user).then(res => {
+  return (dispatch) => {
+    return axios.post('/users/login', user.user).then((res) => {
       const token = res.data.token;
       localStorage.setItem('jwtToken', token);
       setAuthorizationToken(token);
+      axios.defaults.headers.common.Authorization = token;
       dispatch(setCurrentUser(jwtDecode(token)));
-    }).catch(error => dispatch(loginUserFailure(error)));
-  }
+    }).catch((error) => { throw (error); });
+  };
 }
 
 /**
@@ -128,9 +146,9 @@ export function login(user) {
  * @returns {any} data
  */
 export function logout() {
-  return dispatch => {
+  return (dispatch) => {
     localStorage.removeItem('jwtToken');
     setAuthorizationToken(false);
     dispatch(setCurrentUser({}));
-  }
+  };
 }

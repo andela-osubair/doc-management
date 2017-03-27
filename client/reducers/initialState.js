@@ -1,5 +1,5 @@
 export default {
-  users : {},
+  manageUsers: {},
   isAuthenticated: false,
-  manageDocuments: {documents:[]}
+  manageDocuments: { documents: [] }
 };

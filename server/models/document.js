@@ -11,6 +11,10 @@ export default (sequelize, DataTypes) => {
     viewAccess: {
       defaultValue: 'public',
       type: DataTypes.ENUM('public', 'private', 'role')
+    },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
     }
   }, {
     classMethods: {

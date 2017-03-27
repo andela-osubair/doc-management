@@ -19,12 +19,14 @@ export const documents = [{
   title: 'seed document test',
   docContent: faker.lorem.paragraph(),
   viewAccess: 'private',
-  userId: 1
+  userId: 1,
+  role: '1'
 }, {
   title: 'public seed document test',
   docContent: faker.lorem.paragraph(),
   viewAccess: 'public',
-  userId: 1
+  userId: 1,
+  role: '1'
 }];
 
 const seeds = () => {

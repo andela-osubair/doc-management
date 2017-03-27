@@ -1,14 +1,14 @@
 import React from 'react';
-import {Link} from 'react-router';
-import {connect} from 'react-redux';
-import {logout} from '../../actions/userActions';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { logout } from '../../actions/userActions';
+import SearchModal from '../search/SearchModal';
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
-    this.logout = this
-      .logout
-      .bind(this)
+    this.logout = this.logout.bind(this);
+    this.handleSearchModal = this.handleSearchModal.bind(this);
   }
 
   logout(e) {
@@ -18,13 +18,26 @@ class Header extends React.Component {
       .logout();
   }
 
-  render() {
-    const {isAuthenticated} = this.props.auth;
+  handleSearchModal(e) {
+    e.preventDefault();
+    $('#modal2').modal('open');
+  }
 
+  render() {
+    const { isAuthenticated } = this.props.auth;
     const userLinks = (
       <ul>
+        <li>
+          <a onClick={this.handleSearchModal}>
+          <i className="material-icons">search</i></a>
+        </li>
         <li activeClassName="active">
-          <Link to="/dashboard">Dashboard</Link>
+          <a href="#">Hello, {
+              isAuthenticated ? this.props.auth.user.data.name : 'Guest'
+            }!</a>
+        </li>
+        <li activeClassName="active">
+          <Link to="/">Dashboard</Link>
         </li>
         <li activeClassName="active">
           <Link to="/document">My Documents</Link>
@@ -43,10 +56,11 @@ class Header extends React.Component {
       </ul>
     );
     return (
+      <div>
       <nav className="pink darken-3">
         <div className="nav-wrapper">
           <div className="navheader">
-            <Link to="/dashboard" className="brand-logo">Doc Management</Link>
+            <Link to="/" className="brand-logo">Doc Management</Link>
           </div>
           <a href="#" data-activates="mobile-demo" className="button-collapse">
             <i className="material-icons">menu</i>
@@ -67,6 +81,8 @@ class Header extends React.Component {
           </ul>
         </div>
       </nav>
+        <SearchModal/>
+      </div>
     );
   }
 }
@@ -74,7 +90,7 @@ class Header extends React.Component {
 Header.propTypes = {
   auth: React.PropTypes.object.isRequired,
   logout: React.PropTypes.func.isRequired
-}
+};
 
 /**
  *
@@ -83,7 +99,7 @@ Header.propTypes = {
  * @returns {any} data
  */
 function mapStateToProps(state) {
-  return {auth: state.auth};
+  return { auth: state.auth };
 }
 
-export default connect(mapStateToProps, {logout})(Header);
+export default connect(mapStateToProps, { logout })(Header);

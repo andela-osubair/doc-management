@@ -9,12 +9,18 @@ import initialState from './initialState';
  * @param {any} action
  * @returns {object} user object
  */
-export default function userReducer(state = initialState.users, action) {
+export default function userReducer(state = initialState.manageUsers, action) {
   switch (action.type) {
   case types.CREATE_USER_SUCCESS:
     return [
       ...state,
-      Object.assign({}, action.user)
+      Object.assign({}, { users: action.user })
+    ];
+
+  case types.GET_USER_SUCCESSS:
+    return [
+      ...state,
+      Object.assign({}, { owner: action.name })
     ];
 
   default:

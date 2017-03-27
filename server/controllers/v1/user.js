@@ -1,8 +1,10 @@
 import jwt from 'jsonwebtoken';
 import model from '../../models/';
+import Helpers from '../../helper/Helper';
 
 const User = model.Users;
 const Documents = model.Documents;
+const Roles = model.Roles;
 const secret = process.env.SECRET || 'thisisademosecret';
 
 export default {
@@ -15,7 +17,7 @@ export default {
       })
       .then((user) => {
         if (user) {
-          return res.status(409).send({message: 'User Already Exists'});
+          return res.status(409).send({ message: 'User Already Exists' });
         }
         User.roleId = req.body.roleId || 2;
         User
@@ -27,25 +29,25 @@ export default {
               expiresIn: '24h' // expires in 24 hours
             });
             return res.status(201).send({
-              newUser, message: 'User created successfully', token});
+              newUser, message: 'User created successfully', token });
           })
           .catch(error => res.status(400).send({
-            error, message: `Error creating ${req.body.name}`}));
+            error, message: `Error creating ${req.body.name}` }));
       });
   },
   list(req, res) {
     return User
-      .findAll({offset: `${req.query.offset}`, limit: `${req.query.limit}`})
+      .findAll({ offset: req.query.offset || 0, limit: req.query.limit || 20 })
       .then((user) => {
         if (!user) {
-          return res.status(404).send({message: 'No User Found'});
+          return res.status(404).send({ message: 'No User Found' });
         }
         return res
           .status(200)
-          .send({status: true, user});
+          .send({ status: true, user });
       })
       .catch(error => res.status(400).send({
-        error, message: 'Error retrieving users'}));
+        error, message: 'Error retrieving users' }));
   },
   retrieve(req, res) {
     return User
@@ -59,43 +61,40 @@ export default {
       })
       .then((user) => {
         if (!user) {
-          return res.status(404).send({message: 'User Not Found'});
+          return res.status(404).send({ message: 'User Not Found' });
         }
         return res
           .status(200)
-          .send({user});
+          .send({ user });
       })
       .catch(error => res.status(400).send({
-        error, message: 'Error occurred while retrieving user'}));
+        error, message: 'Error occurred while retrieving user' }));
   },
   update(req, res) {
-    return User
-      .find({
-        where: {
-          id: req.params.id
-        }
-      })
-      .then((user) => {
-        if (!user) {
-          return res.status(404).send({message: 'User Not Found'});
-        }
-        if (user.id !== req.decoded.data.id || req.decoded.data.roleId !== 1) {
-          return res.status(401).send({message: 'Not Authorized'});
-        }
-        return user
-          .update({
-            name: req.body.name || user.name,
-            email: req.body.email || user.email,
-            password: req.body.password || user.password,
-            roleId: req.body.roleId || user.roleId
-          })
-          .then(updatedUser => res.status(200).send({
-            updatedUser, message: 'User updated successfully'}))
-          .catch(error => res.status(400).send({
-            error, message: `Error updating user: ${user.name}`}));
-      })
-      .catch(error => res.status(400).send({
-        error, message: 'Error updating user'}));
+    Roles.findById(req.decoded.RoleId)
+    .then(() => {
+      if (Helpers.isAdmin(req, res)
+        || Helpers.isOwner(req, res)) {
+        return User
+          .find({ where: {
+            id: req.params.id } })
+            .then((user) => {
+              if (!user) {
+                return res.status(404).send({ message: 'User Not Found' });
+              }
+              return user
+              .update(req.body)
+                .then(updatedUser => res
+                  .status(200).send({ updatedUser,
+                    message: 'User updated successfully',
+
+                  }));
+            }).catch(error => res.status(400).send({
+              error, message: 'Error updating user' }));
+      }
+      return (res.status(403)
+         .send({ message: 'Unauthorized Access' }));
+    });
   },
   destroy(req, res) {
     return User
@@ -106,18 +105,18 @@ export default {
       })
       .then((user) => {
         if (!user) {
-          return res.status(404).send({message: 'User Not Found'});
+          return res.status(404).send({ message: 'User Not Found' });
         }
         if (user.id !== req.decoded.data.id || req.decoded.data.roleId !== 1) {
-          return res.status(401).send({message: 'Not Authorized'});
+          return res.status(401).send({ message: 'Not Authorized' });
         }
         return user
           .destroy()
           .then(() => res.status(200).send({
-            message: `${user.name} deleted successfully`}));
+            message: `${user.name} deleted successfully` }));
       })
       .catch(error => res.status(400).send({
-        error, message: 'Error deleting user'}));
+        error, message: 'Error deleting user' }));
   },
   findUserDocuments(req, res) {
     return User
@@ -127,23 +126,23 @@ export default {
             model: Documents,
             as: 'documents'
           }
-        ]})
+        ] })
       .then((user) => {
         if (!user) {
-          return res.status(404).send({message: 'User Not Found'});
+          return res.status(404).send({ message: 'User Not Found' });
         }
-        return res.status(200).send({doc: user.documents, status: true});
+        return res.status(200).send({ doc: user.documents, status: true });
       })
       .catch(error => res.status(400).send({
-        error, message: 'Error occurred while retrieving user document'}));
+        error, message: 'Error occurred while retrieving user document' }));
   },
-  getExistingUser(req, res){
+  getExistingUser(req, res) {
     return User
       .find({
         where: {
           $or: [
             { email: req.params.identifier
-            },{
+            }, {
               username: req.params.identifier
             }
           ]
@@ -151,13 +150,13 @@ export default {
       })
       .then((user) => {
         if (!user) {
-          return res.status(404).send({message: 'User Not Found'});
+          return res.status(404).send({ message: 'User Not Found' });
         }
         return res
           .status(200)
-          .send({user});
+          .send({ user });
       })
       .catch(error => res.status(400).send({
-        error, message: 'Error occurred while retrieving user'}));
+        error, message: 'Error occurred while retrieving user' }));
   }
 };

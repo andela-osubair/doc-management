@@ -12,7 +12,7 @@ const Document = model.Documents;
 const doc = newData.sharedDoc;
 const sharedDoc = newData.shared;
 
-describe('Document Model', () => {
+describe('Shared Model', () => {
   let docData;
   let sharedData;
 
@@ -21,6 +21,7 @@ describe('Document Model', () => {
       .then((newDoc) => {
         docData = newDoc;
         sharedDoc.userId = docData.id;
+        sharedDoc.role = String(docData.roleId);
         done();
       });
   });

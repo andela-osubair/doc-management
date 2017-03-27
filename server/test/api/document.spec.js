@@ -15,22 +15,30 @@ describe('Document API', () => {
   let docData;
   let regUserData;
   let updatedDoc;
+  let adminUser;
 
-  before( function(done) {
-    this.timeout(10000)
+  before(function (done) {
+    this.timeout(10000);
     server
       .post('/users')
       .send(regUser)
       .end((err, res) => {
         regUserData = res.body;
         newDoc.userId = regUserData.newUser.id;
+        newDoc.role = String(regUserData.newUser.roleId);
+        server
+          .post('/users/login')
+          .send({ email: 'oyendah@gmail.com', password: 'password' })
+          .end((err, res) => {
+            adminUser = res.body;
+          });
         done();
       });
   });
 
   describe('Create Document', () => {
-    it('should create new document', function(done) {
-      this.timeout(10000)
+    it('should create new document', function (done) {
+      this.timeout(10000);
       server
         .post('/documents')
         .set('x-access-token', regUserData.token)
@@ -45,6 +53,7 @@ describe('Document API', () => {
           done();
         });
     });
+
     it('should 400 for invalid document data', (done) => {
       server
         .post('/documents')
@@ -74,19 +83,31 @@ describe('Document API', () => {
     it('should 200 for authorized user with token', (done) => {
       server
         .get('/documents/?limit=10&offset=1')
-        .set('x-access-token', regUserData.token)
+        .set('x-access-token', adminUser.token)
         .end((err, res) => {
           expect(res.status).toEqual(200);
           if (err) return done(err);
           done();
         });
     });
-    it('should 400 without limit and offset', (done) => {
+
+    it('should 200 without limit and offset', (done) => {
       server
         .get('/documents/')
+        .set('x-access-token', adminUser.token)
+        .end((err, res) => {
+          expect(res.status).toEqual(200);
+          if (err) return done(err);
+          done();
+        });
+    });
+
+    it('should 403 for Unauthorized user', (done) => {
+      server
+        .get('/documents/?limit=10&offset=1')
         .set('x-access-token', regUserData.token)
         .end((err, res) => {
-          expect(res.status).toEqual(400);
+          expect(res.status).toEqual(403);
           if (err) return done(err);
           done();
         });
@@ -104,6 +125,7 @@ describe('Document API', () => {
           done();
         });
     });
+
     it('should return Document Not Found for invalid document Id', (done) => {
       server
         .get('/documents/99910')
@@ -116,6 +138,7 @@ describe('Document API', () => {
           done();
         });
     });
+
     it('should return documents the specified user', (done) => {
       server
         .get(`/users/${regUserData.newUser.id}/documents`)
@@ -127,6 +150,19 @@ describe('Document API', () => {
           done();
         });
     });
+
+    it('should return users documents with public and same role ', (done) => {
+      server
+        .get(`/users/${regUserData.newUser.id}/alldocuments`)
+        .set('x-access-token', regUserData.token)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(200);
+          if (err) return done(err);
+          done();
+        });
+    });
+
     it('should return user not found', (done) => {
       server
         .get('/users/100/documents')
@@ -190,7 +226,7 @@ describe('Document API', () => {
     });
     it('should return Document Not Found for invalid Id', (done) => {
       server
-        .put(`/documents/100`)
+        .put('/documents/100')
         .set('x-access-token', regUserData.token)
         .send(fieldsToUpdate)
         .expect('Content-Type', /json/)
@@ -205,7 +241,7 @@ describe('Document API', () => {
     });
     it('should return Document Not Found for invalid Id', (done) => {
       server
-        .put(`/documents/oyendah`)
+        .put('/documents/oyendah')
         .set('x-access-token', regUserData.token)
         .send(fieldsToUpdate)
         .expect('Content-Type', /json/)
@@ -222,7 +258,7 @@ describe('Document API', () => {
       server
         .put(`/documents/${docData.document.id}`)
         .set('x-access-token', regUserData.token)
-        .send({userId: 10})
+        .send({ userId: 10 })
         .expect('Content-Type', /json/)
         .end((err, res) => {
           expect(res.status).toEqual(400);

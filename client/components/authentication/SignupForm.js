@@ -1,7 +1,7 @@
-import React, {PropTypes} from 'react';
-import {Link} from 'react-router';
-import TextInput from '../common/TextInput';
+import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import toastr from 'toastr';
+import TextInput from '../common/TextInput';
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -30,19 +30,20 @@ class SignupForm extends React.Component {
   */
   onChange(event) {
     const field = event.target.name;
-    let user = this.state.user;
+    const user = this.state.user;
     user[field] = event.target.value;
-    this.setState({user});
+    user.roleId = 2;
+    this.setState({ user });
   }
 
   isFormValid() {
     let formIsValid = true;
-    let errors = {};
+    const errors = {};
     if (this.state.user.password.length < 5) {
       errors.password = 'Password must be at least 5 characters.';
       formIsValid = false;
     }
-    this.setState({errors});
+    this.setState({ errors });
     return formIsValid;
   }
 
@@ -50,11 +51,11 @@ class SignupForm extends React.Component {
     const field = e.target.name;
     const val = e.target.value;
     if (val !== '') {
-      this.props.isUserExists(val).then(res => {
-        let errors = this.state.errors;
+      this.props.isUserExists(val).then((res) => {
+        const errors = this.state.errors;
         let invalid;
         if (res.data.user) {
-          errors[field] = 'There is user with such ' + field;
+          errors[field] = `There is user with such ${field}`;
           invalid = true;
         } else {
           errors[field] = '';
@@ -65,13 +66,12 @@ class SignupForm extends React.Component {
     }
   }
 
-  clearError(e){
+  clearError(e) {
     const field = e.target.name;
-    let errors = this.state.errors;
-    let invalid;
+    const errors = this.state.errors;
 
     errors[field] = '';
-    invalid = false;
+    const invalid = false;
     this.setState({ errors, invalid });
   }
 
@@ -102,7 +102,7 @@ class SignupForm extends React.Component {
   }
 
   render() {
-    const {errors} = this.state;
+    const { errors } = this.state;
     const form = (
       <div className="col s12 z-depth-5 card-panel">
         <form className="login-form">
@@ -164,7 +164,7 @@ class SignupForm extends React.Component {
           </div>
         </form>
       </div>
-    )
+    );
     return (
       <div>
       {form}
