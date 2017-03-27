@@ -1,21 +1,25 @@
 /* eslint class-methods-use-this: "off"*/
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as documentActions from '../../actions/documentActions';
 
 class SearchModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchResult: [],
+      titleResult: [],
       contentResult: [],
       value: ''
     };
     this.onChange = this.onChange.bind(this);
+    this.renderModal = this.renderModal.bind(this);
   }
   componentDidMount() {
     $('.modal').modal();
     $('select').material_select();
   }
+
 
   onChange(e) {
     e.preventDefault();
@@ -33,18 +37,26 @@ class SearchModal extends React.Component {
         return content.includes(value);
       });
       this.setState({
-        searchResult: searchTitleResult,
+        titleResult: searchTitleResult,
         contentResult: searchContentResult });
     }
   }
+  renderModal(e) {
+    e.preventDefault();
+    const documentId = e.target.id;
+    this.props.actions.setCurrentDocument(documentId);
+    $('#modal2').modal('close');
+    $('#modal1').modal('open');
+  }
 
   render() {
-    const { auth } = this.props;
     return (
       <div>
         <div id="modal2" className="modal">
         <div>
-          <a href="#" className="btn-floating pink closeModal modal-close"><i className="material-icons">close</i></a>
+          <a href="#"
+            className="btn-floating pink closeModal modal-close">
+            <i className="material-icons">close</i></a>
         </div>
           <div className="modal-content">
             <div className="row">
@@ -67,11 +79,14 @@ class SearchModal extends React.Component {
                   <div className="col s6">
                     <h6>Title</h6>
                     <div className="divider"></div>
-                    {this.state.searchResult.map(document =>
+                    {this.state.titleResult.map(document =>
                       <div id="card-alert" className="card white"
                       key={document.id}>
                         <div className="card-content pink-text">
-                        <a href="#">{document.title}</a>
+                          <a className="pointer" id={document.id}
+                            onClick={this.renderModal}>
+                          {document.title}
+                          </a>
                         </div>
                       </div>)}
                   </div>
@@ -82,11 +97,16 @@ class SearchModal extends React.Component {
                       <div id="card-alert" className="card white"
                       key={document.id}>
                         <div className="card-content pink-text">
+                          <a className="pointer" id={document.id}
+                            onClick={this.renderModal}>
                           {document.title}
+                          </a>
                         </div>
                         <div className="fixed-action-btn horizontal edit">
-                          <a className="btn-floating pink" onClick={this.renderModal}>
-                            <i id={document.id} className="material-icons">more_vert</i>
+                          <a className="btn-floating pink"
+                            onClick={this.renderModal}>
+                            <i id={document.id}
+                              className="material-icons">more_vert</i>
                           </a>
                         </div>
                       </div>)}
@@ -103,7 +123,8 @@ class SearchModal extends React.Component {
 
 SearchModal.propsTypes = {
   stateDocuments: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  actions: React.PropTypes.object.isRequired
 };
 
 /**
@@ -117,5 +138,16 @@ function mapStateToProps(state) {
     stateDocuments: state.manageDocuments.documents
   };
 }
+/**
+ *
+ *
+ * @param {any} dispatch
+ * @returns {any}
+ */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(documentActions, dispatch)
+  };
+}
 
-export default connect(mapStateToProps)(SearchModal);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchModal);

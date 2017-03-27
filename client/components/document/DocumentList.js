@@ -35,7 +35,11 @@ class DocumentList extends React.Component {
           .map(document => <div id="card-alert" className="card white"
           key={document.id}>
             <div className="card-content pink-text">
+              <a className="pointer"
+                href="#modal1" id={document.id}
+                onClick={this.editDocument}>
               {document.title}
+              </a>
             </div>
             <div className="fixed-action-btn horizontal click-to-toggle edit">
               <a className="btn-floating pink">

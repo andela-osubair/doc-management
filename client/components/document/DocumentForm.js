@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import toastr from 'toastr';
+import classnames from 'classnames';
 import 'froala-editor/js/froala_editor.pkgd.min';
 import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
@@ -20,6 +21,8 @@ class DocumentForm extends React.Component {
       select: Object.assign({}, props.docValue).viewAccess,
       docTitle: Object.assign({}, props.docValue).title,
       model: Object.assign({}, props.docValue).docContent,
+      userId: Object.assign({}, props.docValue).userId,
+      showSaveBtn: true
     };
     this.onChange = this.onChange.bind(this);
     this.updateTitleState = this.updateTitleState.bind(this);
@@ -30,7 +33,6 @@ class DocumentForm extends React.Component {
 
   componentDidMount() {
     $('#mySelectBox').on('change', this.onChange);
-    $('#title').parent().find('label').addClass('active');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,7 +42,13 @@ class DocumentForm extends React.Component {
         docTitle: Object.assign({}, nextProps.docValue).title,
         model: Object.assign({}, nextProps.docValue).docContent,
         select: Object.assign({}, nextProps.docValue).viewAccess,
+        userId: Object.assign({}, nextProps.docValue).userId,
       });
+    }
+    this.setState({ showSaveBtn: true });
+    if (nextProps.docValue.userId !== this.props.auth.user.data.id) {
+      $('.fr-wrapper').froalaEditor('edit.off');
+      this.setState({ showSaveBtn: false });
     }
   }
 
@@ -104,21 +112,23 @@ class DocumentForm extends React.Component {
   }
 
   render() {
-    // console.log('props', this.props.currentDocument);
-
     const isValue = this.props.currentDocument;
+    const { showSaveBtn } = this.state;
     const form = (
       <form>
         <div className="row">
+          {showSaveBtn ? '' : 'View Only'}
           <div className="input-field col s12">
             <input
               id="title"
               type="text"
               value={this.state.docTitle}
               name="title"
+              placeholder="document title"
               className="validate"
               onChange={this.updateTitleState}/>
-              <label htmlFor="title">Title</label>
+            <label id="labeltitle"
+              htmlFor="title" className="active">Title</label>
           </div>
           <div className="input-field col s12">
             <FroalaEditor
@@ -137,13 +147,17 @@ class DocumentForm extends React.Component {
               <option value="role">Role</option>
           </select>
           </div>
-          <div className="input-field col s12">
-              <input
-                type="submit"
-                value="Save"
-                className="btn waves-effect waves-light pink darken-1"
-                onClick={isValue ? this.updateDocument : this.saveDocument}/>
-          </div>
+          <div className={classnames('input-field col s12', {
+            hide: showSaveBtn === false
+          })}>
+            <input
+              id="btnSave"
+              type="submit"
+              value="Save"
+              className="btn waves-effect waves-light pink darken-1"
+              onClick={isValue ? this.updateDocument : this.saveDocument}/>
+
+            </div>
         </div>
       </form>
     );
@@ -163,7 +177,6 @@ DocumentForm.contextTypes = {
 };
 
 DocumentForm.propTypes = {
-  // saveDocument: React.PropTypes.func.isRequired,
   auth: React.PropTypes.object.isRequired,
   onChange: React.PropTypes.func,
   docValue: PropTypes.object.isRequired,
@@ -203,7 +216,8 @@ function mapStateToProps(state) {
     id: '',
     title: '',
     docContent: '',
-    viewAccess: ''
+    viewAccess: '',
+    userId: ''
   };
   if (documentId > 0) {
     document = getDocumentById(currentState.documents, documentId);
@@ -211,7 +225,8 @@ function mapStateToProps(state) {
   return {
     documents: currentState.documents,
     currentDocument: currentState.selectedDocument,
-    docValue: document
+    docValue: document,
+    auth: state.auth
   };
 }
 

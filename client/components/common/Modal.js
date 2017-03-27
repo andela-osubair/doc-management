@@ -7,6 +7,7 @@ class Modal extends React.Component {
   componentDidMount() {
     $('.modal').modal();
     $('select').material_select();
+    $('#title').parent().find('label').addClass('active');
   }
 
   render() {
@@ -15,7 +16,9 @@ class Modal extends React.Component {
       <div>
         <div id="modal1" className="modal">
           <div>
-            <a href="#" className="btn-floating pink closeModal modal-close"><i className="material-icons">close</i></a>
+            <a href="#"
+              className="btn-floating pink closeModal modal-close">
+              <i className="material-icons">close</i></a>
           </div>
           <div className="modal-content">
             <h4>Document</h4>
