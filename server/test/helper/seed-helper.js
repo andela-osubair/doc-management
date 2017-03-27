@@ -13,6 +13,12 @@ export const users = [{
   email: 'oyendah@gmail.com',
   password: 'password',
   roleId: 1
+}, {
+  name: 'Modupe Omoware',
+  username: 'dupe',
+  email: 'modupe@gmail.com',
+  password: 'password',
+  roleId: 2
 }];
 
 export const documents = [{

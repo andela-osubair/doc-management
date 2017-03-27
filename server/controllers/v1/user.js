@@ -71,7 +71,7 @@ export default {
         error, message: 'Error occurred while retrieving user' }));
   },
   update(req, res) {
-    Roles.findById(req.decoded.RoleId)
+    Roles.findById(req.decoded.data.roleId)
     .then(() => {
       if (Helpers.isAdmin(req, res)
         || Helpers.isOwner(req, res)) {
@@ -97,26 +97,30 @@ export default {
     });
   },
   destroy(req, res) {
-    return User
-      .find({
-        where: {
-          id: req.params.id
-        }
-      })
-      .then((user) => {
-        if (!user) {
-          return res.status(404).send({ message: 'User Not Found' });
-        }
-        if (user.id !== req.decoded.data.id || req.decoded.data.roleId !== 1) {
-          return res.status(401).send({ message: 'Not Authorized' });
-        }
-        return user
-          .destroy()
-          .then(() => res.status(200).send({
-            message: `${user.name} deleted successfully` }));
-      })
-      .catch(error => res.status(400).send({
-        error, message: 'Error deleting user' }));
+    Roles.findById(req.decoded.data.roleId)
+    .then(() => {
+      if (Helpers.isAdmin(req, res) || Helpers.isOwner(req, res)) {
+        return User
+          .find({
+            where: {
+              id: req.params.id
+            }
+          })
+          .then((user) => {
+            if (!user) {
+              return res.status(404).send({ message: 'User Not Found' });
+            }
+            return user
+              .destroy()
+              .then(() => res.status(200).send({
+                message: `${user.name} deleted successfully` }));
+          })
+          .catch(error => res.status(400).send({
+            error, message: 'Error deleting user' }));
+      }
+      return (res.status(403)
+         .send({ message: 'Unauthorized Access' }));
+    });
   },
   findUserDocuments(req, res) {
     return User

@@ -1,4 +1,4 @@
-import model from '../models';
+
 
 /**
  * controllers helper functions
@@ -10,7 +10,7 @@ const Helpers = {
    * @param  {Object} res Response Object
    * @returns {Boolean} returns true or false
    */
-  isAdmin(req, res) {
+  isAdmin(req) {
     return req.decoded.data.roleId === 1;
   },
 
@@ -23,7 +23,7 @@ const Helpers = {
    */
   isOwner(req, res, document) {
     const itemToCheck = document ? String(document.userId) : req.params.id;
-    return String(req.decoded.data.userId) === itemToCheck;
+    return String(req.decoded.data.id) === itemToCheck;
   },
 };
 

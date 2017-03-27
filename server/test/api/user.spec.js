@@ -40,6 +40,7 @@ describe('User API', () => {
           done();
         });
     });
+
     it('should not create user with the same email', (done) => {
       server
         .post('/users')
@@ -52,6 +53,7 @@ describe('User API', () => {
           done();
         });
     });
+
     it('should not create new user with empty params', (done) => {
       server
         .post('/users')
@@ -99,6 +101,7 @@ describe('User API', () => {
           done();
         });
     });
+
     it('should return user when limit and offset are not set', (done) => {
       server
         .get('/users/')
@@ -122,6 +125,7 @@ describe('User API', () => {
           done();
         });
     });
+
     it('should not return user with invalid id', (done) => {
       server
         .get('/users/oyendah')
@@ -133,6 +137,7 @@ describe('User API', () => {
           done();
         });
     });
+
     it('should return user with specified username or email', (done) => {
       server
         .get(`/api/users/${userData.newUser.username}`)
@@ -145,6 +150,7 @@ describe('User API', () => {
           done();
         });
     });
+
     it('should return 404 with specified username or email', (done) => {
       server
         .get('/api/users/Casandra')
@@ -157,6 +163,7 @@ describe('User API', () => {
           done();
         });
     });
+
     it('should return User Not Found for invalid user Id', (done) => {
       server
         .get('/users/99910')
@@ -170,6 +177,7 @@ describe('User API', () => {
         });
     });
   });
+
   describe('/PUT update user', () => {
     const fieldsToUpdate = {
       name: 'Subair Oyin',
@@ -277,8 +285,8 @@ describe('User API', () => {
         .set('x-access-token', regUserData.token)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          expect(res.status).toEqual(401);
-          expect(res.body.message).toEqual('Not Authorized');
+          expect(res.status).toEqual(403);
+          expect(res.body.message).toEqual('Unauthorized Access');
           if (err) return done(err);
           done();
         });

@@ -1,7 +1,8 @@
 import model from '../../models/';
+import Helpers from '../../helper/Helper';
 
 const Documents = model.Documents;
-const Users = model.Users;
+const Roles = model.Roles;
 
 export default {
   create(req, res) {
@@ -79,40 +80,34 @@ export default {
     }));
   },
   update(req, res) {
-    return Documents
-      .find({
-        where: {
-          id: req.params.id
-        },
-      })
-      .then((document) => {
-        if (!document) {
-          return res.status(404).send({
-            message: 'Document Not Found',
-          });
-        }
-
-        return document
-          .update({
-            title: req.body.title || document.title,
-            docContent: req.body.docContent || document.docContent,
-            viewAccess: req.body.access || document.viewAccess,
-            userId: req.body.userId || document.userId,
-            role: req.body.role || document.role
+    Roles.findById(req.decoded.data.roleId)
+    .then(() => {
+      return Documents
+        .find({ where: {
+          id: req.params.id } })
+          .then((document) => {
+            if (!document) {
+              return res.status(404).send({
+                message: 'Document Not Found',
+              });
+            }
+            if (Helpers.isAdmin(req, res)
+            || Helpers.isOwner(req, res, document)) {
+              return document
+              .update(req.body)
+              .then(updatedDoc => res.status(200).send({
+                updatedDoc,
+                message: 'Document updated successfully'
+              }));
+            }
+            return (res.status(403)
+               .send({ message: 'Unauthorized Access' }));
           })
-          .then(updatedDoc => res.status(200).send({
-            updatedDoc,
-            message: 'Document updated successfully'
-          }))
           .catch(error => res.status(400).send({
             error,
-            message: `Error updating document: ${document.title}`
+            message: 'Error updating document'
           }));
-      })
-      .catch(error => res.status(400).send({
-        error,
-        message: 'Error updating document'
-      }));
+    });
   },
   destroy(req, res) {
     return Documents

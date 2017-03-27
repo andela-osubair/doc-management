@@ -16,9 +16,9 @@ describe('Document API', () => {
   let regUserData;
   let updatedDoc;
   let adminUser;
+  let anotherUser;
 
-  before(function (done) {
-    this.timeout(10000);
+  before((done) => {
     server
       .post('/users')
       .send(regUser)
@@ -31,14 +31,20 @@ describe('Document API', () => {
           .send({ email: 'oyendah@gmail.com', password: 'password' })
           .end((err, res) => {
             adminUser = res.body;
+            server
+                .post('/users/login')
+                .send({ email: 'modupe@gmail.com', password: 'password' })
+                .end((err, res) => {
+                  anotherUser = res.body;
+                });
           });
+
         done();
       });
   });
 
   describe('Create Document', () => {
-    it('should create new document', function (done) {
-      this.timeout(10000);
+    it('should create new document', (done) => {
       server
         .post('/documents')
         .set('x-access-token', regUserData.token)
@@ -190,6 +196,7 @@ describe('Document API', () => {
           done();
         });
     });
+
     it('should return 400 code status for invalid document Id', (done) => {
       server
         .get('/documents/oyendah')
@@ -204,10 +211,12 @@ describe('Document API', () => {
         });
     });
   });
+
   describe('/PUT update document', () => {
     const fieldsToUpdate = {
       title: 'Newly Updated Document',
     };
+
     it('should update document data ', (done) => {
       server
         .put(`/documents/${docData.document.id}`)
@@ -224,10 +233,11 @@ describe('Document API', () => {
           done();
         });
     });
+
     it('should return Document Not Found for invalid Id', (done) => {
       server
         .put('/documents/100')
-        .set('x-access-token', regUserData.token)
+        .set('x-access-token', adminUser.token)
         .send(fieldsToUpdate)
         .expect('Content-Type', /json/)
         .end((err, res) => {
@@ -239,10 +249,11 @@ describe('Document API', () => {
           done();
         });
     });
+
     it('should return Document Not Found for invalid Id', (done) => {
       server
         .put('/documents/oyendah')
-        .set('x-access-token', regUserData.token)
+        .set('x-access-token', adminUser.token)
         .send(fieldsToUpdate)
         .expect('Content-Type', /json/)
         .end((err, res) => {
@@ -254,6 +265,7 @@ describe('Document API', () => {
           done();
         });
     });
+
     it('should return Error updating document ', (done) => {
       server
         .put(`/documents/${docData.document.id}`)
@@ -262,6 +274,22 @@ describe('Document API', () => {
         .expect('Content-Type', /json/)
         .end((err, res) => {
           expect(res.status).toEqual(400);
+          if (err) {
+            done(err);
+          }
+          done();
+        });
+    });
+
+    it('should return Error updating document ', (done) => {
+      server
+        .put(`/documents/${docData.document.id}`)
+        .set('x-access-token', anotherUser.token)
+        .send(fieldsToUpdate)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(403);
+          expect(res.body.message).toEqual('Unauthorized Access');
           if (err) {
             done(err);
           }
@@ -284,6 +312,7 @@ describe('Document API', () => {
           done();
         });
     });
+
     it('should return document not found ', (done) => {
       server
         .delete('/documents/100')
@@ -296,6 +325,7 @@ describe('Document API', () => {
           done();
         });
     });
+
     it('should return document not found ', (done) => {
       server
         .delete('/documents/oyendah')
