@@ -6,7 +6,7 @@ import open from 'open';
 import app from '../server/app'; // The express app we just created
 import config from '../webpack.config.dev';
 
-const port = parseInt(process.env.PORT, 10) || 8080;
+const port = parseInt(process.env.PORT, 10) || 4000;
 // app.set('port', port);
 //
 // const server = http.createServer(app);
@@ -33,7 +33,7 @@ app.get('*', (req, res) => {
 app.listen(port, (err) => {
   if (err) {
     console.log(err);
-  } else if(process.env.NODE_ENV !== 'test') {
+  } else if (process.env.NODE_ENV !== 'test') {
     open(`http://localhost:${port}`);
   }
 });

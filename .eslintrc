@@ -1,9 +1,5 @@
 {
-"extends": [
-    "eslint:recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings"
-  ],
+"extends": "airbnb-base",
   "plugins": [
     "react"
   ],
@@ -22,6 +18,7 @@
     "jquery": true,
     "mocha": true
   },
+  "parser": "babel-eslint",
   "rules": {
     "max-len": [1, 80, 2],
     "indent": [1, 2],
@@ -36,6 +33,7 @@
     "no-shadow": [1, { "allow": ["req", "res", "err"] }],
     "no-undef": 0,
     "jsx-quotes": 1,
+    "class-methods-use-this": 0,
     "react/display-name": [ 1, {"ignoreTranspilerName": false }],
     "react/forbid-prop-types": [1, {"forbid": ["any"]}],
     "react/jsx-boolean-value": 1,

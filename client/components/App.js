@@ -1,14 +1,22 @@
 // This component handles the App template used on every page.
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import Header from './common/Header';
 import FlashMessagesList from './flash/FlashMessagesList';
 /**
  *
  */
 class App extends React.Component {
-
-  componentDidMount () {
-    $(".button-collapse").sideNav();
+  componentDidMount() {
+    $('.button-collapse').sideNav({
+      menuWidth: 300, // Default is 300
+      edge: 'right', // Choose the horizontal origin
+      draggable: true // Choose whether you can drag to open on touch screens
+    }
+  );
+    $('.modal').modal();
+    $('select').material_select();
+    $('.tooltipped').tooltip({ delay: 50 });
+    $('.dropdown-button').dropdown();
   }
   /**
    * @return {object} html

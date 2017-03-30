@@ -1,3 +1,4 @@
+/* eslint func-name:off*/
 import { agent } from 'supertest';
 import expect from 'expect';
 
@@ -39,6 +40,7 @@ describe('User API', () => {
           done();
         });
     });
+
     it('should not create user with the same email', (done) => {
       server
         .post('/users')
@@ -51,6 +53,7 @@ describe('User API', () => {
           done();
         });
     });
+
     it('should not create new user with empty params', (done) => {
       server
         .post('/users')
@@ -66,7 +69,7 @@ describe('User API', () => {
     it('should not create new user with empty email', (done) => {
       server
         .post('/users')
-        .send({name: 'honey', password: 'password'})
+        .send({ name: 'honey', password: 'password' })
         .expect('Content-Type', /json/)
         .end((err, res) => {
           expect(res.status).toEqual(400);
@@ -98,12 +101,13 @@ describe('User API', () => {
           done();
         });
     });
-    it('should not return user when limit and offset are not set', (done) => {
+
+    it('should return user when limit and offset are not set', (done) => {
       server
         .get('/users/')
         .set('x-access-token', userData.token)
         .end((err, res) => {
-          expect(res.status).toEqual(400);
+          expect(res.status).toEqual(200);
           if (err) return done(err);
           done();
         });
@@ -121,6 +125,7 @@ describe('User API', () => {
           done();
         });
     });
+
     it('should not return user with invalid id', (done) => {
       server
         .get('/users/oyendah')
@@ -132,6 +137,7 @@ describe('User API', () => {
           done();
         });
     });
+
     it('should return user with specified username or email', (done) => {
       server
         .get(`/api/users/${userData.newUser.username}`)
@@ -144,6 +150,7 @@ describe('User API', () => {
           done();
         });
     });
+
     it('should return 404 with specified username or email', (done) => {
       server
         .get('/api/users/Casandra')
@@ -156,6 +163,7 @@ describe('User API', () => {
           done();
         });
     });
+
     it('should return User Not Found for invalid user Id', (done) => {
       server
         .get('/users/99910')
@@ -169,6 +177,7 @@ describe('User API', () => {
         });
     });
   });
+
   describe('/PUT update user', () => {
     const fieldsToUpdate = {
       name: 'Subair Oyin',
@@ -191,7 +200,7 @@ describe('User API', () => {
       server
         .put('/users/oyendah')
         .set('x-access-token', userData.token)
-        .send({roleId: 100})
+        .send({ roleId: 100 })
         .expect('Content-Type', /json/)
         .end((err, res) => {
           expect(res.status).toEqual(400);
@@ -219,25 +228,25 @@ describe('User API', () => {
       server
         .put(`/users/${userData.newUser.id}`)
         .set('x-access-token', userData.token)
-        .send({roleId: 10})
+        .send({ roleId: 10 })
         .expect('Content-Type', /json/)
         .end((err, res) => {
           expect(res.status).toEqual(400);
-          expect(res.body.message).toEqual('Error updating user: Subair Oyin');
+          expect(res.body.message).toEqual('Error updating user');
           if (err) return done(err);
           done();
         });
     });
 
-    it('should return Not Authorized when user other than admin tries to update another user data ', (done) => {
+    it('should return not update when user other than admin tries to update another data ', (done) => {
       server
         .put(`/users/${userData.newUser.id}`)
         .set('x-access-token', regUserData.token)
         .send(fieldsToUpdate)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          expect(res.status).toEqual(401);
-          expect(res.body.message).toEqual('Not Authorized');
+          expect(res.status).toEqual(403);
+          expect(res.body.message).toEqual('Unauthorized Access');
           if (err) return done(err);
           done();
         });
@@ -276,8 +285,8 @@ describe('User API', () => {
         .set('x-access-token', regUserData.token)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          expect(res.status).toEqual(401);
-          expect(res.body.message).toEqual('Not Authorized');
+          expect(res.status).toEqual(403);
+          expect(res.body.message).toEqual('Unauthorized Access');
           if (err) return done(err);
           done();
         });

@@ -1,6 +1,6 @@
-import React, {PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as userActions from '../../actions/userActions';
 import SignupForm from './SignupForm';
 
@@ -8,18 +8,6 @@ import SignupForm from './SignupForm';
  * HomePage Component
  */
 class SignupPage extends React.Component {
-
-  /**
-   * Creates an instance of SignupPage.
-   * @param {any} props
-   * @param {any} context
-   *
-   * @memberOf SignupPage
-   */
-  constructor(props) {
-    super(props);
-  }
-
 
   /**
  * React Render
@@ -52,13 +40,13 @@ SignupPage.propTypes = {
  * @returns {object}
  */
 function mapStateToProps(state) {
-  return {user: state.user};
+  return { user: state.user };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(userActions, dispatch)
   };
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignupPage);

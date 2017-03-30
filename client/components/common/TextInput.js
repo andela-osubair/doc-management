@@ -1,11 +1,11 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 const TextInput = (
-  {type, name, label, onChange, icon, value,
-    error, checkUserExists, clearError}) => {
+  { type, name, label, onChange, icon, value,
+    error, checkUserExists, clearError, placeholder }) => {
   let wrapperClass = 'input-field col s12';
   if (error && error.length > 0) {
-    wrapperClass += " red-text";
+    wrapperClass += ' red-text';
   }
 
   return (
@@ -16,13 +16,14 @@ const TextInput = (
       name={name}
       className="validate"
       value={value}
+      placeholder={placeholder}
       onChange={onChange}
       onBlur={checkUserExists}
       onFocus={clearError}
       />
       {error && <span className="red-text">
         <i className="material-icons">error_outline</i> {error}</span>}
-      <label htmlFor={name}>{label}</label>
+      <label htmlFor={name} classnames="active">{label}</label>
     </div>
   );
 };
@@ -30,13 +31,14 @@ const TextInput = (
 TextInput.propTypes = {
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   icon: PropTypes.string.isRequired,
   value: PropTypes.string,
   error: PropTypes.string,
   checkUserExists: React.PropTypes.func,
-  clearError: React.PropTypes.func
+  clearError: React.PropTypes.func,
+  placeholder: PropTypes.string
 };
 
 export default TextInput;

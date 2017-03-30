@@ -22,6 +22,7 @@ describe('Document Model', () => {
       .then((newUser) => {
         userdata = newUser;
         publicDocument.userId = userdata.id;
+        publicDocument.role = String(userdata.roleId);
         done();
       });
   });

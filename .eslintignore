@@ -2,3 +2,6 @@ node_modules
 server/models/*
 server/migrations/*
 server/seeders/*
+server/test/testSetUp.js
+webpack.config.dev.js
+webpack.config.prod.js

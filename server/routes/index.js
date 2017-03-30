@@ -55,7 +55,6 @@ const Routes = (app) => {
     .get(usersController.getExistingUser);
 
 
-
   app
     .route('/users/:id/documents')
     .get(verify, usersController.findUserDocuments);
@@ -66,7 +65,7 @@ const Routes = (app) => {
   app
     .route('/documents')
     .post(verify, docController.create)
-    .get(verify, docController.list);
+    .get(verify, adminAccess, docController.list);
 
   app
     .route('/documents/:id')
@@ -74,20 +73,12 @@ const Routes = (app) => {
     .put(verify, docController.update)
     .delete(verify, docController.destroy);
 
+  app.route('/users/:id/alldocuments')
+.get(verify, docController.findAllUserDocument);
+
   /**
    * Search API
    */
-  app
-    .route('/users/search')
-    .post((req, res) => {
-      res.redirect(`/search/users/?q=${req.body.email}`);
-    });
-
-  app
-    .route('/documents/search')
-    .post((req, res) => {
-      res.redirect(`/search/documents/?q=${req.body.title}`);
-    });
 
   app
     .route('/search/users/')

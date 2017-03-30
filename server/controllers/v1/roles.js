@@ -95,7 +95,7 @@ export default {
           .destroy()
           .then(() => res.status(200).send({
             message: 'Role deleted successfully.'
-          }))
+          }));
       })
       .catch(error => res.status(400).send({
         error,

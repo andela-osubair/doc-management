@@ -1,9 +1,10 @@
 import React from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import toastr from 'toastr';
 import TextInput from '../common/TextInput';
-// import toastr from 'toastr';
 import { login } from '../../actions/userActions';
+import { addFlashMessage } from '../../actions/flashMessages';
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -22,13 +23,13 @@ class LoginForm extends React.Component {
 
   isFormValid() {
     let formIsValid = true;
-    let errors = {};
+    const errors = {};
 
     if (this.state.user.password.length < 0) {
       errors.password = 'Password must be at least 5 characters.';
       formIsValid = false;
     }
-    this.setState({errors});
+    this.setState({ errors });
     return formIsValid;
   }
 
@@ -37,26 +38,32 @@ class LoginForm extends React.Component {
     if (this.isFormValid()) {
       this.setState({ errors: {}, isLoading: true });
       this.props.login(this.state).then(
-        () => this.context.router.push('/dashboard'),
-        (err) => this.setState({
-          errors: err.response.data.errors, isLoading: false })
-      );
+        () => {
+          this.context.router.push('/');
+          toastr.success('Logged in Successfully');
+        }
+      ).catch(() => {
+        this.props.addFlashMessage({
+          type: 'error',
+          text: 'Unable to login user, please try again' });
+        this.setState({ isLoading: false });
+      });
     }
   }
 
   onChange(event) {
     const field = event.target.name;
-    let user = this.state.user;
+    const user = this.state.user;
     user[field] = event.target.value;
-    this.setState({user});
+    this.setState({ user });
   }
 
   render() {
     const { errors, isLoading } = this.state;
     const form = (
-      <div className="col s12 z-depth-5 card-panel">
+      <div id="logincontainer" className="col s12 z-depth-5 card-panel">
         <form className="login-form">
-
+          <h4 className="center">Login</h4>
           <div className="row margin">
             <TextInput
               type="email"
@@ -95,7 +102,7 @@ class LoginForm extends React.Component {
           </div>
         </form>
       </div>
-    )
+    );
     return (
       <div>
       {form}
@@ -105,11 +112,12 @@ class LoginForm extends React.Component {
 }
 
 LoginForm.propTypes = {
-  login: React.PropTypes.func.isRequired
-}
+  login: React.PropTypes.func.isRequired,
+  addFlashMessage: React.PropTypes.func.isRequired
+};
 
 LoginForm.contextTypes = {
   router: React.PropTypes.object.isRequired
-}
+};
 
-export default connect(null, { login })(LoginForm);
+export default connect(null, { login, addFlashMessage })(LoginForm);

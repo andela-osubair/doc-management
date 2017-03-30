@@ -1,4 +1,4 @@
-import {agent} from 'supertest';
+import { agent } from 'supertest';
 import expect from 'expect';
 
 import app from '../../../bin/www';
@@ -11,18 +11,16 @@ const server = agent(app);
 describe('Login/Logout API', () => {
   let user;
   describe('Login API', () => {
-
-    it('should login user', function (done){
-      this.timeout(10000)
+    it('should login user', (done) => {
       server
         .post('/users/login')
-        .send({email: 'oyendah@gmail.com', password: 'password'})
+        .send({ email: 'oyendah@gmail.com', password: 'password' })
         .end((err, res) => {
           user = res.body;
           expect(res.status).toEqual(200);
           expect(res.body.message).toEqual('User authenticated successfully');
           done();
-        })
+        });
     });
 
     it('logged in user should have a token', (done) => {
@@ -33,7 +31,7 @@ describe('Login/Logout API', () => {
     it('should return Wrong Password login user', (done) => {
       server
         .post('/users/login')
-        .send({email: 'oyendah@gmail.com', password: '123456'})
+        .send({ email: 'oyendah@gmail.com', password: '123456' })
         .end((err, res) => {
           expect(res.status).toEqual(401);
           expect(res.body.message).toEqual(
@@ -56,7 +54,7 @@ describe('Login/Logout API', () => {
     it('should not login user with invalid email', (done) => {
       server
         .post('/users/login')
-        .send({email: 'hello@yahoo.com', password: '12345'})
+        .send({ email: 'hello@yahoo.com', password: '12345' })
         .end((err, res) => {
           expect(res.status).toEqual(401);
           expect(res.body.message).toEqual(
@@ -73,19 +71,19 @@ describe('Login/Logout API', () => {
           expect(res.body.message).toEqual(
             'Authentication Failed. User not found.');
           done();
-        })
+        });
     });
 
     it('should not authenticate user without password', (done) => {
       server
         .post('/users/login')
-        .send({email: 'oyendah@gmail.com'})
+        .send({ email: 'oyendah@gmail.com' })
         .end((err, res) => {
           expect(res.status).toEqual(400);
           expect(res.body.message).toEqual(
             'Error occurred while authenticating user');
           done();
-        })
+        });
     });
   });
 
@@ -98,6 +96,6 @@ describe('Login/Logout API', () => {
           expect(res.body.message).toEqual('You have successfully logged out');
           done();
         });
-    })
+    });
   });
 });

@@ -1,12 +1,51 @@
-body{
-  background-color: #fbe8ef;
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f1f4fa;
 }
 
-.navheader{
-  padding: 5px;
+.navheader {
+    padding: 0px 0px 0px 5px;
 }
 
-.edit{
-  position: absolute !important;
+.edit {
+    position: absolute !important;
 }
 
+#modal1 {
+    width: 75% !important;
+    max-height: 80vh !important;
+}
+
+
+/* increase the width, height and prevent vertical scroll! However, i don't recommend this, its better to turn on vertical scrolling. */
+
+#modal2 {
+    width: 95% !important;
+    max-height: 100%;
+}
+
+.closeModal{
+  margin: 10px !important;
+  float: right;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.hide{
+  display: none
+}
+
+.card-body{
+  max-height: 100% !important;
+  overflow: auto !important;
+}
+
+.loginmargin{
+  padding: 15px 0px 0px 0px;
+}
+
+#logincontainer{
+  margin: 75px 0px 0px 0px ;
+}

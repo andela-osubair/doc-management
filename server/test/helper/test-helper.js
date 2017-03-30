@@ -72,6 +72,7 @@ const newData = {
     title: faker.company.catchPhrase(),
     docContent: faker.lorem.paragraph(),
     viewAccess: 'public',
+    role: '1'
   },
 
   roleDoc: {

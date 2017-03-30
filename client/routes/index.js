@@ -5,14 +5,20 @@ import HomePage from '../components/home/HomePage';
 import SignupPage from '../components/authentication/SignupPage';
 import DashboardPage from '../components/dashboard/Dashboard';
 import requireAuth from '../utils/requireAuth';
+import requireAdminAuth from '../utils/requireAdminAuth';
 import DocumentPage from '../components/document/DocumentPage';
+import ManangeRolePage from '../components/admin/ManageRolePage';
+import ManageUserPage from '../components/admin/ManageUsersPage';
 
 export default (
   <Route path="/" component={App}>
-    <IndexRoute component={HomePage} />
+    <IndexRoute component={requireAuth(DashboardPage)} />
+    <Route path="login" component={HomePage} />
     <Route path="signup" component={SignupPage} />
-    <Route path="dashboard" component={requireAuth(DashboardPage)} />
     <Route path="document" component={requireAuth(DocumentPage)} />
-    <Route path="document/:id" component={requireAuth(DocumentPage)} />
+    <Route path="admin/manageroles"
+      component={requireAdminAuth(ManangeRolePage)} />
+    <Route path="admin/manageusers"
+        component={requireAdminAuth(ManageUserPage)} />
   </Route>
 );

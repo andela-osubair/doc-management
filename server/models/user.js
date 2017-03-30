@@ -25,6 +25,15 @@ export default (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
+    roleId: {
+      type: DataTypes.INTEGER,
+      defaultValue: 2,
+      references: {
+        model: 'Roles',
+        key: 'id',
+        as: 'roleId',
+      },
+    },
   }, {
     classMethods: {
       associate: (models) => {
