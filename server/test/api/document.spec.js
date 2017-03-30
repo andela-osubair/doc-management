@@ -51,8 +51,6 @@ describe('Document API', () => {
         .send(newDoc)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          console.log('response', res);
-          console.log('erroe', err);
           docData = res.body;
           expect(res.status).toEqual(201);
           expect(res.body.message).toEqual(

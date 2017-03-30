@@ -10,16 +10,16 @@
     "lint": "node_modules/.bin/esw webpack.config.* client server",
     "lint:watch": "npm run lint -- --watch",
     "start:dev": "nodemon ./bin/www --exec babel-node",
-    "test": "NODE_ENV=test npm run db:test:seed && npm run mocha:test",
+    "test": "NODE_ENV=test npm run db:test:seed && npm run cover",
     "mocha:test": "NODE_ENV=test mocha --reporter spec ./server/test/testSetup.js \"./server/test/**/*.spec.js\" --timeout 60000",
-    "cover": "NODE_ENV=test istanbul cover _mocha -- -u exports --compilers js:babel-register --timeout 60000",
+    "cover": "NODE_ENV=test nyc --reporter=html --reporter=text _mocha --reporter spec ./server/test/testSetup.js \"./server/test/**/*.spec.js\" --timeout=60000",
     "thetest:watch": "NODE_ENV=test npm run test -- --watch",
     "test:watch": "npm run db:test:seed && npm run thetest:watch",
     "db:migrate:test:undo": "NODE_ENV=test sequelize db:migrate:undo:all",
     "db:migrate:test": "NODE_ENV=test sequelize db:migrate",
     "db:test:seed": "NODE_ENV=test babel-node ./server/test/helper/seed-helper",
     "db:seed": "babel-node ./server/test/helper/seed-helper",
-    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
+    "coveralls": "nyc report --reporter=text-lcov |  coveralls"
   },
   "repository": {
     "type": "git",
@@ -108,6 +108,7 @@
     "mocha-lcov-reporter": "^1.3.0",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.2",
+    "nyc": "^10.2.0",
     "open": "0.0.5",
     "redux-immutable-state-invariant": "^2.0.0",
     "shortid": "^2.2.8",
