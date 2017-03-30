@@ -4,6 +4,18 @@ import * as types from './actionTypes';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 
 /**
+ * [loadUserSuccess description]
+ * @param  {object} user user response fron api call in the thunk
+ * @return {object}      reponse dispatched to reducer
+ */
+export function loadUserSuccess(user) {
+  return {
+    type: types.LOAD_USER_SUCCESS,
+    user
+  };
+}
+
+/**
  *
  *
  * @export
@@ -14,6 +26,42 @@ export function setCurrentUser(user) {
   return {
     type: types.SET_CURRENT_USER,
     user
+  };
+}
+
+/**
+ *
+ * set in state the selcted role
+ * @export
+ * @param {any} id
+ * @returns {any} role id
+ */
+export function setSelectedUser(id) {
+  return {
+    type: types.SET_SELECTED_USER,
+    id
+  };
+}
+
+/**
+ * display details of current user
+ * @param {number} id selected user id
+ * @return {object} object of action type
+ */
+export function displaySelectedUser(id) {
+  return {
+    type: types.DISPLAY_SELECT_USER,
+    id
+  };
+}
+
+/**
+ * delete from state the current selected role
+ * @return {[type]} [description]
+ */
+export function deleteSelectedUser() {
+  return {
+    type: types.DELETE_SELECTED_USER,
   };
 }
 
@@ -32,7 +80,7 @@ export function createUserSuccess(user) {
  *  create user failure
  *
  * @export
- * @param {any} user
+ * @param {any} name
  * @returns {Object} json object
  */
 export function getUserSuccess(name) {
@@ -74,8 +122,8 @@ export function loginUserFailure() {
  *
  *
  * @export saveUser
- * @param {any} user
- * @returns {Object} json object
+ * @param {object} user
+ * @returns {Object} api response
  */
 export function saveUser(user) {
   return (dispatch) => {
@@ -91,10 +139,57 @@ export function saveUser(user) {
   };
 }
 
+
+/**
+ * load all users from database
+ * @return {object} response from api call
+ */
+export function loadUsers() {
+  return (dispatch) => {
+    return axios.get('/users').then((res) => {
+      dispatch(loadUserSuccess(res.data.user));
+    }).catch((err) => {
+      throw (err);
+    });
+  };
+}
+
+/**
+ * user update by admin
+ * @param  {[type]} user [description]
+ * @return {[type]}      [description]
+ */
+export function updateUserAdmin(user) {
+  return (dispatch, getState) => {
+    const userId = getState().manageUsers.selectedUser;
+    return axios.put(`/users/${userId}`, user).then(() => {
+      dispatch(loadUsers());
+    }).catch((err) => {
+      throw (err);
+    });
+  };
+}
+
 /**
  *
  *
  * @export saveUser
+ * @param {any} user
+ * @returns {Object} json object
+ */
+export function saveUserAdmin(user) {
+  return (dispatch) => {
+    return axios.post('/users', user)
+    .then(() => {
+      dispatch(loadUsers());
+    }).catch((error) => { throw (error); });
+  };
+}
+
+/**
+ *
+ *
+ * @export getUser
  * @param {any} id
  * @returns {Object} json object
  */

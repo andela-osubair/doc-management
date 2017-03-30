@@ -19,7 +19,7 @@
     "db:migrate:test": "NODE_ENV=test sequelize db:migrate",
     "db:test:seed": "NODE_ENV=test babel-node ./server/test/helper/seed-helper",
     "db:seed": "babel-node ./server/test/helper/seed-helper",
-    "coveralls": "npm test --report lcovonly -- -R"
+    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
@@ -62,6 +62,7 @@
     "react": "15.0.2",
     "react-dom": "15.0.2",
     "react-froala-wysiwyg": "^2.5.1",
+    "redux-immutable-state-invariant": "^2.0.0",
     "react-redux": "4.4.5",
     "react-router": "2.4.0",
     "react-router-dom": "^4.0.0",
@@ -73,6 +74,7 @@
     "redux-router": "^2.1.2",
     "redux-thunk": "^2.2.0",
     "sequelize": "^3.30.2",
+    "shortid": "^2.2.8",
     "supertest": "^3.0.0",
     "toastr": "^2.1.2",
     "webpack": "1.13.0",

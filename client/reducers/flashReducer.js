@@ -1,6 +1,6 @@
-import * as types from '../actions/actionTypes';
 import shortid from 'shortid';
 import findIndex from 'lodash/findIndex';
+import * as types from '../actions/actionTypes';
 
 export default(state = [], action = {}) => {
   switch (action.type) {

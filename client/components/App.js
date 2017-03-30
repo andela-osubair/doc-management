@@ -7,8 +7,16 @@ import FlashMessagesList from './flash/FlashMessagesList';
  */
 class App extends React.Component {
   componentDidMount() {
-    $('.button-collapse').sideNav();
+    $('.button-collapse').sideNav({
+      menuWidth: 300, // Default is 300
+      edge: 'right', // Choose the horizontal origin
+      draggable: true // Choose whether you can drag to open on touch screens
+    }
+  );
     $('.modal').modal();
+    $('select').material_select();
+    $('.tooltipped').tooltip({ delay: 50 });
+    $('.dropdown-button').dropdown();
   }
   /**
    * @return {object} html

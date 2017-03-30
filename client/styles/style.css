@@ -1,10 +1,10 @@
 body {
-    font-family: 'Arsenal', sans-serif;
-    background-color: #fbe8ef;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f1f4fa;
 }
 
 .navheader {
-    padding: 5px;
+    padding: 0px 0px 0px 5px;
 }
 
 .edit {
@@ -35,4 +35,17 @@ body {
 
 .hide{
   display: none
+}
+
+.card-body{
+  max-height: 100% !important;
+  overflow: auto !important;
+}
+
+.loginmargin{
+  padding: 15px 0px 0px 0px;
+}
+
+#logincontainer{
+  margin: 75px 0px 0px 0px ;
 }

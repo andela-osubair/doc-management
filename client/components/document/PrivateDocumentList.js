@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import Modal from '../common/Modal';
 import * as documentActions from '../../actions/documentActions';
 
-class RoleDocumentList extends React.Component {
+class PrivateDocumentList extends React.Component {
   constructor(props) {
     super(props);
     this.renderModal = this.renderModal.bind(this);
@@ -18,10 +18,9 @@ class RoleDocumentList extends React.Component {
   render() {
     return (
       <div>
-
         {this
           .props
-          .roleDocuments
+          .privateDocuments
           .map(document => <div id="card-alert" className="card white"
           key={document.id}>
             <div className="card-content pink-text">
@@ -31,7 +30,8 @@ class RoleDocumentList extends React.Component {
               </a>
             </div>
             <div className="fixed-action-btn horizontal edit">
-              <a className="btn-floating pink" onClick={this.renderModal}>
+              <a className="btn-floating btn-flat pink"
+              onClick={this.renderModal}>
                 <i id={document.id} className="material-icons">more_vert</i>
               </a>
             </div>
@@ -42,8 +42,8 @@ class RoleDocumentList extends React.Component {
   }
 }
 
-RoleDocumentList.propsTypes = {
-  roleDocuments: React.PropTypes.object.isRequired,
+PrivateDocumentList.propsTypes = {
+  privateDocuments: React.PropTypes.isRequired,
   actions: React.PropTypes.object.isRequired
 };
 
@@ -59,4 +59,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(RoleDocumentList);
+export default connect(null, mapDispatchToProps)(PrivateDocumentList);

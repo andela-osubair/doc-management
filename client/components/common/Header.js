@@ -28,7 +28,10 @@ class Header extends React.Component {
     const userLinks = (
       <ul>
         <li>
-          <a onClick={this.handleSearchModal}>
+          <a onClick={this.handleSearchModal} className="tooltipped"
+            data-position="left" data-delay="50"
+            data-tooltip="search for documents"
+            >
           <i className="material-icons">search</i></a>
         </li>
         <li activeClassName="active">
@@ -37,11 +40,23 @@ class Header extends React.Component {
             }!</a>
         </li>
         <li activeClassName="active">
-          <Link to="/">Dashboard</Link>
+          <Link to="/">
+            <i className="material-icons left">dashboard</i>Dashboard</Link>
         </li>
         <li activeClassName="active">
           <Link to="/document">My Documents</Link>
         </li>
+          {this.props.isAdmin ?
+            <li>
+              <Link to="/admin/manageroles">Manage Roles</Link>
+            </li>
+             : ''}
+             {this.props.isAdmin ?
+               <li>
+                 <Link to="/admin/manageusers">Manage Users</Link>
+               </li>
+               : ''
+             }
         <li>
           <a href="#" onClick={this.logout}>Logout</a>
         </li>
@@ -89,7 +104,8 @@ class Header extends React.Component {
 
 Header.propTypes = {
   auth: React.PropTypes.object.isRequired,
-  logout: React.PropTypes.func.isRequired
+  logout: React.PropTypes.func.isRequired,
+  isAdmin: React.PropTypes.bool.isRequired
 };
 
 /**
@@ -99,7 +115,15 @@ Header.propTypes = {
  * @returns {any} data
  */
 function mapStateToProps(state) {
-  return { auth: state.auth };
+  let role;
+  if (state.auth.isAuthenticated) {
+    role = state.auth.user.data.roleId;
+  }
+  let isAdmin = false;
+  if (role === 1) {
+    isAdmin = true;
+  }
+  return { auth: state.auth, isAdmin };
 }
 
 export default connect(mapStateToProps, { logout })(Header);

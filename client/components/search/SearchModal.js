@@ -38,7 +38,8 @@ class SearchModal extends React.Component {
       });
       this.setState({
         titleResult: searchTitleResult,
-        contentResult: searchContentResult });
+        contentResult: searchContentResult,
+        value });
     }
   }
   renderModal(e) {
@@ -77,29 +78,31 @@ class SearchModal extends React.Component {
               <div id="result" className="col s12">
                 <div className="row">
                   <div className="col s6">
-                    <h6>Title</h6>
-                    <div className="divider"></div>
+                    {this.state.value ?
+                    <h6>Result for "{this.state.value}" in Document Title</h6>
+                     : ''}
                     {this.state.titleResult.map(document =>
                       <div id="card-alert" className="card white"
                       key={document.id}>
                         <div className="card-content pink-text">
                           <a className="pointer" id={document.id}
                             onClick={this.renderModal}>
-                          {document.title}
+                          Title: {document.title}
                           </a>
                         </div>
                       </div>)}
                   </div>
                   <div className="col s6">
-                    <h6>Document Content</h6>
-                    <div className="divider"></div>
+                    {this.state.value ?
+                    <h6>Result for "{this.state.value}" in Document Contents</h6>
+                     : ''}
                     {this.state.contentResult.map(document =>
                       <div id="card-alert" className="card white"
                       key={document.id}>
                         <div className="card-content pink-text">
                           <a className="pointer" id={document.id}
                             onClick={this.renderModal}>
-                          {document.title}
+                          Title: {document.title}
                           </a>
                         </div>
                         <div className="fixed-action-btn horizontal edit">

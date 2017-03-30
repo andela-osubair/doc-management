@@ -61,9 +61,9 @@ class LoginForm extends React.Component {
   render() {
     const { errors, isLoading } = this.state;
     const form = (
-      <div className="col s12 z-depth-5 card-panel">
+      <div id="logincontainer" className="col s12 z-depth-5 card-panel">
         <form className="login-form">
-
+          <h4 className="center">Login</h4>
           <div className="row margin">
             <TextInput
               type="email"

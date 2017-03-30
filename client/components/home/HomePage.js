@@ -15,15 +15,16 @@ export default class HomePage extends React.Component {
   render() {
     return (
       <div className="row">
-        <div className="col s7">
-          <div className="col s12 z-depth-5 card-panel">
-            <h4>Document Management System</h4>
-            <img src={docman} className="responsive-img"/>
+        <div className="col s12  card-panel">
+          <div className="row">
+            <div className="col s7">
+              <h4>Document Management System</h4>
+              <img src={docman} className="responsive-img"/>
+            </div>
+            <div className="col s5">
+              <LoginForm/>
+            </div>
           </div>
-        </div>
-        <div className="col s5">
-          <h3>Login</h3>
-          <LoginForm/>
         </div>
       </div>
     );

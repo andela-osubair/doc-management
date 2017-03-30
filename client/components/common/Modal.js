@@ -17,7 +17,7 @@ class Modal extends React.Component {
         <div id="modal1" className="modal">
           <div>
             <a href="#"
-              className="btn-floating pink closeModal modal-close">
+              className="btn-floating btn-flat pink closeModal modal-close">
               <i className="material-icons">close</i></a>
           </div>
           <div className="modal-content">

@@ -10,18 +10,6 @@ import SignupForm from './SignupForm';
 class SignupPage extends React.Component {
 
   /**
-   * Creates an instance of SignupPage.
-   * @param {any} props
-   * @param {any} context
-   *
-   * @memberOf SignupPage
-   */
-  constructor(props) {
-    super(props);
-  }
-
-
-  /**
  * React Render
  * @return {object} html
  */

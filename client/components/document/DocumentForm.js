@@ -25,14 +25,14 @@ class DocumentForm extends React.Component {
       showSaveBtn: true
     };
     this.onChange = this.onChange.bind(this);
-    this.updateTitleState = this.updateTitleState.bind(this);
+    this.updateSelectState = this.updateSelectState.bind(this);
     this.handleModelChange = this.handleModelChange.bind(this);
     this.saveDocument = this.saveDocument.bind(this);
     this.updateDocument = this.updateDocument.bind(this);
   }
 
   componentDidMount() {
-    $('#mySelectBox').on('change', this.onChange);
+    $('#mySelectBox').on('change', this.updateSelectState);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -50,6 +50,9 @@ class DocumentForm extends React.Component {
       $('.fr-wrapper').froalaEditor('edit.off');
       this.setState({ showSaveBtn: false });
     }
+    if (nextProps.docValue.id === '') {
+      this.setState({ showSaveBtn: true });
+    }
   }
 
   onChange(event) {
@@ -59,14 +62,11 @@ class DocumentForm extends React.Component {
     document.userId = this.props.auth.user.data.id;
     document.role = String(this.props.auth.user.data.roleId);
     this.setState({
-      document, select: event.target.value });
+      document, docTitle: event.target.value });
   }
 
-  updateTitleState(event) {
-    const field = event.target.name;
-    const document = this.state.document;
-    document[field] = event.target.value;
-    this.setState({ docTitle: event.target.value });
+  updateSelectState(event) {
+    this.setState({ select: event.target.value });
   }
 
   handleModelChange(model) {
@@ -81,10 +81,17 @@ class DocumentForm extends React.Component {
       .props
       .actions
       .saveDocument(this.state.document)
-      .then(() => this.redirect())
+      .then(() => {
+        toastr.success('Document Successfully Saved');
+        $('#modal1').modal('close');
+      })
       .catch(() => {
+        this.props.addFlashMessage({
+          type: 'error',
+          text: 'Unable to add document, Confirm Document title conflict' });
         toastr.error(
           'Unable to save document');
+        $('#modal1').modal('close');
       });
   }
 
@@ -94,7 +101,10 @@ class DocumentForm extends React.Component {
       .props
       .actions
       .updateDocument(this.state.document)
-      .then(() => this.redirect())
+    .then(() => {
+      toastr.success('Document Successfully Saved');
+      $('#modal1').modal('close');
+    })
       .catch(() => {
         this.props.addFlashMessage({
           type: 'error',
@@ -126,7 +136,7 @@ class DocumentForm extends React.Component {
               name="title"
               placeholder="document title"
               className="validate"
-              onChange={this.updateTitleState}/>
+              onChange={this.onChange}/>
             <label id="labeltitle"
               htmlFor="title" className="active">Title</label>
           </div>
@@ -140,7 +150,7 @@ class DocumentForm extends React.Component {
           <div className="input-field col s12">
             <select name="viewAccess" id="mySelectBox"
             value={this.state.select}
-            className="browser-default">
+            className="browser-default" onChange={this.updateSelectState}>
             <option value="" disabled >Restrict Document Access</option>
               <option value="public">Public</option>
               <option value="private">Private</option>
@@ -169,12 +179,6 @@ class DocumentForm extends React.Component {
   }
 
 }
-
-// Pull in the React Router context so router is available on
-// this.context.router.
-DocumentForm.contextTypes = {
-  router: PropTypes.object
-};
 
 DocumentForm.propTypes = {
   auth: React.PropTypes.object.isRequired,

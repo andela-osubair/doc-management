@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import DocumentList from './DocumentList';
 import * as documentActions from '../../actions/documentActions';
 import Modal from '../common/Modal';
+import DocumentPagination from './DocumentPagination';
 
 class DocumentPage extends React.Component {
   constructor(props) {
@@ -12,9 +13,13 @@ class DocumentPage extends React.Component {
 
     this.deleteClick = this.deleteClick.bind(this);
   }
+  componentWillMount() {
+    this.props.actions.loadUserDocument();
+  }
   componentDidMount() {
     $('.modal').modal();
     $('select').material_select();
+    $('.tooltipped').tooltip({ delay: 50 });
   }
 
   deleteClick() {
@@ -26,18 +31,36 @@ class DocumentPage extends React.Component {
     const { myDocuments } = this.props;
     return (
       <div className="row">
-        <div className="col s12">
           <div className="col s12 z-depth-5 card-panel">
             <h4>My Documents</h4>
         <div className="fixed-action-btn" onClick={this.deleteClick}>
           <a
-            className="btn-floating btn-large waves-effect waves-light red">
+  className="btn-floating btn-large waves-effect waves-light red tooltipped"
+  data-position="left" data-delay="50"
+  data-tooltip="create new document"
+  >
             <i className="material-icons">add</i>
           </a>
         </div>
-        <DocumentList myDocuments={myDocuments}/>
+        <div className="row">
+          <div className="col s12">
+            <div className="row">
+              <div className="col s5">
+                <div id="card-alert" className="card deep-purple lighten-5">
+                          <div className="card-content deep-purple-text">
+                            <p>INFO : You have 18 messages</p>
+                          </div>
+                        </div>
+                        <DocumentPagination myDocuments={myDocuments} />
+              </div>
+              <div className="col s7">
+                <DocumentList myDocuments={myDocuments}/>
+              </div>
+            </div>
+          </div>
+
+        </div>
         <Modal />
-      </div>
       </div>
       </div>
     );
@@ -53,13 +76,16 @@ DocumentPage.propTypes = {
  *
  *
  * @param {any} state
- * @param {any} ownProps
  * @returns {any}
  */
 function mapStateToProps(state) {
   const currentState = state.manageDocuments;
-  const myDocuments = currentState.documents.filter(
-    doc => doc.userId === state.auth.user.data.id);
+  let myDocuments = [];
+  if (state.auth.isAuthenticated) {
+    myDocuments = currentState.documents.filter(
+     doc => doc.userId === state.auth.user.data.id);
+  }
+
   const publicDocuments = currentState.documents.filter(
       doc => doc.viewAccess === 'public');
   return {

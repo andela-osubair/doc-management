@@ -158,7 +158,7 @@ class SignupForm extends React.Component {
             <div className="input-field col s12">
               <p className="margin center medium-small sign-up">
                 Already have an account?
-                <Link to="/"> Login</Link>
+                <Link to="/login"> Login</Link>
               </p>
             </div>
           </div>
