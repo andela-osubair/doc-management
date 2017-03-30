@@ -28,8 +28,6 @@ class DocumentPaginagion extends React.Component {
       return arr;
     }, []);
 
-
-    console.log('items', items);
     return (
         <div>
 

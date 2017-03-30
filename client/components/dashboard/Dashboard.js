@@ -106,4 +106,5 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps, { loadUserDocument, loadAllDocument })(DashboardPage);
+export default connect(mapStateToProps, { loadUserDocument,
+  loadAllDocument })(DashboardPage);

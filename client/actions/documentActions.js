@@ -90,7 +90,6 @@ export function loadUserDocument() {
 export function loadAllDocument() {
   return (dispatch) => {
     return axios.get('documents').then((res) => {
-      console.log('response', res);
       dispatch(loadDocumentSuccess(res.data));
     }).catch((err) => {
       throw (err);

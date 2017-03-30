@@ -94,7 +94,8 @@ class SearchModal extends React.Component {
                   </div>
                   <div className="col s6">
                     {this.state.value ?
-                    <h6>Result for "{this.state.value}" in Document Contents</h6>
+                    <h6>
+                      Result for "{this.state.value}" in Document Contents</h6>
                      : ''}
                     {this.state.contentResult.map(document =>
                       <div id="card-alert" className="card white"
