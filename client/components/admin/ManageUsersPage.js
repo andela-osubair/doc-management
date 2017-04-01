@@ -104,8 +104,8 @@ class ManageUserPage extends React.Component {
 
 ManageUserPage.propTypes = {
   allUsers: PropTypes.array.isRequired,
-  allRoles: PropTypes.object.isRequired,
-  actions: PropTypes.func.isRequired,
+  allRoles: PropTypes.array.isRequired,
+  actions: PropTypes.object.isRequired,
   roleAction: PropTypes.object.isRequired,
   selectedUser: PropTypes.string,
   userDetails: PropTypes.bool

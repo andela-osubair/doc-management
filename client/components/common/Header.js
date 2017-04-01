@@ -27,8 +27,9 @@ class Header extends React.Component {
     const { isAuthenticated } = this.props.auth;
     const userLinks = (
       <ul>
-        <li>
-          <a onClick={this.handleSearchModal} className="tooltipped"
+        <li id="searchClick">
+          <a
+            onClick={this.handleSearchModal} className="tooltipped"
             data-position="left" data-delay="50"
             data-tooltip="search for documents"
             >
@@ -43,22 +44,22 @@ class Header extends React.Component {
           <Link to="/">
             <i className="material-icons left">dashboard</i>Dashboard</Link>
         </li>
-        <li activeClassName="active">
+        <li activeClassName="active" id="docClick">
           <Link to="/document">My Documents</Link>
         </li>
           {this.props.isAdmin ?
-            <li>
+            <li className="admin">
               <Link to="/admin/manageroles">Manage Roles</Link>
             </li>
              : ''}
              {this.props.isAdmin ?
-               <li>
+               <li className="admin" id="adminTab">
                  <Link to="/admin/manageusers">Manage Users</Link>
                </li>
                : ''
              }
         <li>
-          <a href="#" onClick={this.logout}>Logout</a>
+          <a id="logout" href="#" onClick={this.logout}>Logout</a>
         </li>
       </ul>
     );

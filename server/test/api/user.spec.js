@@ -238,7 +238,8 @@ describe('User API', () => {
         });
     });
 
-    it('should return not update when user other than admin tries to update another data ', (done) => {
+    it('should return 403 updating another user without admin right ',
+    (done) => {
       server
         .put(`/users/${userData.newUser.id}`)
         .set('x-access-token', regUserData.token)
@@ -279,7 +280,8 @@ describe('User API', () => {
         });
     });
 
-    it('should return Not Authorize when user other than admin tries to delete another user', (done) => {
+    it('should return 403 deleting another user without admin right',
+    (done) => {
       server
         .delete('/users/1')
         .set('x-access-token', regUserData.token)

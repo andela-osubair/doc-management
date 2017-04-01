@@ -46,7 +46,6 @@ class LoginForm extends React.Component {
         this.props.addFlashMessage({
           type: 'error',
           text: 'Unable to login user, please try again' });
-        this.setState({ isLoading: false });
       });
     }
   }

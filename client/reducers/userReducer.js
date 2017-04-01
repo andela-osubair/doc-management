@@ -1,5 +1,5 @@
 import isEmpty from 'lodash/isEmpty';
-import * as types from '../actions/actionTypes';
+import types from '../actions/actionTypes';
 import initialState from './initialState';
 
 /**

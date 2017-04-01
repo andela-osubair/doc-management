@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as types from './actionTypes';
+import types from './actionTypes';
 
 /**
  *
@@ -75,8 +75,6 @@ export function loadUserDocument() {
     return axios.get(
       `users/${getState().auth.user.data.id}/alldocuments`).then((res) => {
         dispatch(loadDocumentSuccess(res.data));
-      }).catch((err) => {
-        throw (err);
       });
   };
 }
@@ -108,7 +106,6 @@ export function saveDocument(document) {
   return (dispatch) => {
     return axios.post('/documents/', document).then(() => {
       dispatch(loadUserDocument());
-      // dispatch(createDocumentSuccess(res.data.document));
     }).catch((err) => {
       throw (err);
     });

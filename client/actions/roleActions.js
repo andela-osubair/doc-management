@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as types from './actionTypes';
+import types from './actionTypes';
 
 /**
  * loadRoleSuccess action
@@ -45,8 +45,6 @@ export function loadRoles() {
   return (dispatch) => {
     return axios.get('/roles').then((res) => {
       dispatch(loadRoleSuccess(res.data.role));
-    }).catch((err) => {
-      throw (err);
     });
   };
 }
@@ -60,8 +58,6 @@ export function saveRole(role) {
   return (dispatch) => {
     return axios.post('/roles', role).then(() => {
       dispatch(loadRoles());
-    }).catch((err) => {
-      throw (err);
     });
   };
 }
@@ -76,8 +72,6 @@ export function updateRole(role) {
     const roleId = getState().manageRoles.selectedRole;
     return axios.put(`/roles/${roleId}`, role).then(() => {
       dispatch(loadRoles());
-    }).catch((err) => {
-      throw (err);
     });
   };
 }
@@ -91,8 +85,6 @@ export function deleteRole(id) {
   return (dispatch) => {
     return axios.delete(`/roles/${id}`).then(() => {
       dispatch(loadRoles());
-    }).catch((err) => {
-      throw (err);
     });
   };
 }

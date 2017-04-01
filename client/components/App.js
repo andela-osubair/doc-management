@@ -17,6 +17,8 @@ class App extends React.Component {
     $('select').material_select();
     $('.tooltipped').tooltip({ delay: 50 });
     $('.dropdown-button').dropdown();
+    $('ul.tabs').tabs();
+    $('ul.tabs').tabs('select_tab', 'public');
   }
   /**
    * @return {object} html

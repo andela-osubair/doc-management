@@ -174,7 +174,7 @@ describe('Roles API', () => {
 
     it('should return Role Not Found when udating invalid role', (done) => {
       server
-        .put(`/roles/10`)
+        .put('/roles/10')
         .set('x-access-token', userData.token)
         .send(fieldsToUpdate)
         .expect('Content-Type', /json/)
@@ -186,7 +186,7 @@ describe('Roles API', () => {
         });
     });
 
-    it('should return Error updating role when udating invalid role', (done) => {
+    it('should return 400 updating invalid role', (done) => {
       server
         .put('/roles/role')
         .set('x-access-token', userData.token)
@@ -202,7 +202,6 @@ describe('Roles API', () => {
   });
 
   describe('/DELETE Role', () => {
-
     it('should delete role data ', (done) => {
       server
           .delete(`/roles/${roleData.role.id}`)
@@ -218,7 +217,7 @@ describe('Roles API', () => {
 
     it('should not delete invalid role', (done) => {
       server
-          .delete(`/roles/10`)
+          .delete('/roles/10')
           .set('x-access-token', userData.token)
           .expect('Content-Type', /json/)
           .end((err, res) => {
@@ -229,7 +228,7 @@ describe('Roles API', () => {
           });
     });
 
-    it('should return Not Authorize when user other than admin tries to delete another user', (done) => {
+    it('should return 403 deleting a role without admin right', (done) => {
       server
           .delete('/roles/1')
           .set('x-access-token', regData.token)

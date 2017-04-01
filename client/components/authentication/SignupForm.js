@@ -98,7 +98,7 @@ class SignupForm extends React.Component {
 
   redirect() {
     toastr.success('User Successfully Created');
-    this.context.router.push('/dashboard');
+    this.context.router.push('/');
   }
 
   render() {
