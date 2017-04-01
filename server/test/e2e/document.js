@@ -25,7 +25,7 @@ module.exports = { // adapted from: https://git.io/vodU0
       .assert.urlEquals('http://localhost:4000/document')
       .assert.containsText('h4', 'My Documents')
       .assert.containsText('div[id="card-alert"]',
-      'INFO : You have 2 Documents')
+      'INFO : You have 3 Documents')
       .assert.elementPresent('div[id="addBtnDiv"]')
       .moveToElement('div[id="addBtnDiv"]', 0, 0)
       .mouseButtonClick(0)
@@ -41,7 +41,7 @@ module.exports = { // adapted from: https://git.io/vodU0
       .pause(1000)
       .waitForElementVisible('div[id="card-alert"]', 10000)
       .assert.containsText('div[id="card-alert"]',
-      'INFO : You have 3 Documents')
+      'INFO : You have 4 Documents')
       .end();
   }
 };
