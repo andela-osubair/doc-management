@@ -1,12 +1,12 @@
 /* eslint class-methods-use-this: "off"*/
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
 import { loadUserDocument,
   loadAllDocument } from '../../actions/documentActions';
 import PublicDodumentList from '../document/PublicDocumentList';
 import RoleDocumentList from '../document/RoleDocumentList';
 import PrivateDocumentList from '../document/PrivateDocumentList';
+import Modal from '../common/Modal';
 
 
 /**
@@ -29,6 +29,15 @@ class DashboardPage extends React.Component {
       this.props.loadUserDocument();
     }
   }
+
+  componentDidMount() {
+    $('.modal').modal();
+    $('select').material_select();
+    $('.tooltipped').tooltip({ delay: 50 });
+    $('.dropdown-button').dropdown();
+    $('ul.tabs').tabs();
+    $('ul.tabs').tabs('select_tab', 'public');
+  }
   /**
  * React Render
  * @return {object} html
@@ -38,22 +47,49 @@ class DashboardPage extends React.Component {
     return (
       <div className="row">
         <div className="col s12">
-          <div className="col s12 z-depth-5 card-panel">
+          <div id="dashboardBG" className="col s12 z-depth-5 card-panel">
             <h4>DASHBOARD</h4>
               <div className="container">
-                <h6>All Public Documents</h6>
-                <PublicDodumentList
-                  publicDocuments={publicDocuments} />
-                <br />
-                <div className="divider"></div>
-                <h6>All Accessible Role Documents</h6>
-                <RoleDocumentList roleDocuments={roleDocuments} />
-                  <br />
-                    <div className="divider"></div>
-                {this.state.isPrivate ?
+                <div className="row">
+                  <div className="col s12">
+                    <ul
+                      className="tabs tab-demo-active z-depth-1 pink darken-3">
+                      <li className="tab col s3">
+                      <a className="white-text waves-effect waves-light active"
+                          href="#public">Public Documents</a>
+                      </li>
+                      <li className="tab col s3">
+                        <a className="white-text waves-effect waves-light"
+                          href="#role">Role Access Documents</a>
+                      </li>
+                      <li className="tab col s3">
+                        <a className="white-text waves-effect waves-light"
+                          href="#private">Private</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="col s12">
+                    <Modal />
+                    <div id="public" className="col s12 tab-style">
+                      <h6>All Public Documents</h6>
+                      <PublicDodumentList
+                        publicDocuments={publicDocuments} />
 
-                  <h6>All Private Documents</h6> : ''}
-                <PrivateDocumentList privateDocuments={privateDocuments}/>
+                    </div>
+                    <div id="role" className="col s12 tab-style">
+                      <h6>All Accessible Role Documents</h6>
+                      <RoleDocumentList roleDocuments={roleDocuments} />
+
+                    </div>
+                    <div id="private" className="col s12 tab-style">
+                      {this.state.isPrivate ?
+
+                        <h6>All Private Documents</h6> : ''}
+                      <PrivateDocumentList privateDocuments={privateDocuments}/>
+
+                    </div>
+                  </div>
+                </div>
               </div>
           </div>
         </div>

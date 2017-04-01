@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import toastr from 'toastr';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import ReduxSweetAlert, { swal, close } from 'react-redux-sweetalert';
+import { addFlashMessage } from '../../actions/flashMessages';
 import * as documentActions from '../../actions/documentActions';
 
 class DocumentList extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      id: 0
+    };
     this.editDocument = this.editDocument.bind(this);
     this.deleteDocument = this.deleteDocument.bind(this);
+    this.renderAlert = this.renderAlert.bind(this);
   }
 
   componentDidMount() {
@@ -19,14 +25,33 @@ class DocumentList extends React.Component {
     const documentId = e.target.id;
     this.props.actions.setCurrentDocument(documentId);
   }
-  deleteDocument(e) {
+  deleteDocument() {
+    const documentId = this.state.id;
+    this.props.actions.deleteDocument(documentId)
+    .then(() => toastr.success('Document Successfully Deleted'))
+    .catch(() => {
+      this.props.addFlashMessage({
+        type: 'error',
+        text: 'Unable to delete document' });
+      toastr.error(
+        'Unable to delete document');
+    });
+    this.setState({ id: 0 });
+  }
+
+  renderAlert(e) {
     e.preventDefault();
-    const documentId = e.target.id;
-    const result = confirm('Do you want to delete this docuement?');
-    if (result) {
-      this.props.actions.deleteDocument(documentId)
-      .then(() => toastr.success('Document Successfully Deleted'));
-    }
+    let id = this.state.id;
+    id = e.target.id;
+    this.setState({ show: true, id });
+    this.props.swal({
+      title: 'Warning!',
+      text: 'Are you sure?',
+      type: 'info',
+      showCancelButton: true,
+      onConfirm: this.deleteDocument,
+      onCancel: this.props.close,
+    });
   }
   render() {
     return (
@@ -44,7 +69,11 @@ class DocumentList extends React.Component {
                 href="#modal1" id={document.id}
                 onClick={this.editDocument}>
               Title: {document.title}
+              <span className="badge list-badge">
+                Access: {document.viewAccess}</span>
               </a>
+
+
             </div>
             <div className="fixed-action-btn horizontal click-to-toggle edit">
               <a className="btn-floating pink tooltipped"
@@ -62,7 +91,7 @@ class DocumentList extends React.Component {
                     <i id={document.id} className="material-icons">mode_edit</i>
                   </a>
                 </li>
-                <li onClick={this.deleteDocument}>
+                <li onClick={this.renderAlert}>
                   <a className="btn-floating red darken-1 tooltipped"
                     data-position="bottom" data-delay="50"
                     data-tooltip="delete document"
@@ -73,13 +102,17 @@ class DocumentList extends React.Component {
               </ul>
             </div>
           </div>)}
+          <ReduxSweetAlert />
       </div>
     );
   }
 }
 
 DocumentList.propsTypes = {
-  actions: React.PropTypes.object.isRequired
+  actions: React.PropTypes.object.isRequired,
+  swal: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired,
+  addFlashMessage: React.PropTypes.func.isRequired,
 };
 
 /**
@@ -90,7 +123,10 @@ DocumentList.propsTypes = {
  */
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(documentActions, dispatch)
+    actions: bindActionCreators(documentActions, dispatch),
+    swal: bindActionCreators(swal, dispatch),
+    close: bindActionCreators(close, dispatch),
+    addFlashMessage: bindActionCreators(addFlashMessage, dispatch)
   };
 }
 

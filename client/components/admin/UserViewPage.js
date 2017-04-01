@@ -68,12 +68,8 @@ class UserViewPage extends React.Component {
 }
 
 UserViewPage.propTypes = {
-  // auth: React.PropTypes.object.isRequired,
   userValue: PropTypes.object.isRequired,
-  // actions: PropTypes.object.isRequired,
-  // roles: PropTypes.array.isRequired,
   currentUser: PropTypes.string,
-  // addFlashMessage: React.PropTypes.func.isRequired
 };
 
 /**

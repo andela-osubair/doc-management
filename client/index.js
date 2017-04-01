@@ -8,11 +8,12 @@ import { Router, browserHistory } from 'react-router';
 import jwtDecode from 'jwt-decode';
 import configureStore from './store/configureStore';
 import routes from './routes';
-import './styles/style.css'; // Webpack can import CSS files too!
-import '../node_modules/materialize-css/dist/js/materialize.min.js';
+import './styles/style.scss'; // Webpack can import CSS files too!
+import '../node_modules/materialize-css/dist/js/materialize.min';
 import '../node_modules/materialize-css/dist/css/materialize.min.css';
 import '../node_modules/material-icons/css/material-icons.css';
 import '../node_modules/toastr/build/toastr.min.css';
+import '../node_modules/sweetalert/dist/sweetalert.css';
 import setAuthorizationToken from './utils/setAuthorizationToken';
 import { setCurrentUser } from './actions/userActions';
 

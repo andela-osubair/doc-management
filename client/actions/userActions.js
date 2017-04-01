@@ -1,6 +1,6 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import * as types from './actionTypes';
+import types from './actionTypes';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 
 /**
@@ -109,7 +109,6 @@ export function loginUserSuccess(token) {
  *  login users
  *
  * @export
- * @param {any} token
  * @returns {Object} json object
  */
 export function loginUserFailure() {
@@ -205,12 +204,28 @@ export function getUser(id) {
 /**
  *
  *
+ * @export getUser
+ * @param {any} id
+ * @returns {Object} json object
+ */
+export function deleteUser(id) {
+  return (dispatch) => {
+    return axios.delete(`/users/${id}`)
+    .then(() => {
+      dispatch(loadUsers());
+    });
+  };
+}
+
+/**
+ *
+ *
  * @export
  * @param {any} identifier
  * @returns {objeect} uuser
  */
 export function isUserExists(identifier) {
-  return (dispatch) => {
+  return () => {
     return axios.get(`/api/users/${identifier}`);
   };
 }
@@ -230,7 +245,7 @@ export function login(user) {
       setAuthorizationToken(token);
       axios.defaults.headers.common.Authorization = token;
       dispatch(setCurrentUser(jwtDecode(token)));
-    }).catch((error) => { throw (error); });
+    });
   };
 }
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Modal from '../common/Modal';
 import * as documentActions from '../../actions/documentActions';
 
 class RoleDocumentList extends React.Component {
@@ -31,12 +30,12 @@ class RoleDocumentList extends React.Component {
               </a>
             </div>
             <div className="fixed-action-btn horizontal edit">
-              <a className="btn-floating pink" onClick={this.renderModal}>
+              <a className="btn-floating btn-flat pink"
+                onClick={this.renderModal}>
                 <i id={document.id} className="material-icons">more_vert</i>
               </a>
             </div>
           </div>)}
-          <Modal />
       </div>
     );
   }

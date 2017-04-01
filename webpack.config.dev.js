@@ -23,17 +23,17 @@ export default {
   },
   resolve: {
     alias: {
-      'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js')
+      jquery: path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js')
     }
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery",
-      "window.jQuery": "jquery",
-      Hammer: "hammerjs/hammer"
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+      Hammer: 'hammerjs/hammer'
     }),
   ],
   module: {
@@ -45,6 +45,9 @@ export default {
           path.join(__dirname, 'server')],
         loaders: ['babel-loader']
       }, {
+        test: /(\.scss)$/,
+        loaders: ['style-loader', 'css-loader', 'sass-loader']
+      }, {
         test: /(\.css)$/,
         loaders: ['style-loader', 'css-loader']
       }, {
@@ -52,10 +55,10 @@ export default {
         loader: 'file'
       }, {
         test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-        loader: "url?limit=10000&mimetype=application/font-woff"
+        loader: 'url?limit=10000&mimetype=application/font-woff'
       }, {
         test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-        loader: "url?limit=10000&mimetype=application/font-woff"
+        loader: 'url?limit=10000&mimetype=application/font-woff'
       }, {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'url?limit=10000&mimetype=application/octet-stream'

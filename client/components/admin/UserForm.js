@@ -193,10 +193,10 @@ class UserForm extends React.Component {
 
 
 UserForm.propTypes = {
-  allRoles: PropTypes.object.isRequired,
+  allRoles: PropTypes.array.isRequired,
   userValue: PropTypes.object.isRequired,
   updateUser: PropTypes.func,
-  actions: PropTypes.func.isRequired,
+  actions: PropTypes.object.isRequired,
   addFlashMessage: React.PropTypes.func.isRequired,
   selectedUser: PropTypes.string
 };

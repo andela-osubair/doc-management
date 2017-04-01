@@ -16,9 +16,6 @@ body {
     max-height: 80vh !important;
 }
 
-
-/* increase the width, height and prevent vertical scroll! However, i don't recommend this, its better to turn on vertical scrolling. */
-
 #modal2 {
     width: 95% !important;
     max-height: 100%;
@@ -48,4 +45,22 @@ body {
 
 #logincontainer{
   margin: 75px 0px 0px 0px ;
+}
+
+#dashboardBG{
+  height: 90vh;
+  overflow-y: scroll;
+}
+
+#documentPage{
+  height: 90vh;
+  overflow-y: scroll;
+}
+
+.tab-style{
+  border: 1px solid #eceff1;
+}
+
+.list-badge{
+  margin-right: 105px
 }

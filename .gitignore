@@ -32,6 +32,8 @@ jspm_packages
 .coveralls.yml
 coverage
 .env
+screenshots
+server/test/reports
 
 # Optional npm cache directory
 .npm

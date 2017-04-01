@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import DocumentList from './DocumentList';
 import * as documentActions from '../../actions/documentActions';
 import Modal from '../common/Modal';
-import DocumentPagination from './DocumentPagination';
 
 class DocumentPage extends React.Component {
   constructor(props) {
@@ -29,11 +28,13 @@ class DocumentPage extends React.Component {
 
   render() {
     const { myDocuments } = this.props;
+    const count = myDocuments.length;
     return (
       <div className="row">
-          <div className="col s12 z-depth-5 card-panel">
+          <div id="documentPage" className="col s12 z-depth-5 card-panel">
             <h4>My Documents</h4>
-        <div className="fixed-action-btn" onClick={this.deleteClick}>
+        <div id="addBtnDiv"
+          className="fixed-action-btn" onClick={this.deleteClick}>
           <a
   className="btn-floating btn-large waves-effect waves-light red tooltipped"
   data-position="left" data-delay="50"
@@ -48,10 +49,9 @@ class DocumentPage extends React.Component {
               <div className="col s5">
                 <div id="card-alert" className="card deep-purple lighten-5">
                           <div className="card-content deep-purple-text">
-                            <p>INFO : You have 18 messages</p>
+                            <p>INFO : You have {count} Documents</p>
                           </div>
                         </div>
-                        <DocumentPagination myDocuments={myDocuments} />
               </div>
               <div className="col s7">
                 <DocumentList myDocuments={myDocuments}/>

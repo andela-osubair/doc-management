@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Modal from '../common/Modal';
 import * as documentActions from '../../actions/documentActions';
 
 class PrivateDocumentList extends React.Component {
@@ -36,7 +35,6 @@ class PrivateDocumentList extends React.Component {
               </a>
             </div>
           </div>)}
-          <Modal />
       </div>
     );
   }

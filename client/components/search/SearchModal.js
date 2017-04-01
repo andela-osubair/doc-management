@@ -79,7 +79,8 @@ class SearchModal extends React.Component {
                 <div className="row">
                   <div className="col s6">
                     {this.state.value ?
-                    <h6>Result for "{this.state.value}" in Document Title</h6>
+                    <h6 id="searchResult">
+                      Result for "{this.state.value}" in Document Title</h6>
                      : ''}
                     {this.state.titleResult.map(document =>
                       <div id="card-alert" className="card white"
@@ -104,13 +105,6 @@ class SearchModal extends React.Component {
                           <a className="pointer" id={document.id}
                             onClick={this.renderModal}>
                           Title: {document.title}
-                          </a>
-                        </div>
-                        <div className="fixed-action-btn horizontal edit">
-                          <a className="btn-floating pink"
-                            onClick={this.renderModal}>
-                            <i id={document.id}
-                              className="material-icons">more_vert</i>
                           </a>
                         </div>
                       </div>)}
