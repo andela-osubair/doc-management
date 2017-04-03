@@ -9,8 +9,6 @@ before_script:
   - psql -c 'create database docman_test;' -U postgres
 script:
 - npm test
-# Run selenium tests
-- npm run test:e2e
 
 
 after_success:

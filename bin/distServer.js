@@ -7,7 +7,7 @@ import app from '../server/app'; // express server
 
 /* eslint-disable no-console */
 
-const port = 4000;
+const port = parseInt(process.env.PORT, 10) || 4000;
 
 app.use(compression());
 app.use(express.static('dist'));
@@ -19,7 +19,5 @@ app.get('*', (req, res) => {
 app.listen(port, (err) => {
   if (err) {
     console.log(err);
-  } else {
-    open(`http://localhost:${port}`);
   }
 });

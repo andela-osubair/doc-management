@@ -10,12 +10,15 @@ export default {
   debug: true,
   devtool: 'source-map',
   noInfo: false,
-  entry: path.resolve(__dirname, 'client/index'),
+  entry: {
+    bundle: path.resolve(__dirname, 'client/index'),
+    distServer: path.resolve(__dirname, 'bin/distServer'),
+  },
   target: 'web',
   output: {
     path: `${__dirname}/dist`,
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: '[name].js'
   },
   devServer: {
     contentBase: path.resolve(__dirname, 'dist')
@@ -45,7 +48,8 @@ export default {
         include: [
           path.join(__dirname, 'client'),
           path.join(__dirname, 'server')],
-        loaders: ['babel']
+        loaders: ['babel-loader?presets[]=es2015']
+
       }, {
         test: /(\.css)$/,
         loader: ExtractTextPlugin.extract('css?sourceMap')
