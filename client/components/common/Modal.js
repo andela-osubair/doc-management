@@ -30,7 +30,7 @@ class Modal extends React.Component {
   }
 }
 
-Modal.propsTypes = {
+Modal.propTypes = {
   auth: PropTypes.object.isRequired
 };
 

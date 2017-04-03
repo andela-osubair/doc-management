@@ -28,20 +28,6 @@ export function createDocumentSuccess(document) {
 
 /**
  *
- *
- * @export
- * @param {any} document
- * @returns {any} document
- */
-export function updateDocumentSuccess(document) {
-  return {
-    type: types.UPDATE_DOCUMENT_SUCCESS,
-    document
-  };
-}
-
-/**
- *
  * set in state the selcted document
  * @export
  * @param {any} id

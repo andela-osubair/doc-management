@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { loadUserDocument,
   loadAllDocument } from '../../actions/documentActions';
-import PublicDodumentList from '../document/PublicDocumentList';
+import PublicDocumentList from '../document/PublicDocumentList';
 import RoleDocumentList from '../document/RoleDocumentList';
 import PrivateDocumentList from '../document/PrivateDocumentList';
 import Modal from '../common/Modal';
@@ -22,7 +22,7 @@ class DashboardPage extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.auth.user.data.roleId === 1) {
+    if (this.props.auth.roleId === 1) {
       this.props.loadAllDocument();
       this.setState({ isPrivate: true });
     } else {
@@ -72,7 +72,7 @@ class DashboardPage extends React.Component {
                     <Modal />
                     <div id="public" className="col s12 tab-style">
                       <h6>All Public Documents</h6>
-                      <PublicDodumentList
+                      <PublicDocumentList
                         publicDocuments={publicDocuments} />
 
                     </div>
@@ -99,10 +99,10 @@ class DashboardPage extends React.Component {
 
 }
 
-DashboardPage.propsTypes = {
-  publicDocuments: PropTypes.object.isRequired,
-  privateDocuments: PropTypes.object.isRequired,
-  roleDocuments: PropTypes.object.isRequired,
+DashboardPage.propTypes = {
+  publicDocuments: PropTypes.array.isRequired,
+  privateDocuments: PropTypes.array.isRequired,
+  roleDocuments: PropTypes.array.isRequired,
   loadUserDocument: PropTypes.func.isRequired,
   loadAllDocument: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
@@ -135,7 +135,7 @@ function mapStateToProps(state) {
 
   return {
     publicDocuments,
-    auth: state.auth,
+    auth: state.auth.user.data,
     roleDocuments,
     privateDocuments
   };

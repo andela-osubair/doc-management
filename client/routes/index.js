@@ -9,6 +9,7 @@ import requireAdminAuth from '../utils/requireAdminAuth';
 import DocumentPage from '../components/document/DocumentPage';
 import ManangeRolePage from '../components/admin/ManageRolePage';
 import ManageUserPage from '../components/admin/ManageUsersPage';
+import NotFound from '../components/PageNotFound/NotFound';
 
 export default (
   <Route path="/" component={App}>
@@ -20,5 +21,6 @@ export default (
       component={requireAdminAuth(ManangeRolePage)} />
     <Route path="admin/manageusers"
         component={requireAdminAuth(ManageUserPage)} />
+      <Route path="*" component={NotFound} />
   </Route>
 );

@@ -24,7 +24,12 @@ export default {
           .create(req.body)
           .then((newUser) => {
             const token = jwt.sign({
-              data: newUser
+              data:
+              { id: newUser.id,
+                name: newUser.name,
+                username: newUser.username,
+                email: newUser.email,
+                roleId: newUser.roleId }
             }, secret, {
               expiresIn: '24h' // expires in 24 hours
             });

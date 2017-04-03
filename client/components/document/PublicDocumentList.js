@@ -27,6 +27,9 @@ class PublicDocumentList extends React.Component {
               <a className="pointer" id={document.id}
                 onClick={this.renderModal}>
               Title: {document.title}
+              <span className="badge list-badge">
+                Author: {document.User.name}</span>
+
               </a>
             </div>
             <div className="fixed-action-btn horizontal edit">
@@ -41,8 +44,8 @@ class PublicDocumentList extends React.Component {
   }
 }
 
-PublicDocumentList.propsTypes = {
-  publicDocuments: React.PropTypes.isRequired,
+PublicDocumentList.propTypes = {
+  publicDocuments: React.PropTypes.array.isRequired,
   actions: React.PropTypes.object.isRequired
 };
 

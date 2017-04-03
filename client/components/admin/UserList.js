@@ -114,8 +114,9 @@ class UserList extends React.Component {
   }
 }
 
-UserList.propsTypes = {
+UserList.propTypes = {
   actions: PropTypes.object.isRequired,
+  allUsers: PropTypes.array.isRequired,
   swal: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
   addFlashMessage: React.PropTypes.func.isRequired,

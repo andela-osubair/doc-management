@@ -21,7 +21,12 @@ export default {
           });
         }
         const token = jwt.sign({
-          data: user
+          data:
+          { id: user.id,
+            name: user.name,
+            username: user.username,
+            email: user.email,
+            roleId: user.roleId }
         }, secret, {
           expiresIn: '24h' // expires in 24 hours
         });

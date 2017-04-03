@@ -84,7 +84,7 @@ export function createUserSuccess(user) {
  * @returns {Object} json object
  */
 export function getUserSuccess(name) {
-  return { type: types.GET_USER_SUCCESSS, name };
+  return { type: types.GET_USER_SUCCESS, name };
 }
 
 

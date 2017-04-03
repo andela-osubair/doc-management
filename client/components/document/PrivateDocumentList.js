@@ -26,6 +26,8 @@ class PrivateDocumentList extends React.Component {
               <a className="pointer" id={document.id}
                 onClick={this.renderModal}>
               Title: {document.title}
+              <span className="badge list-badge">
+                Author: {document.User.name}</span>
               </a>
             </div>
             <div className="fixed-action-btn horizontal edit">
@@ -40,8 +42,8 @@ class PrivateDocumentList extends React.Component {
   }
 }
 
-PrivateDocumentList.propsTypes = {
-  privateDocuments: React.PropTypes.isRequired,
+PrivateDocumentList.propTypes = {
+  privateDocuments: React.PropTypes.array.isRequired,
   actions: React.PropTypes.object.isRequired
 };
 

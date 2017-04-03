@@ -25,25 +25,132 @@ describe('User Reducer', () => {
     done();
   });
 
-  // it('should update course when passed UPDATE_COURSE_SUCCESS', () => {
-  //   // arrange
-  //   const initialState = [
-  //     { id: 'A', title: 'A' },
-  //     { id: 'B', title: 'B' },
-  //     { id: 'C', title: 'C' }
-  //   ];
-  //
-  //   const course = { id: 'B', title: 'New Title' };
-  //   const action = actions.updateCourseSuccess(course);
-  //
-  //   // act
-  //   const newState = courseReducer(initialState, action);
-  //   const updatedCourse = newState.find(a => a.id == course.id);
-  //   const untouchedCourse = newState.find(a => a.id == 'A');
-  //
-  //   // assert
-  //   expect(updatedCourse.title).toEqual('New Title');
-  //   expect(untouchedCourse.title).toEqual('A');
-  //   expect(newState.length).toEqual(3);
-  // });
+  it('should get user when passed GET_USER_SUCCESS', (done) => {
+    const action = actions.getUserSuccess('Subair Oyindamola');
+
+    // act
+    const newState = userReducer(initialState.manageUsers, action);
+    // assert
+    expect(newState.length).toEqual(1);
+    expect(newState[0].owner).toEqual('Subair Oyindamola');
+    done();
+  });
+
+  it('should load users when passed LOAD_USER_SUCCESS', (done) => {
+    // arrange
+    const user = [{
+      name: 'test reducer',
+      username: 'testreduce',
+      email: 'testreduce@gmail.com',
+      password: 'password',
+      roleId: 2
+    }, {
+      name: 'test user',
+      username: 'usertest',
+      email: 'usere@gmail.com',
+      password: 'password',
+      roleId: 2
+    }];
+
+    const action = actions.loadUserSuccess(user);
+
+    // act
+    const newState = userReducer(initialState.manageUsers, action);
+
+    // assert
+    expect(newState.allUsers.length).toEqual(2);
+    expect(newState.allUsers[0].name).toEqual('test reducer');
+    expect(newState.allUsers[1].name).toEqual('test user');
+    done();
+  });
+
+  it('should set selected users when passed SET_SELECTED_USER', (done) => {
+    // arrange
+    const user = [{
+      id: 1,
+      name: 'test reducer',
+      username: 'testreduce',
+      email: 'testreduce@gmail.com',
+      password: 'password',
+      roleId: 1
+    }, {
+      id: 2,
+      name: 'test user',
+      username: 'usertest',
+      email: 'usere@gmail.com',
+      password: 'password',
+      roleId: 2
+    }];
+
+    const action = actions.setSelectedUser(user[0].id);
+
+    // act
+    const newState = userReducer(initialState.manageUsers, action);
+
+    // assert
+    expect(newState.selectedUser).toEqual(1);
+    done();
+  });
+
+  it('should set userDetails to true when passed DISPLAY_SELECT_USER',
+  (done) => {
+    // arrange
+    const user = [{
+      id: 1,
+      name: 'test reducer',
+      username: 'testreduce',
+      email: 'testreduce@gmail.com',
+      password: 'password',
+      roleId: 1
+    }, {
+      id: 2,
+      name: 'test user',
+      username: 'usertest',
+      email: 'usere@gmail.com',
+      password: 'password',
+      roleId: 2
+    }];
+
+    const action = actions.displaySelectedUser(String(user[0].id));
+
+    // act
+    const newState = userReducer(initialState.manageUsers, action);
+
+    // assert
+    expect(newState.userDetails).toEqual(true);
+    done();
+  });
+
+  it('should get user when passed DELETE_SELECTED_USER', (done) => {
+    // arrange
+    const user = [{
+      id: 1,
+      name: 'test reducer',
+      username: 'testreduce',
+      email: 'testreduce@gmail.com',
+      password: 'password',
+      roleId: 1
+    }, {
+      id: 2,
+      name: 'test user',
+      username: 'usertest',
+      email: 'usere@gmail.com',
+      password: 'password',
+      roleId: 2
+    }];
+    let newState;
+    let action;
+    action = actions.setSelectedUser(user[0].id);
+
+    newState = userReducer(initialState.manageUsers, action);
+    expect(newState.selectedUser).toEqual(1);
+
+    action = actions.deleteSelectedUser(user[0].id);
+
+    // act
+    newState = userReducer(initialState.manageUsers, action);
+    // assert
+    expect(newState.selectedUser).toNotExist();
+    done();
+  });
 });

@@ -69,6 +69,7 @@ class DocumentPage extends React.Component {
 
 DocumentPage.propTypes = {
   myDocuments: PropTypes.array.isRequired,
+  publicDocuments: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired,
 };
 
