@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "prestart": "babel-node bin/startMessage.js",
-    "heroku-postbuild": "npm run build",
     "start": "npm run postbuild",
     "open:www": "babel-node bin/www.js",
     "start:dev": "npm-run-all --parallel open:www",
