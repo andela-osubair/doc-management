@@ -8,6 +8,12 @@ export const roles = [{
 }];
 
 export const users = [{
+  name: 'adminatrator',
+  username: 'admin',
+  email: 'admin@email.com',
+  password: 'password',
+  roleId: 1
+}, {
   name: 'Subair Oyindamola',
   username: 'oyendah',
   email: 'oyendah@gmail.com',
