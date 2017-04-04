@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /* eslint no-unused-vars: "off" */
 import colors from 'colors';
 

@@ -25,6 +25,10 @@ const Helpers = {
     const itemToCheck = document ? String(document.userId) : req.params.id;
     return String(req.decoded.data.id) === itemToCheck;
   },
+
+  getPaginatedItems(items, offset, limit) {
+    return items.slice(offset, offset + limit);
+  }
 };
 
 export default Helpers;

@@ -140,13 +140,15 @@ export function saveUser(user) {
 
 
 /**
- * load all users from database
- * @return {object} response from api call
+ * [loadUsers description]
+ * @param  {number} limit  [description]
+ * @param  {number} offset [description]
+ * @return {[type]}        [description]
  */
-export function loadUsers() {
+export function loadUsers(limit, offset) {
   return (dispatch) => {
-    return axios.get('/users').then((res) => {
-      dispatch(loadUserSuccess(res.data.user));
+    return axios.get(`/users?limit=${limit}&offset=${offset}`).then((res) => {
+      dispatch(loadUserSuccess(res.data));
     }).catch((err) => {
       throw (err);
     });
@@ -163,8 +165,6 @@ export function updateUserAdmin(user) {
     const userId = getState().manageUsers.selectedUser;
     return axios.put(`/users/${userId}`, user).then(() => {
       dispatch(loadUsers());
-    }).catch((err) => {
-      throw (err);
     });
   };
 }
@@ -181,7 +181,7 @@ export function saveUserAdmin(user) {
     return axios.post('/users', user)
     .then(() => {
       dispatch(loadUsers());
-    }).catch((error) => { throw (error); });
+    });
   };
 }
 
@@ -197,7 +197,7 @@ export function getUser(id) {
     return axios.get(`/users/${id}`)
     .then((res) => {
       dispatch(getUserSuccess(res.data.user.name));
-    }).catch((error) => { throw (error); });
+    });
   };
 }
 

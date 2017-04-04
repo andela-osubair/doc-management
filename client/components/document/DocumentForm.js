@@ -66,7 +66,10 @@ class DocumentForm extends React.Component {
   }
 
   updateSelectState(event) {
-    this.setState({ select: event.target.value });
+    const document = this.state.document;
+    document.viewAccess = event.target.value;
+    this.setState({ document, select: event.target.value });
+    console.log('event', event.target.value);
   }
 
   handleModelChange(model) {
@@ -150,7 +153,7 @@ class DocumentForm extends React.Component {
           <div className="input-field col s12">
             <select name="viewAccess" id="mySelectBox"
             value={this.state.select}
-            className="browser-default" onChange={this.updateSelectState}>
+            className="browser-default">
             <option value="" disabled >Restrict Document Access</option>
               <option value="public">Public</option>
               <option value="private">Private</option>

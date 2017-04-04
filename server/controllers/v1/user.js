@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import util from 'util';
 import model from '../../models/';
 import Helpers from '../../helper/Helper';
 
@@ -41,15 +42,32 @@ export default {
       });
   },
   list(req, res) {
+    let limit = req.query.limit, offset = req.query.offset;
+    if (limit === 'undefined') {
+      limit = 10;
+    }
+    if (offset === 'undefined') {
+      offset = 0;
+    }
+    const nextOffset = offset + limit;
+    const previousOffset = (offset - limit < 1) ? 0 : offset - limit;
     return User
-      .findAll({ offset: req.query.offset || 0, limit: req.query.limit || 20 })
+      .findAll()
       .then((user) => {
         if (!user) {
           return res.status(404).send({ message: 'No User Found' });
         }
-        return res
-          .status(200)
-          .send({ status: true, user });
+        const meta = {
+          limit,
+          next: util.format('?limit=%s&offset=%s', limit, nextOffset),
+          offset,
+          previous: util.format(
+            '?limit=%s&offset=%s', limit, previousOffset),
+          total_count: user.length
+        };
+        const result = Helpers.getPaginatedItems(user, offset, limit);
+        return res.status(200).send({
+          user: result, pageMeta: meta });
       })
       .catch(error => res.status(400).send({
         error, message: 'Error retrieving users' }));

@@ -25,7 +25,10 @@ export default function userReducer(state = initialState.manageUsers, action) {
     ];
 
   case types.LOAD_USER_SUCCESS:
-    return Object.assign({}, ...state, { allUsers: action.user });
+    return Object.assign({}, ...state, {
+      allUsers: action.user.user,
+      pageCount: Math.ceil(action.user.pageMeta.total_count /
+         action.user.pageMeta.limit) });
 
   case types.SET_SELECTED_USER:
     return Object.assign({}, state, { selectedUser: action.id });

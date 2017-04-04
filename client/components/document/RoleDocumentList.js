@@ -34,7 +34,7 @@ class RoleDocumentList extends React.Component {
             <div className="fixed-action-btn horizontal edit">
               <a className="btn-floating btn-flat pink"
                 onClick={this.renderModal}>
-                <i id={document.id} className="material-icons">more_vert</i>
+                <i id={document.id} className="material-icons">view_list</i>
               </a>
             </div>
           </div>)}
