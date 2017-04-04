@@ -69,7 +69,6 @@ class DocumentForm extends React.Component {
     const document = this.state.document;
     document.viewAccess = event.target.value;
     this.setState({ document, select: event.target.value });
-    console.log('event', event.target.value);
   }
 
   handleModelChange(model) {

@@ -38,25 +38,30 @@ describe('User Reducer', () => {
 
   it('should load users when passed LOAD_USER_SUCCESS', (done) => {
     // arrange
-    const user = [{
+    const data = { user: [{
       name: 'test reducer',
       username: 'testreduce',
       email: 'testreduce@gmail.com',
       password: 'password',
       roleId: 2
-    }, {
+    },
+    {
       name: 'test user',
       username: 'usertest',
       email: 'usere@gmail.com',
       password: 'password',
       roleId: 2
-    }];
+    }],
+      pageMeta: {
+        limit: 1,
+        offset: 0,
+        total_count: 2
+      } };
 
-    const action = actions.loadUserSuccess(user);
+    const action = actions.loadUserSuccess(data);
 
     // act
     const newState = userReducer(initialState.manageUsers, action);
-
     // assert
     expect(newState.allUsers.length).toEqual(2);
     expect(newState.allUsers[0].name).toEqual('test reducer');
