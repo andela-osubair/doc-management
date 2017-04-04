@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "prestart": "babel-node bin/startMessage.js",
-    "heroku-postbuild": "npm run build",
-    "start": "npm-run-all --parallel open:www",
+    "start": "npm run postbuild",
     "open:www": "babel-node bin/www.js",
+    "start:dev": "npm-run-all --parallel open:www",
     "lint": "node_modules/.bin/esw webpack.config.* client server",
     "lint:watch": "npm run lint -- --watch",
     "test:e2e": "nightwatch --config nightwatch.conf.js",
@@ -26,8 +26,7 @@
     "build:html": "babel-node bin/buildHtml.js",
     "prebuild": "npm-run-all clean-dist build:html",
     "build" : "babel-node bin/build.js",
-    "postbuild": "babel-node bin/distServer.js",
-    "bundled":"babel bin/ --out-dir dist/bin --ignore bin/build*.js,bin/www.js,bin/startMessage.js"
+    "postbuild": "babel-node bin/distServer.js"
   },
   "repository": {
     "type": "git",

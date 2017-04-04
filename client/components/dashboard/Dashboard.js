@@ -22,11 +22,13 @@ class DashboardPage extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.auth.roleId === 1) {
-      this.props.loadAllDocument();
-      this.setState({ isPrivate: true });
-    } else {
-      this.props.loadUserDocument();
+    if (this.props.isAuthenticated) {
+      if (this.props.auth.roleId === 1) {
+        this.props.loadAllDocument();
+        this.setState({ isPrivate: true });
+      } else {
+        this.props.loadUserDocument();
+      }
     }
   }
 
@@ -105,7 +107,8 @@ DashboardPage.propTypes = {
   roleDocuments: PropTypes.array.isRequired,
   loadUserDocument: PropTypes.func.isRequired,
   loadAllDocument: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 };
 
 
@@ -136,6 +139,7 @@ function mapStateToProps(state) {
   return {
     publicDocuments,
     auth: state.auth.user.data,
+    isAuthenticated: state.auth.isAuthenticated,
     roleDocuments,
     privateDocuments
   };

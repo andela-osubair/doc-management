@@ -120,7 +120,7 @@ class SearchModal extends React.Component {
 }
 
 SearchModal.propTypes = {
-  stateDocuments: PropTypes.object.isRequired,
+  stateDocuments: PropTypes.array.isRequired,
   auth: PropTypes.object.isRequired,
   actions: React.PropTypes.object.isRequired
 };
