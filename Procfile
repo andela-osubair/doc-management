@@ -1,1 +1,1 @@
-web: babel-node bin/distServer.js
+web: babel-node bin/distServer
