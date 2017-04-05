@@ -7,7 +7,7 @@ const Documents = model.Documents;
 
 export default {
   userSearch(req, res) {
-    let limit = req.query.limit, offset = req.query.offset;
+    let limit = req.query.limit || 10, offset = req.query.offset || 0;
     if (limit === 'undefined') {
       limit = 10;
     }
@@ -40,10 +40,10 @@ export default {
         const meta = {
           limit,
           next: util.format(
-            '?q=%slimit=%s&offset=%s', query, limit, nextOffset),
+            '?q=%s&limit=%s&offset=%s', query, limit, nextOffset),
           offset,
           previous: util.format(
-            '?q=%slimit=%s&offset=%s', query, limit, previousOffset),
+            '?q=%s&limit=%s&offset=%s', query, limit, previousOffset),
           total_count: user.length
         };
         const result = Helpers.getPaginatedItems(user, offset, limit);

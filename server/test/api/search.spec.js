@@ -44,7 +44,7 @@ describe('Search API', () => {
           'x-access-token': adminDetails.token
         })
         .end((err, res) => {
-          expect(res.body[0].username).toExist();
+          expect(res.body.user[0].username).toExist();
           done();
         });
     });
