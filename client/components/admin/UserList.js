@@ -14,7 +14,7 @@ class UserList extends React.Component {
     this.state = {
       id: 0,
       offset: 0,
-      limit: 5
+      limit: 10
     };
 
     this.editUser = this.editUser.bind(this);
@@ -131,6 +131,7 @@ class UserList extends React.Component {
                        onPageChange={this.handlePageClick}
                        containerClassName={'pagination'}
                        subContainerClassName={'pages pagination'}
+                       pageClassName={'waves-effect'}
                        activeClassName={'active'} />
         <ReduxSweetAlert />
       </div>

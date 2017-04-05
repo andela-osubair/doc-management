@@ -111,8 +111,13 @@ body {
   position: absolute;
   right: 10px;
   bottom: 10px;
-  
+
   a {
     color: rgb(228, 146, 162);
   }
+}
+
+.pagination li a {
+  cursor: pointer;
+  color: #999;
 }

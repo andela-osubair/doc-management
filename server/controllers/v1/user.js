@@ -185,5 +185,17 @@ export default {
       })
       .catch(error => res.status(400).send({
         error, message: 'Error occurred while retrieving user' }));
+  },
+  getAllUsers(req, res) {
+    return User
+      .findAll()
+      .then((user) => {
+        if (!user) {
+          return res.status(404).send({ message: 'No Users Found' });
+        }
+        return res.status(200).send({ user });
+      })
+      .catch(error => res.status(400).send({
+        error, message: 'Error retrieving users' }));
   }
 };

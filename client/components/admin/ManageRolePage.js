@@ -10,9 +10,7 @@ class ManangeRolePage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      viewForm: false
-    };
+    this.state = { viewForm: false };
 
     this.closeClick = this.closeClick.bind(this);
     this.openFormClick = this.openFormClick.bind(this);
@@ -52,7 +50,7 @@ class ManangeRolePage extends React.Component {
   }
 
   render() {
-    const { allRoles } = this.props;
+    const { allRoles, currentRole } = this.props;
     return (
       <div>
         <div className="row">
@@ -81,7 +79,7 @@ class ManangeRolePage extends React.Component {
                           <i className="material-icons">close</i></a>
                       </div>
                       <h6>Add New Role</h6>
-                      <RoleForm />
+                      <RoleForm currentRole={currentRole} />
                     </div>
                      :
                       this.renderRoleForm()}

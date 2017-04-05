@@ -26,6 +26,13 @@ const Helpers = {
     return String(req.decoded.data.id) === itemToCheck;
   },
 
+/**
+ *getPaginatedItems - get items to pagination
+ *@param {object} items
+ *@param {number} offset
+ *@param {number} limit
+ *@return {object}
+ */
   getPaginatedItems(items, offset, limit) {
     return items.slice(offset, offset + limit);
   }

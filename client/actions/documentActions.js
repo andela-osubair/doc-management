@@ -75,8 +75,6 @@ export function loadAllDocument() {
   return (dispatch) => {
     return axios.get('documents').then((res) => {
       dispatch(loadDocumentSuccess(res.data));
-    }).catch((err) => {
-      throw (err);
     });
   };
 }
@@ -92,8 +90,6 @@ export function saveDocument(document) {
   return (dispatch) => {
     return axios.post('/documents/', document).then(() => {
       dispatch(loadUserDocument());
-    }).catch((err) => {
-      throw (err);
     });
   };
 }
@@ -110,9 +106,6 @@ export function updateDocument(document) {
     const documentId = getState().manageDocuments.selectedDocument;
     return axios.put(`/documents/${documentId}`, document).then(() => {
       dispatch(loadUserDocument());
-      // dispatch(updateDocumentSuccess(res.data.updatedDoc));
-    }).catch((err) => {
-      throw (err);
     });
   };
 }
@@ -128,8 +121,6 @@ export function deleteDocument(id) {
   return (dispatch) => {
     return axios.delete(`/documents/${id}`).then(() => {
       dispatch(loadUserDocument());
-    }).catch((err) => {
-      throw (err);
     });
   };
 }

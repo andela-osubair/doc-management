@@ -2,9 +2,11 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import toastr from 'toastr';
 import UserList from './UserList';
 import * as userActions from '../../actions/userActions';
 import * as roleActions from '../../actions/roleActions';
+import * as searchActions from '../../actions/searchActions';
 import UserViewPage from './UserViewPage';
 import UserForm from './UserForm';
 import UserSearchList from './UserSearchList';
@@ -15,16 +17,18 @@ class ManageUserPage extends React.Component {
     this.state = {
       viewForm: false,
       search: false,
+      showResult: false,
       userSearchResult: [],
       value: ''
     };
     this.addUser = this.addUser.bind(this);
     this.onChange = this.onChange.bind(this);
     this.clearSearchResult = this.clearSearchResult.bind(this);
+    this.searchUserClick = this.searchUserClick.bind(this);
   }
 
   componentWillMount() {
-    this.props.actions.loadUsers(5, 0);
+    this.props.actions.loadUsers(10, 0);
     if (this.props.allRoles.length === 0) {
       this.props.roleAction.loadRoles();
     }
@@ -38,19 +42,22 @@ class ManageUserPage extends React.Component {
 
   onChange(e) {
     e.preventDefault();
-    const value = e.target.value;
-    let searchResult;
+    this.setState({ value: e.target.value });
+  }
+
+  searchUserClick(e) {
+    e.preventDefault();
+    const value = this.state.value;
     if (value.trim() !== '') {
-      value.toLowerCase();
-      searchResult = this.props.allUsers.filter((user) => {
-        const username = user.username.toLowerCase();
-        const email = user.email.toLowerCase();
-        return email.includes(value) || username.includes(value);
+      this.props.searchAction.searchUser(value, 10, 0).then(() => {
+        this.setState({ value, search: true, showResult: true });
+      }).catch(() => {
+        toastr.error(
+          'User not found');
       });
-      this.setState({
-        userSearchResult: searchResult,
-        value,
-        search: true });
+    } else {
+      toastr.error(
+        'search text field is empty, please enter a search term');
     }
   }
 
@@ -81,7 +88,9 @@ class ManageUserPage extends React.Component {
 
   render() {
     const { allUsers, allRoles,
-      selectedUser, userDetails, pageCount } = this.props;
+      selectedUser, userDetails, pageCount,
+      searchedUsers, searchedPageCount
+     } = this.props;
     return (
       <div>
         <div className="row">
@@ -111,22 +120,29 @@ class ManageUserPage extends React.Component {
                               className="validate"
                               onChange={this.onChange}
                                />
-                            <label htmlFor="icon_prefix">search users</label>
+                             <label htmlFor="icon_prefix">
+                               search with username or email</label>
                           </div>
                           {this.state.search ?
                             <input type="submit" value="Clear"
                   className="btn waves-effect waves-light pink darken-1 right"
                   onClick={this.clearSearchResult}
-                          /> : ''}
+                          /> : <input type="submit" value="Search"
+                className="btn waves-effect waves-light pink darken-1 right"
+                onClick={this.searchUserClick}/>
+              }
                         </div>
                       </form>
                     </div>
-                    {this.state.search ?
+                    {this.state.showResult ?
                       <div>
                     <h6 id="searchResult">
                       Result for "{this.state.value}" user </h6>
                       <UserSearchList
-                        userSearchResult={this.state.userSearchResult}/>
+                        searchedUsers={searchedUsers}
+                        searchedPageCount={searchedPageCount}
+                        value={this.state.value}
+                        />
                     </div>
                     : <UserList allUsers={allUsers}
                     pageCount = {pageCount}
@@ -155,9 +171,12 @@ ManageUserPage.propTypes = {
   allRoles: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired,
   roleAction: PropTypes.object.isRequired,
+  searchAction: PropTypes.object.isRequired,
   selectedUser: PropTypes.string,
   userDetails: PropTypes.bool,
-  pageCount: PropTypes.number
+  pageCount: PropTypes.number,
+  searchedUsers: PropTypes.array.isRequired,
+  searchedPageCount: PropTypes.number
 };
 
 /**
@@ -171,12 +190,16 @@ function mapStateToProps(state) {
   const allRoles = state.manageRoles.roles;
   const allUsers = currentState.allUsers;
   const pageCount = currentState.pageCount;
+  const searchedUsers = state.manageSearch.searchedUsers;
+  const searchedPageCount = state.manageSearch.searchedPageCount;
   return {
     allUsers,
     allRoles,
+    searchedUsers,
     selectedUser: currentState.selectedUser,
     userDetails: currentState.userDetails,
-    pageCount
+    pageCount,
+    searchedPageCount
   };
 }
 
@@ -190,6 +213,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(userActions, dispatch),
     roleAction: bindActionCreators(roleActions, dispatch),
+    searchAction: bindActionCreators(searchActions, dispatch)
   };
 }
 

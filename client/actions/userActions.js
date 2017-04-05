@@ -16,6 +16,18 @@ export function loadUserSuccess(user) {
 }
 
 /**
+ * [loadAllUserSuccess description]
+ * @param  {object} user user response fron api call in the thunk
+ * @return {object}      reponse dispatched to reducer
+ */
+export function loadAllUserSuccess(user) {
+  return {
+    type: types.LOAD_ALLUSERS_SUCCESS,
+    user
+  };
+}
+
+/**
  *
  *
  * @export
@@ -134,7 +146,7 @@ export function saveUser(user) {
       setAuthorizationToken(token);
       axios.defaults.headers.common.Authorization = token;
       dispatch(setCurrentUser(jwtDecode(token)));
-    }).catch((error) => { throw (error); });
+    });
   };
 }
 
@@ -143,22 +155,32 @@ export function saveUser(user) {
  * [loadUsers description]
  * @param  {number} limit  [description]
  * @param  {number} offset [description]
- * @return {[type]}        [description]
+ * @return {object}        [description]
  */
 export function loadUsers(limit, offset) {
   return (dispatch) => {
     return axios.get(`/users?limit=${limit}&offset=${offset}`).then((res) => {
       dispatch(loadUserSuccess(res.data));
-    }).catch((err) => {
-      throw (err);
+    });
+  };
+}
+
+/**
+ * [loadAllUser description]
+ * @return {object} [all users]
+ */
+export function loadAllUser() {
+  return (dispatch) => {
+    return axios.get('/users').then((res) => {
+      dispatch(loadAllUserSuccess(res.data.user));
     });
   };
 }
 
 /**
  * user update by admin
- * @param  {[type]} user [description]
- * @return {[type]}      [description]
+ * @param  {object} user [user data object]
+ * @return {object}      [api response]
  */
 export function updateUserAdmin(user) {
   return (dispatch, getState) => {

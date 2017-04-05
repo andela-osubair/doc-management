@@ -3,21 +3,26 @@ import toastr from 'toastr';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ReduxSweetAlert, { swal, close } from 'react-redux-sweetalert';
+import ReactPaginate from 'react-paginate';
 import { addFlashMessage } from '../../actions/flashMessages';
 import * as userActions from '../../actions/userActions';
+import * as searchActions from '../../actions/searchActions';
 
 class UserSearchList extends React.Component {
   constructor(props, context) {
     super(props, context);
 
     this.state = {
-      id: 0
+      id: 0,
+      offset: 0,
+      limit: 10
     };
 
     this.editUser = this.editUser.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
     this.viewUser = this.viewUser.bind(this);
     this.renderAlert = this.renderAlert.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   viewUser(e) {
@@ -47,6 +52,16 @@ class UserSearchList extends React.Component {
     this.setState({ id: 0 });
   }
 
+  handlePageClick(data) {
+    const selected = data.selected;
+    const offset = Math.ceil(selected * this.state.limit);
+
+    this.setState({ offset }, () => {
+      this.props.searchAction.searchUser(
+        this.props.value, this.state.limit, offset);
+    });
+  }
+
   renderAlert(e) {
     e.preventDefault();
     let id = this.state.id;
@@ -67,7 +82,7 @@ class UserSearchList extends React.Component {
       <div>
       {this
         .props
-        .userSearchResult
+        .searchedUsers
         .map(user => <div id="card-alert" className="card white"
         key={user.id}>
           <div className="card-content pink-text">
@@ -108,6 +123,18 @@ class UserSearchList extends React.Component {
             </ul>
           </div>
         </div>)}
+        <ReactPaginate previousLabel={'previous'}
+                       nextLabel={'next'}
+                       breakLabel={<a href="">...</a>}
+                       breakClassName={'break-me'}
+                       pageCount={this.props.searchedPageCount}
+                       marginPagesDisplayed={2}
+                       pageRangeDisplayed={5}
+                       onPageChange={this.handlePageClick}
+                       containerClassName={'pagination'}
+                       subContainerClassName={'pages pagination'}
+                       pageClassName={'waves-effect'}
+                       activeClassName={'active'} />
         <ReduxSweetAlert />
       </div>
     );
@@ -116,10 +143,13 @@ class UserSearchList extends React.Component {
 
 UserSearchList.propTypes = {
   actions: PropTypes.object.isRequired,
-  userSearchResult: PropTypes.array.isRequired,
   swal: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
   addFlashMessage: React.PropTypes.func.isRequired,
+  searchedUsers: PropTypes.array.isRequired,
+  searchedPageCount: PropTypes.number,
+  value: PropTypes.string,
+  searchAction: PropTypes.object.isRequired,
 };
 
 /**
@@ -133,7 +163,8 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(userActions, dispatch),
     swal: bindActionCreators(swal, dispatch),
     close: bindActionCreators(close, dispatch),
-    addFlashMessage: bindActionCreators(addFlashMessage, dispatch)
+    addFlashMessage: bindActionCreators(addFlashMessage, dispatch),
+    searchAction: bindActionCreators(searchActions, dispatch)
   };
 }
 

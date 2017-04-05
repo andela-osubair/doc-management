@@ -6,6 +6,8 @@ export default keyMirror({
   LOGIN_USER_FAILURE: null,
   SET_CURRENT_USER: null,
 
+  SEARCH_ALLUSERS_SUCCESS: null,
+
   GET_USER_SUCCESS: null,
   LOAD_USER_SUCCESS: null,
   SET_SELECTED_USER: null,
