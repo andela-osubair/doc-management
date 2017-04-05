@@ -5,6 +5,7 @@ import flashMessages from './flashReducer';
 import auth from './auth';
 import manageDocuments from './documentReducer';
 import manageRoles from './roleReducer';
+import manageSearch from './searchReducer';
 
 const rootReducer = combineReducers({
   manageUsers,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   manageDocuments,
   manageRoles,
   sweetalert: reducer,
+  manageSearch
 });
 
 export default rootReducer;

@@ -25,6 +25,17 @@ const Helpers = {
     const itemToCheck = document ? String(document.userId) : req.params.id;
     return String(req.decoded.data.id) === itemToCheck;
   },
+
+/**
+ *getPaginatedItems - get items to pagination
+ *@param {object} items
+ *@param {number} offset
+ *@param {number} limit
+ *@return {object}
+ */
+  getPaginatedItems(items, offset, limit) {
+    return items.slice(offset, offset + limit);
+  }
 };
 
 export default Helpers;

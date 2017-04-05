@@ -102,8 +102,9 @@ class RoleList extends React.Component {
 
 }
 
-RoleList.propsTypes = {
+RoleList.propTypes = {
   actions: PropTypes.object.isRequired,
+  allRoles: PropTypes.array.isRequired,
   swal: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
   addFlashMessage: React.PropTypes.func.isRequired,

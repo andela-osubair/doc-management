@@ -16,6 +16,18 @@ export function loadUserSuccess(user) {
 }
 
 /**
+ * [loadAllUserSuccess description]
+ * @param  {object} user user response fron api call in the thunk
+ * @return {object}      reponse dispatched to reducer
+ */
+export function loadAllUserSuccess(user) {
+  return {
+    type: types.LOAD_ALLUSERS_SUCCESS,
+    user
+  };
+}
+
+/**
  *
  *
  * @export
@@ -84,7 +96,7 @@ export function createUserSuccess(user) {
  * @returns {Object} json object
  */
 export function getUserSuccess(name) {
-  return { type: types.GET_USER_SUCCESSS, name };
+  return { type: types.GET_USER_SUCCESS, name };
 }
 
 
@@ -134,37 +146,47 @@ export function saveUser(user) {
       setAuthorizationToken(token);
       axios.defaults.headers.common.Authorization = token;
       dispatch(setCurrentUser(jwtDecode(token)));
-    }).catch((error) => { throw (error); });
+    });
   };
 }
 
 
 /**
- * load all users from database
- * @return {object} response from api call
+ * [loadUsers description]
+ * @param  {number} limit  [description]
+ * @param  {number} offset [description]
+ * @return {object}        [description]
  */
-export function loadUsers() {
+export function loadUsers(limit, offset) {
+  return (dispatch) => {
+    return axios.get(`/users?limit=${limit}&offset=${offset}`).then((res) => {
+      dispatch(loadUserSuccess(res.data));
+    });
+  };
+}
+
+/**
+ * [loadAllUser description]
+ * @return {object} [all users]
+ */
+export function loadAllUser() {
   return (dispatch) => {
     return axios.get('/users').then((res) => {
-      dispatch(loadUserSuccess(res.data.user));
-    }).catch((err) => {
-      throw (err);
+      dispatch(loadAllUserSuccess(res.data.user));
     });
   };
 }
 
 /**
  * user update by admin
- * @param  {[type]} user [description]
- * @return {[type]}      [description]
+ * @param  {object} user [user data object]
+ * @return {object}      [api response]
  */
 export function updateUserAdmin(user) {
   return (dispatch, getState) => {
     const userId = getState().manageUsers.selectedUser;
     return axios.put(`/users/${userId}`, user).then(() => {
       dispatch(loadUsers());
-    }).catch((err) => {
-      throw (err);
     });
   };
 }
@@ -181,7 +203,7 @@ export function saveUserAdmin(user) {
     return axios.post('/users', user)
     .then(() => {
       dispatch(loadUsers());
-    }).catch((error) => { throw (error); });
+    });
   };
 }
 
@@ -197,7 +219,7 @@ export function getUser(id) {
     return axios.get(`/users/${id}`)
     .then((res) => {
       dispatch(getUserSuccess(res.data.user.name));
-    }).catch((error) => { throw (error); });
+    });
   };
 }
 

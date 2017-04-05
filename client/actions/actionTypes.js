@@ -6,6 +6,8 @@ export default keyMirror({
   LOGIN_USER_FAILURE: null,
   SET_CURRENT_USER: null,
 
+  SEARCH_ALLUSERS_SUCCESS: null,
+
   GET_USER_SUCCESS: null,
   LOAD_USER_SUCCESS: null,
   SET_SELECTED_USER: null,
@@ -17,8 +19,6 @@ export default keyMirror({
 
   LOAD_DOCUMENT_SUCCESS: null,
   CREATE_DOCUMENT_SUCCESS: null,
-  UPDATE_DOCUMENT_SUCCESS: null,
-  DELETE_DOCUMENT_SUCCESS: null,
   SET_CURRENT_DOCUMENT: null,
   DELETE_CURRENT_DOCUMENT: null,
 

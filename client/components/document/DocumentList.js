@@ -108,8 +108,9 @@ class DocumentList extends React.Component {
   }
 }
 
-DocumentList.propsTypes = {
+DocumentList.propTypes = {
   actions: React.PropTypes.object.isRequired,
+  myDocuments: React.PropTypes.array.isRequired,
   swal: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
   addFlashMessage: React.PropTypes.func.isRequired,

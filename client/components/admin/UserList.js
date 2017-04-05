@@ -3,6 +3,7 @@ import toastr from 'toastr';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ReduxSweetAlert, { swal, close } from 'react-redux-sweetalert';
+import ReactPaginate from 'react-paginate';
 import { addFlashMessage } from '../../actions/flashMessages';
 import * as userActions from '../../actions/userActions';
 
@@ -11,13 +12,16 @@ class UserList extends React.Component {
     super(props, context);
 
     this.state = {
-      id: 0
+      id: 0,
+      offset: 0,
+      limit: 10
     };
 
     this.editUser = this.editUser.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
     this.viewUser = this.viewUser.bind(this);
     this.renderAlert = this.renderAlert.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   viewUser(e) {
@@ -45,6 +49,15 @@ class UserList extends React.Component {
         'Unable to delete user');
     });
     this.setState({ id: 0 });
+  }
+
+  handlePageClick(data) {
+    const selected = data.selected;
+    const offset = Math.ceil(selected * this.state.limit);
+
+    this.setState({ offset }, () => {
+      this.props.actions.loadUsers(this.state.limit, offset);
+    });
   }
 
   renderAlert(e) {
@@ -108,17 +121,31 @@ class UserList extends React.Component {
             </ul>
           </div>
         </div>)}
+        <ReactPaginate previousLabel={'previous'}
+                       nextLabel={'next'}
+                       breakLabel={<a href="">...</a>}
+                       breakClassName={'break-me'}
+                       pageCount={this.props.pageCount}
+                       marginPagesDisplayed={2}
+                       pageRangeDisplayed={5}
+                       onPageChange={this.handlePageClick}
+                       containerClassName={'pagination'}
+                       subContainerClassName={'pages pagination'}
+                       pageClassName={'waves-effect'}
+                       activeClassName={'active'} />
         <ReduxSweetAlert />
       </div>
     );
   }
 }
 
-UserList.propsTypes = {
+UserList.propTypes = {
   actions: PropTypes.object.isRequired,
+  allUsers: PropTypes.array.isRequired,
   swal: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
   addFlashMessage: React.PropTypes.func.isRequired,
+  pageCount: PropTypes.number
 };
 
 /**

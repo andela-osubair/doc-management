@@ -27,12 +27,14 @@ class RoleDocumentList extends React.Component {
               <a className="pointer" id={document.id}
                 onClick={this.renderModal}>
               Title: {document.title}
+              <span className="badge list-badge">
+                Author: {document.User.name}</span>
               </a>
             </div>
             <div className="fixed-action-btn horizontal edit">
               <a className="btn-floating btn-flat pink"
                 onClick={this.renderModal}>
-                <i id={document.id} className="material-icons">more_vert</i>
+                <i id={document.id} className="material-icons">view_list</i>
               </a>
             </div>
           </div>)}
@@ -41,8 +43,8 @@ class RoleDocumentList extends React.Component {
   }
 }
 
-RoleDocumentList.propsTypes = {
-  roleDocuments: React.PropTypes.object.isRequired,
+RoleDocumentList.propTypes = {
+  roleDocuments: React.PropTypes.array.isRequired,
   actions: React.PropTypes.object.isRequired
 };
 

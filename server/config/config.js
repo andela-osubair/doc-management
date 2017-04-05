@@ -2,11 +2,11 @@ require('dotenv').config();
 
 module.exports = {
   development: {
-    url: process.env.URL,
+    url: process.env.DEV_URL,
     dialect: 'postgres'
   },
   test: {
-    url: process.env.URL_TEST,
+    url: process.env.TEST_URL,
     dialect: 'postgres',
     logging: false
   },

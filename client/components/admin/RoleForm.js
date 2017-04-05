@@ -79,11 +79,7 @@ class RoleForm extends React.Component {
         </form>
       </div>
     );
-    return (
-      <div>
-      {form}
-      </div>
-    );
+    return (<div> {form} </div>);
   }
 }
 
@@ -92,7 +88,6 @@ RoleForm.propTypes = {
   onChange: React.PropTypes.func,
   roleValue: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
-  // roles: PropTypes.array.isRequired,
   currentRole: PropTypes.string,
   addFlashMessage: React.PropTypes.func.isRequired
 };
@@ -131,8 +126,6 @@ function mapStateToProps(state) {
     role = getRoleById(currentState.roles, roleId);
   }
   return {
-    // documents: currentState.documents,
-    currentRole: currentState.selectedRole,
     roleValue: role,
     auth: state.auth
   };

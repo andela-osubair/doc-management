@@ -3,5 +3,6 @@ export default {
   isAuthenticated: false,
   user: {},
   manageDocuments: { documents: [] },
-  manageRoles: { roles: [] }
+  manageRoles: { roles: [] },
+  manageSearch: { searchedUsers: [] }
 };

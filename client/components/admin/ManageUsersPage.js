@@ -2,23 +2,33 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import toastr from 'toastr';
 import UserList from './UserList';
 import * as userActions from '../../actions/userActions';
 import * as roleActions from '../../actions/roleActions';
+import * as searchActions from '../../actions/searchActions';
 import UserViewPage from './UserViewPage';
 import UserForm from './UserForm';
+import UserSearchList from './UserSearchList';
 
 class ManageUserPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      viewForm: false
+      viewForm: false,
+      search: false,
+      showResult: false,
+      userSearchResult: [],
+      value: ''
     };
     this.addUser = this.addUser.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.clearSearchResult = this.clearSearchResult.bind(this);
+    this.searchUserClick = this.searchUserClick.bind(this);
   }
 
   componentWillMount() {
-    this.props.actions.loadUsers();
+    this.props.actions.loadUsers(10, 0);
     if (this.props.allRoles.length === 0) {
       this.props.roleAction.loadRoles();
     }
@@ -30,6 +40,31 @@ class ManageUserPage extends React.Component {
     this.setState({ viewForm: true });
   }
 
+  onChange(e) {
+    e.preventDefault();
+    this.setState({ value: e.target.value });
+  }
+
+  searchUserClick(e) {
+    e.preventDefault();
+    const value = this.state.value;
+    if (value.trim() !== '') {
+      this.props.searchAction.searchUser(value, 10, 0).then(() => {
+        this.setState({ value, search: true, showResult: true });
+      }).catch(() => {
+        toastr.error(
+          'User not found');
+      });
+    } else {
+      toastr.error(
+        'search text field is empty, please enter a search term');
+    }
+  }
+
+  clearSearchResult() {
+    this.setState({ value: '', search: false });
+  }
+
   renderUserDetails() {
     return (
       <div>
@@ -37,14 +72,6 @@ class ManageUserPage extends React.Component {
         <UserViewPage />
       </div>
     );
-    // if (this.props.selectedUser && this.props.userDetails) {
-    //   return (
-    //     <div>
-    //       <h6>User Details</h6>
-    //       <UserViewPage />
-    //     </div>
-    //   );
-    // }
   }
 
   renderUserForm() {
@@ -59,12 +86,11 @@ class ManageUserPage extends React.Component {
     }
   }
 
-  renderDeleteDialog() {
-
-  }
-
   render() {
-    const { allUsers, allRoles, selectedUser, userDetails } = this.props;
+    const { allUsers, allRoles,
+      selectedUser, userDetails, pageCount,
+      searchedUsers, searchedPageCount
+     } = this.props;
     return (
       <div>
         <div className="row">
@@ -82,7 +108,45 @@ class ManageUserPage extends React.Component {
               <h4>All Users</h4>
             <div className="row">
                 <div className="col s6">
-                <UserList allUsers={allUsers} />
+                  <div className="row">
+                      <form className="col s12">
+                        <div className="row">
+                          <div className="input-field col s12">
+                            <i className="material-icons prefix">search</i>
+                            <input
+                              id="icon_prefix"
+                              type="text"
+                              value={this.state.value}
+                              className="validate"
+                              onChange={this.onChange}
+                               />
+                             <label htmlFor="icon_prefix">
+                               search with username or email</label>
+                          </div>
+                          {this.state.search ?
+                            <input type="submit" value="Clear"
+                  className="btn waves-effect waves-light pink darken-1 right"
+                  onClick={this.clearSearchResult}
+                          /> : <input type="submit" value="Search"
+                className="btn waves-effect waves-light pink darken-1 right"
+                onClick={this.searchUserClick}/>
+              }
+                        </div>
+                      </form>
+                    </div>
+                    {this.state.showResult ?
+                      <div>
+                    <h6 id="searchResult">
+                      Result for "{this.state.value}" user </h6>
+                      <UserSearchList
+                        searchedUsers={searchedUsers}
+                        searchedPageCount={searchedPageCount}
+                        value={this.state.value}
+                        />
+                    </div>
+                    : <UserList allUsers={allUsers}
+                    pageCount = {pageCount}
+                     />}
                 </div>
                 <div className="col s6">
                 {selectedUser && userDetails ? this.renderUserDetails() :
@@ -107,8 +171,12 @@ ManageUserPage.propTypes = {
   allRoles: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired,
   roleAction: PropTypes.object.isRequired,
+  searchAction: PropTypes.object.isRequired,
   selectedUser: PropTypes.string,
-  userDetails: PropTypes.bool
+  userDetails: PropTypes.bool,
+  pageCount: PropTypes.number,
+  searchedUsers: PropTypes.array.isRequired,
+  searchedPageCount: PropTypes.number
 };
 
 /**
@@ -121,11 +189,17 @@ function mapStateToProps(state) {
   const currentState = state.manageUsers;
   const allRoles = state.manageRoles.roles;
   const allUsers = currentState.allUsers;
+  const pageCount = currentState.pageCount;
+  const searchedUsers = state.manageSearch.searchedUsers;
+  const searchedPageCount = state.manageSearch.searchedPageCount;
   return {
     allUsers,
     allRoles,
+    searchedUsers,
     selectedUser: currentState.selectedUser,
-    userDetails: currentState.userDetails
+    userDetails: currentState.userDetails,
+    pageCount,
+    searchedPageCount
   };
 }
 
@@ -139,6 +213,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(userActions, dispatch),
     roleAction: bindActionCreators(roleActions, dispatch),
+    searchAction: bindActionCreators(searchActions, dispatch)
   };
 }
 

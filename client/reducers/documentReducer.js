@@ -28,12 +28,6 @@ export default function documentReducer(
     return newState;
   }
 
-  case types.UPDATE_DOCUMENT_SUCCESS:
-    return [
-      ...state.filter(document => document.id !== action.document.id),
-      Object.assign({}, { documents: action.document })
-    ];
-
   default:
     return state;
   }

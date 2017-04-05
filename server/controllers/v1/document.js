@@ -3,6 +3,7 @@ import Helpers from '../../helper/Helper';
 
 const Documents = model.Documents;
 const Roles = model.Roles;
+const User = model.Users;
 
 export default {
   create(req, res) {
@@ -28,6 +29,8 @@ export default {
       .findAll({
         offset: req.query.offset || 0,
         limit: req.query.limit || 20,
+        include: [User],
+        order: [['updatedAt', 'DESC']]
       })
       .then(document => res.status(200).send(document))
       .catch(error => res.status(400).send({
@@ -37,7 +40,9 @@ export default {
   },
   retrieve(req, res) {
     return Documents
-      .findById(req.params.id)
+      .findById(req.params.id, {
+        include: [User],
+      })
       .then((document) => {
         if (!document) {
           return res.status(404).send({
@@ -64,7 +69,9 @@ export default {
             userId: req.params.id
           }
         ]
-      }
+      },
+      include: [User],
+      order: [['updatedAt', 'DESC']]
     })
     .then((document) => {
       if (!document) {
