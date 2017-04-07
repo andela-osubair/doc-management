@@ -49,8 +49,8 @@ class UpdateProfile extends React.Component {
     });
   }
 
-  clearError(e) {
-    const field = e.target.name;
+  clearError(event) {
+    const field = event.target.name;
     const errors = this.state.errors;
 
     errors[field] = '';

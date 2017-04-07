@@ -40,9 +40,9 @@ class SignupForm extends React.Component {
     return formIsValid;
   }
 
-  checkUserExists(e) {
-    const field = e.target.name;
-    const val = e.target.value;
+  checkUserExists(event) {
+    const field = event.target.name;
+    const val = event.target.value;
     if (val !== '') {
       this.props.isUserExists(val).then((res) => {
         const errors = this.state.errors;
@@ -59,8 +59,8 @@ class SignupForm extends React.Component {
     }
   }
 
-  clearError(e) {
-    const field = e.target.name;
+  clearError(event) {
+    const field = event.target.name;
     const errors = this.state.errors;
 
     errors[field] = '';

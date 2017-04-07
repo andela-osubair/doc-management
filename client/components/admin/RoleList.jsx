@@ -23,13 +23,20 @@ class RoleList extends React.Component {
     $('.tooltipped').tooltip({ delay: 50 });
   }
 
-  editRole(e) {
-    e.preventDefault();
-    const roleId = e.target.id;
+  editRole(event) {
+    event.preventDefault();
+    const roleId = event.target.id;
     this.props.actions.setCurrentRole(roleId);
   }
   deleteRole() {
     const roleId = this.state.id;
+    if (roleId === 1 || roleId === 2) {
+      this.props.addFlashMessage({
+        type: 'error',
+        text: 'This role must be deleted' });
+      toastr.error('This role must be deleted');
+      return;
+    }
     this.props.actions.deleteRole(roleId)
     .then(() => toastr.success('Role Successfully Deleted'))
     .catch(() => {
@@ -42,10 +49,10 @@ class RoleList extends React.Component {
     this.setState({ id: 0 });
   }
 
-  renderAlert(e) {
-    e.preventDefault();
+  renderAlert(event) {
+    event.preventDefault();
     let id = this.state.id;
-    id = e.target.id;
+    id = event.target.id;
     this.setState({ show: true, id });
     this.props.swal({
       title: 'Warning!',

@@ -33,8 +33,8 @@ class LoginForm extends React.Component {
     return formIsValid;
   }
 
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit(event) {
+    event.preventDefault();
     if (this.isFormValid()) {
       this.setState({ errors: {}, isLoading: true });
       this.props.login(this.state).then(

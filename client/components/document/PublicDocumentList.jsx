@@ -9,9 +9,9 @@ class PublicDocumentList extends React.Component {
     super(props);
     this.renderModal = this.renderModal.bind(this);
   }
-  renderModal(e) {
-    e.preventDefault();
-    const documentId = e.target.id;
+  renderModal(event) {
+    event.preventDefault();
+    const documentId = event.target.id;
     this.props.actions.setCurrentDocument(documentId);
     $('#modal1').modal('open');
   }

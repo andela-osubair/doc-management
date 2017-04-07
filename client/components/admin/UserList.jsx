@@ -24,16 +24,16 @@ class UserList extends React.Component {
     this.handlePageClick = this.handlePageClick.bind(this);
   }
 
-  viewUser(e) {
-    e.preventDefault();
-    const userId = e.target.id;
+  viewUser(event) {
+    event.preventDefault();
+    const userId = event.target.id;
     this.props.actions.setSelectedUser(userId);
     this.props.actions.displaySelectedUser(userId);
   }
 
-  editUser(e) {
-    e.preventDefault();
-    const userId = e.target.id;
+  editUser(event) {
+    event.preventDefault();
+    const userId = event.target.id;
     this.props.actions.setSelectedUser(userId);
     this.props.actions.displaySelectedUser();
   }
@@ -60,10 +60,10 @@ class UserList extends React.Component {
     });
   }
 
-  renderAlert(e) {
-    e.preventDefault();
+  renderAlert(event) {
+    e.ventpreventDefault();
     let id = this.state.id;
-    id = e.target.id;
+    id = event.target.id;
     this.setState({ show: true, id });
     this.props.swal({
       title: 'Warning!',

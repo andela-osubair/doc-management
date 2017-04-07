@@ -59,8 +59,8 @@ class UserForm extends React.Component {
     this.setState({ user });
   }
 
-  saveUser(e) {
-    e.preventDefault();
+  saveUser(event) {
+    event.preventDefault();
     this.props.actions.saveUserAdmin(this.state.user).then(() => {
       toastr.success('User Added Successfully');
     }).catch(() => {
@@ -72,8 +72,8 @@ class UserForm extends React.Component {
     });
   }
 
-  updateUser(e) {
-    e.preventDefault();
+  updateUser(event) {
+    event.preventDefault();
     const userId = this.props.selectedUser;
     this.props.actions.updateUserAdmin(this.state.user, userId).then(() => {
       toastr.success('User Updated Successfully');
@@ -97,8 +97,8 @@ class UserForm extends React.Component {
     return formIsValid;
   }
 
-  clearError(e) {
-    const field = e.target.name;
+  clearError(event) {
+    const field = event.target.name;
     const errors = this.state.errors;
 
     errors[field] = '';

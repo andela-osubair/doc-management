@@ -36,10 +36,10 @@ class ChangePassword extends React.Component {
     }
   }
 
-  confirmPasswordMatch(e) {
+  confirmPasswordMatch(event) {
     event.preventDefault();
-    const field = e.target.name;
-    const val = e.target.value;
+    const field = event.target.name;
+    const val = event.target.value;
     const errors = this.state.errors;
     let invalid;
     if (val !== '') {
@@ -82,8 +82,8 @@ class ChangePassword extends React.Component {
     return formIsValid;
   }
 
-  clearError(e) {
-    const field = e.target.name;
+  clearError(event) {
+    const field = event.target.name;
     const errors = this.state.errors;
 
     errors[field] = '';

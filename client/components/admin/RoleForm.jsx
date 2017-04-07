@@ -27,23 +27,23 @@ class RoleForm extends React.Component {
     }
   }
 
-  onChange(e) {
-    e.preventDefault();
-    const field = e.target.name;
+  onChange(event) {
+    event.preventDefault();
+    const field = event.target.name;
     const role = this.state.role;
-    role[field] = e.target.value;
-    this.setState({ role, titleValue: e.target.value });
+    role[field] = event.target.value;
+    this.setState({ role, titleValue: event.target.value });
   }
 
-  saveRole(e) {
-    e.preventDefault();
+  saveRole(event) {
+    event.preventDefault();
     this.props.actions.saveRole(this.state.role).then(() => {
       toastr.success('Role Successfully Saved');
     });
   }
 
-  updateRole(e) {
-    e.preventDefault();
+  updateRole(event) {
+    event.preventDefault();
     this.props.actions.updateRole(this.state.role).then(() => {
       toastr.success('Role Updated Successfully');
     });

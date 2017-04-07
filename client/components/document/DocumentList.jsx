@@ -20,9 +20,9 @@ class DocumentList extends React.Component {
   componentDidMount() {
     $('.tooltipped').tooltip({ delay: 50 });
   }
-  editDocument(e) {
-    e.preventDefault();
-    const documentId = e.target.id;
+  editDocument(event) {
+    event.preventDefault();
+    const documentId = event.target.id;
     this.props.actions.setCurrentDocument(documentId);
   }
   deleteDocument() {
@@ -39,10 +39,10 @@ class DocumentList extends React.Component {
     this.setState({ id: 0 });
   }
 
-  renderAlert(e) {
-    e.preventDefault();
+  renderAlert(event) {
+    event.preventDefault();
     let id = this.state.id;
-    id = e.target.id;
+    id = event.target.id;
     this.setState({ show: true, id });
     this.props.swal({
       title: 'Warning!',
