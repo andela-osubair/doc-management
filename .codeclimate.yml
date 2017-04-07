@@ -17,5 +17,6 @@ engines:
       - javascript
 ratings:
   paths:
-  - []
+  - client/*.js
+  - server/*.js
 exclude_paths: []
