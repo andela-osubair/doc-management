@@ -51,6 +51,13 @@ export default {
         loaders: ['babel-loader?presets[]=es2015']
 
       }, {
+        test: /.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        query: {
+          presets: ['es2015', 'react']
+        }
+      }, {
         test: /(\.css)$/,
         loader: ExtractTextPlugin.extract('css?sourceMap')
       }, {

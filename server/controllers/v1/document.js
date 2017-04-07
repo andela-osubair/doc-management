@@ -56,6 +56,7 @@ export default {
         message: 'Error occurred while retrieving documents'
       }));
   },
+
   findAllUserDocument(req, res) {
     return Documents
     .findAll({

@@ -5,11 +5,11 @@ import types from './actionTypes';
  *
  *
  * @export
- * @param {any} document
+ * @param {any} documents
  * @returns {any} document
  */
-export function loadDocumentSuccess(document) {
-  return { type: types.LOAD_DOCUMENT_SUCCESS, document };
+export function loadDocumentSuccess(documents) {
+  return { type: types.LOAD_DOCUMENT_SUCCESS, documents };
 }
 
 /**
@@ -103,7 +103,7 @@ export function saveDocument(document) {
  */
 export function updateDocument(document) {
   return (dispatch, getState) => {
-    const documentId = getState().manageDocuments.selectedDocument;
+    const documentId = getState().currentlySelected.selectedDocument;
     return axios.put(`/documents/${documentId}`, document).then(() => {
       dispatch(loadUserDocument());
     });

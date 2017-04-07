@@ -12,15 +12,6 @@ export default function roleReducer(state = initialState.manageRoles, action) {
   case types.LOAD_ROLE_SUCCESS:
     return Object.assign({}, ...state, { roles: action.role });
 
-  case types.SET_CURRENT_ROLE:
-    return Object.assign({}, state, { selectedRole: action.id });
-
-  case types.DELETE_CURRENT_ROLE: {
-    const newState = JSON.parse(JSON.stringify(state));
-    delete newState.selectedRole;
-    return newState;
-  }
-
   default:
     return state;
   }

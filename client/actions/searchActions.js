@@ -3,11 +3,11 @@ import types from './actionTypes';
 
 
 /**
- * [searchUserSuccess description]
- * @param  {object} user [description]
- * @return {object}      [description]
+ * searchUserSuccess method
+ * @param  {object} user user reponse from api call
+ * @return {object}      action type and action payload
  */
-export function searchUserSuccess(user) {
+export function searchUsersSuccess(user) {
   return {
     type: types.SEARCH_ALLUSERS_SUCCESS,
     user
@@ -15,17 +15,47 @@ export function searchUserSuccess(user) {
 }
 
 /**
- * [searchUser description]
- * @param  {[type]} user   [description]
- * @param  {[type]} limit  [description]
- * @param  {[type]} offset [description]
- * @return {[type]}        [description]
+ * searchDocumentSuccess method
+ * @param  {object} documents documents reponse from api call
+ * @return {object}      action type and action payload
  */
-export function searchUser(user, limit, offset) {
+export function searchDocumentsSuccess(documents) {
+  return {
+    type: types.SEARCH_ALLDOCUMENTS_SUCCESS,
+    documents
+  };
+}
+
+/**
+ * search user function, GET function
+ * @param  {String} term   search term
+ * @param  {number} limit  limit of records to be returned
+ * @param  {numebr} offset offset of user data
+ * @return {object}        reponse from the api
+ */
+export function searchUser(term, limit, offset) {
   return (dispatch) => {
-    return axios.get(`/search/users/?q=${user}&limit=${limit}&offset=${offset}`)
+    return axios.get(`/search/users/?term=${term}
+      &limit=${limit}&offset=${offset}`)
     .then((res) => {
-      dispatch(searchUserSuccess(res.data));
+      dispatch(searchUsersSuccess(res.data));
+    });
+  };
+}
+
+/**
+ * search user function, GET function
+ * @param  {String} term   search term
+ * @param  {number} limit  limit of records to be returned
+ * @param  {numebr} offset offset of user data
+ * @return {object}        reponse from the api
+ */
+export function searchDocuments(term, limit, offset) {
+  return (dispatch) => {
+    return axios.get(`/search/users/?term=${term}
+      &limit=${limit}&offset=${offset}`)
+    .then((res) => {
+      dispatch(searchUsersSuccess(res.data));
     });
   };
 }

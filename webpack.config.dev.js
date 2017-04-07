@@ -40,10 +40,19 @@ export default {
     loaders: [
       {
         test: /\.js$/,
+        exclude: /node_modules/,
         include: [
           path.join(__dirname, 'client'),
           path.join(__dirname, 'server')],
         loaders: ['babel-loader']
+      }, {
+        test: /.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        include: path.join(__dirname, 'client'),
+        query: {
+          presets: ['es2015', 'react']
+        }
       }, {
         test: /(\.scss)$/,
         loaders: ['style-loader', 'css-loader', 'sass-loader']

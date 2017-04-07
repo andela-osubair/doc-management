@@ -6,6 +6,7 @@ import auth from './auth';
 import manageDocuments from './documentReducer';
 import manageRoles from './roleReducer';
 import manageSearch from './searchReducer';
+import currentlySelected from './currentlySelectedReducers';
 
 const rootReducer = combineReducers({
   manageUsers,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   manageDocuments,
   manageRoles,
   sweetalert: reducer,
-  manageSearch
+  manageSearch,
+  currentlySelected
 });
 
 export default rootReducer;
