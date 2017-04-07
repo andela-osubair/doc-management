@@ -4,13 +4,13 @@ import types from './actionTypes';
 
 /**
  * searchUserSuccess method
- * @param  {object} user user reponse from api call
+ * @param  {object} users user reponse from api call
  * @return {object}      action type and action payload
  */
-export function searchUsersSuccess(user) {
+export function searchUsersSuccess(users) {
   return {
     type: types.SEARCH_ALLUSERS_SUCCESS,
-    user
+    users
   };
 }
 
@@ -33,10 +33,10 @@ export function searchDocumentsSuccess(documents) {
  * @param  {numebr} offset offset of user data
  * @return {object}        reponse from the api
  */
-export function searchUser(term, limit, offset) {
+export function searchUsers(term, limit, offset) {
   return (dispatch) => {
-    return axios.get(`/search/users/?term=${term}
-      &limit=${limit}&offset=${offset}`)
+    return axios.get(
+      `/search/users/?term=${term}&limit=${limit}&offset=${offset}`)
     .then((res) => {
       dispatch(searchUsersSuccess(res.data));
     });
@@ -52,10 +52,10 @@ export function searchUser(term, limit, offset) {
  */
 export function searchDocuments(term, limit, offset) {
   return (dispatch) => {
-    return axios.get(`/search/users/?term=${term}
-      &limit=${limit}&offset=${offset}`)
+    return axios.get(
+      `/search/documents/?term=${term}&limit=${limit}&offset=${offset}`)
     .then((res) => {
-      dispatch(searchUsersSuccess(res.data));
+      dispatch(searchDocumentsSuccess(res.data));
     });
   };
 }

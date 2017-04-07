@@ -42,14 +42,14 @@ class ManageUserPage extends React.Component {
 
   onChange(event) {
     event.preventDefault();
-    this.setState({ value: e.target.value });
+    this.setState({ value: event.target.value });
   }
 
   searchUserClick(event) {
     event.preventDefault();
     const value = this.state.value;
     if (value.trim() !== '') {
-      this.props.searchAction.searchUser(value, 10, 0).then(() => {
+      this.props.searchAction.searchUsers(value, 10, 0).then(() => {
         this.setState({ value, search: true, showResult: true });
       }).catch(() => {
         toastr.error(

@@ -4,7 +4,7 @@ export default {
   user: {},
   manageDocuments: { documents: [] },
   manageRoles: { roles: [] },
-  manageSearch: { searchedUsers: [] },
+  manageSearch: { searchedUsers: [], searchedDocuments: [] },
   currentlySelected: {},
   selectedDocument: ''
 };

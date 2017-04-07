@@ -9,8 +9,8 @@ import * as userActions from '../../actions/userActions';
 import * as searchActions from '../../actions/searchActions';
 
 class UserSearchList extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
 
     this.state = {
       id: 0,

@@ -74,10 +74,10 @@ class DashboardPage extends React.Component {
                         <a className="white-text waves-effect waves-light"
                           href="#role">Role Access Documents</a>
                       </li>
-                      <li className="tab col s3">
+                      {this.state.isPrivate ? <li className="tab col s3">
                         <a className="white-text waves-effect waves-light"
                           href="#private">Private</a>
-                      </li>
+                      </li> : ''}
                     </ul>
                   </div>
                   <div className="col s12">
@@ -93,13 +93,12 @@ class DashboardPage extends React.Component {
                       <RoleDocumentList roleDocuments={roleDocuments} />
 
                     </div>
-                    <div id="private" className="col s12 tab-style">
-                      {this.state.isPrivate ?
-
-                        <h6>All Private Documents</h6> : ''}
+                    {this.state.isPrivate ?
+                      <div id="private" className="col s12 tab-style">
+                        <h6>All Private Documents</h6>
                       <PrivateDocumentList privateDocuments={privateDocuments}/>
 
-                    </div>
+                    </div> : ''}
                   </div>
                 </div>
               </div>

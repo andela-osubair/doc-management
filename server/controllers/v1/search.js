@@ -4,11 +4,11 @@ import Helpers from '../../helper/Helper';
 
 const User = model.Users;
 const Documents = model.Documents;
-let limit = req.query.limit || 10;
-let offset = req.query.offset || 0;
 
 export default {
   userSearch(req, res) {
+    let limit = req.query.limit || 10;
+    let offset = req.query.offset || 0;
     if (limit === 'undefined') {
       limit = 10;
     }
@@ -58,6 +58,8 @@ export default {
   },
 
   documentSearch(req, res) {
+    let limit = req.query.limit || 10;
+    let offset = req.query.offset || 0;
     if (limit === 'undefined') {
       limit = 10;
     }
