@@ -8,9 +8,9 @@ const BINPATH = './node_modules/nightwatch/bin/';
 // comments and helper functions
 module.exports = {
   src_folders: [
-    'server/test/e2e'// Where you are storing your Nightwatch e2e tests
+    'client/test/e2e'// Where you are storing your Nightwatch e2e tests
   ],
-  output_folder: 'server/test/reports', // reports (test outcome) output by nightwatch
+  output_folder: 'client/test/reports', // reports (test outcome) output by nightwatch
   selenium: { // downloaded by selenium-download module (see readme)
     start_process: true, // tells nightwatch to start/stop the selenium process
     server_path: './node_modules/nightwatch/bin/selenium.jar',

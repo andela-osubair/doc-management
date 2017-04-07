@@ -5,25 +5,25 @@ import setAuthorizationToken from '../utils/setAuthorizationToken';
 
 /**
  * [loadUserSuccess description]
- * @param  {object} user user response fron api call in the thunk
+ * @param  {object} users user response fron api call in the thunk
  * @return {object}      reponse dispatched to reducer
  */
-export function loadUserSuccess(user) {
+export function loadUserSuccess(users) {
   return {
-    type: types.LOAD_USER_SUCCESS,
-    user
+    type: types.LOAD_USERS_SUCCESS,
+    users
   };
 }
 
 /**
- * [loadAllUserSuccess description]
- * @param  {object} user user response fron api call in the thunk
+ * [loadAllUsersSuccess description]
+ * @param  {object} users user response fron api call in the thunk
  * @return {object}      reponse dispatched to reducer
  */
-export function loadAllUserSuccess(user) {
+export function loadAllUsersSuccess(users) {
   return {
     type: types.LOAD_ALLUSERS_SUCCESS,
-    user
+    users
   };
 }
 
@@ -96,7 +96,19 @@ export function createUserSuccess(user) {
  * @returns {Object} json object
  */
 export function getUserSuccess(name) {
-  return { type: types.GET_USER_SUCCESS, name };
+  return { type: types.GET_USERS_SUCCESS, name };
+}
+
+/**
+ * update user success
+ * @param  {object} user updated user new details
+ * @return {object}
+ */
+export function updateUserSuccess(user) {
+  return {
+    type: types.UPDATE_USER_SUCCESS,
+    user
+  };
 }
 
 
@@ -110,10 +122,22 @@ export function getUserSuccess(name) {
 export function loginUserSuccess(token) {
   localStorage.setItem('token', token);
   return {
-    type: type.LOGIN_USER_SUCCESS,
+    type: types.LOGIN_USER_SUCCESS,
     payload: {
       token
     }
+  };
+}
+
+/**
+ * get authenticated user details
+ * @param  {object} user
+ * @return {object}
+ */
+export function getAuthUserSuccess(user) {
+  return {
+    type: types.GET_AUTH_USER_SUCCESS,
+    user
   };
 }
 
@@ -125,7 +149,7 @@ export function loginUserSuccess(token) {
  */
 export function loginUserFailure() {
   return {
-    type: type.LOGIN_USER_FAILURE
+    type: types.LOGIN_USER_FAILURE
   };
 }
 
@@ -169,24 +193,52 @@ export function loadUsers(limit, offset) {
  * [loadAllUser description]
  * @return {object} [all users]
  */
-export function loadAllUser() {
+export function loadAllUsers() {
   return (dispatch) => {
     return axios.get('/users').then((res) => {
-      dispatch(loadAllUserSuccess(res.data.user));
+      dispatch(loadAllUsersSuccess(res.data.user));
+    });
+  };
+}
+
+
+/**
+ * get user using parameter user id
+ * @param  {number} id
+ * @return {object}
+ */
+export function getAuthUser(id) {
+  return (dispatch) => {
+    return axios.get(`/users/${id}`).then((res) => {
+      dispatch(getAuthUserSuccess(res.data.user));
     });
   };
 }
 
 /**
  * user update by admin
- * @param  {object} user [user data object]
+ * @param  {object} user [user data object to update]
+ * @param  {number} id   user id
  * @return {object}      [api response]
  */
-export function updateUserAdmin(user) {
-  return (dispatch, getState) => {
-    const userId = getState().manageUsers.selectedUser;
-    return axios.put(`/users/${userId}`, user).then(() => {
+export function updateUserAdmin(user, id) {
+  return (dispatch) => {
+    return axios.put(`/users/${id}`, user).then(() => {
       dispatch(loadUsers());
+    });
+  };
+}
+
+/**
+ * user update by admin
+ * @param  {object} user [user data object to update]
+ * @param  {number} id   user id
+ * @return {object}      [api response]
+ */
+export function updateUser(user, id) {
+  return (dispatch) => {
+    return axios.put(`/users/${id}`, user).then(() => {
+      dispatch(getAuthUser(id));
     });
   };
 }

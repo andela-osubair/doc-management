@@ -63,7 +63,9 @@ export default (sequelize, DataTypes) => {
         user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10));
       },
       beforeUpdate: (user) => {
-        user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10));
+        if(user.password){
+          user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10));
+        }
       }
     }
   });

@@ -69,7 +69,7 @@ export function saveRole(role) {
  */
 export function updateRole(role) {
   return (dispatch, getState) => {
-    const roleId = getState().manageRoles.selectedRole;
+    const roleId = getState().currentlySelected.selectedRole;
     return axios.put(`/roles/${roleId}`, role).then(() => {
       dispatch(loadRoles());
     });
