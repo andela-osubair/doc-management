@@ -57,13 +57,11 @@ describe('Document Reducer', () => {
     };
 
     const action = actions.createDocumentSuccess(documents);
-    console.log(action);
     // act
     const newState = documentReducer(initialState.manageDocuments, action);
-    console.log(newState);
     // assert
     expect(newState.length).toEqual(2);
-    expect(newState[0].documents.title).toEqual('test reducer document');
+    expect(newState[0].title).toEqual('test reducer document');
     done();
   });
 
@@ -117,20 +115,6 @@ describe('Document Reducer', () => {
         }
       ] }
     };
-    // arrange
-    // const document = [{
-    //   id: 1,
-    //   title: 'test reducer document',
-    //   docContent: 'testreduce content',
-    //   userId: 2,
-    //   role: 'private',
-    // }, {
-    //   id: 2,
-    //   title: 'test document on load success',
-    //   docContent: 'document contents',
-    //   userId: 1,
-    //   role: 'private',
-    // }];
 
     let action;
     let newState;
