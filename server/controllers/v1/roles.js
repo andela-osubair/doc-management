@@ -18,6 +18,7 @@ export default {
         message: 'Error creating new role'
       }));
   },
+
   list(req, res) {
     return Roles
       .findAll()
@@ -34,6 +35,7 @@ export default {
         message: 'Error retrieving all roles'
       }));
   },
+
   retrieve(req, res) {
     return Roles
       .findById(req.params.id, {
@@ -55,6 +57,7 @@ export default {
         message: 'Error occured while retrieving role'
       }));
   },
+
   update(req, res) {
     return Roles
       .findById(req.params.id)
@@ -82,6 +85,7 @@ export default {
         message: 'Error updating role'
       }));
   },
+
   destroy(req, res) {
     return Roles
       .findById(req.params.id)

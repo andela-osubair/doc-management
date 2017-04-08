@@ -3,14 +3,14 @@ import { agent } from 'supertest';
 import expect from 'expect';
 
 import app from '../../../bin/www';
-import newData from '../helper/test-helper';
+import helper from '../helper/test-helper';
 
 process.env.NODE_ENV = 'test';
 
 // This agent refers to PORT where program is runninng.
 const server = agent(app);
-const adminUser = newData.adminUser;
-const regUser = newData.regUser;
+const adminUser = helper.adminUser;
+const regUser = helper.regUser;
 
 describe('User API', () => {
   let userData;

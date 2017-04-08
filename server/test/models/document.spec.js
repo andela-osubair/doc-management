@@ -1,7 +1,7 @@
 /* eslint no-unused-expressions: "off"*/
 
 import expect from 'expect';
-import newData from '../helper/test-helper';
+import helper from '../helper/test-helper';
 import model from '../../models';
 import invalid from '../helper/invalid-data-helper';
 
@@ -9,9 +9,8 @@ process.env.NODE_ENV = 'test';
 
 const User = model.Users;
 const Document = model.Documents;
-// const adminUser = newData.adminUser;
-const regUser = newData.newUser;
-const publicDocument = newData.publicDoc;
+const regUser = helper.newUser;
+const publicDocument = helper.publicDoc;
 
 describe('Document Model', () => {
   let docData;
@@ -32,15 +31,14 @@ describe('Document Model', () => {
       Document.create(publicDocument)
         .then((newDocument) => {
           docData = newDocument;
+          expect(docData).toExist();
+          expect(typeof docData).toEqual('object');
+          expect(docData).toExist('title');
+          expect(docData).toExist('docContent');
           done();
         });
     });
-    it('created new document should exist', () => {
-      expect(docData).toExist();
-      expect(typeof docData).toEqual('object');
-      expect(docData).toExist('title');
-      expect(docData).toExist('docContent');
-    });
+
     it('created new document should have name, email', () => {
       expect(docData.title).toEqual(publicDocument.title);
       expect(docData.docContent).toEqual(publicDocument.docContent);

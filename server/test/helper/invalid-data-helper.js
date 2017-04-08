@@ -43,6 +43,12 @@ const invalid = {
     viewAcces: 'role',
     userId: 2
   },
+  invalidRolType: {
+    title: 'invalid role type',
+    docContent: faker.lorem.paragraph(),
+    viewAccess: 'none',
+    userId: 2
+  },
   emptyEmail: {
     email: '',
     canEdit: true,

@@ -2,17 +2,17 @@ import { agent } from 'supertest';
 import expect from 'expect';
 
 import app from '../../../bin/www';
-import newData from '../helper/test-helper';
+import helper from '../helper/test-helper';
 
 process.env.NODE_ENV = 'test';
 
 // This agent refers to PORT where program is runninng.
 const server = agent(app);
-const newDoc = newData.publicDoc;
-const regUser = newData.docUser;
+const newDocument = helper.publicDoc;
+const regUser = helper.docUser;
 
 describe('Document API', () => {
-  let docData;
+  let documentDetails;
   let regUserData;
   let updatedDoc;
   let adminUser;
@@ -24,8 +24,8 @@ describe('Document API', () => {
       .send(regUser)
       .end((err, res) => {
         regUserData = res.body;
-        newDoc.userId = regUserData.newUser.id;
-        newDoc.role = String(regUserData.newUser.roleId);
+        newDocument.userId = regUserData.newUser.id;
+        newDocument.role = String(regUserData.newUser.roleId);
         server
           .post('/users/login')
           .send({ email: 'oyendah@gmail.com', password: 'password' })
@@ -48,10 +48,10 @@ describe('Document API', () => {
       server
         .post('/documents')
         .set('x-access-token', regUserData.token)
-        .send(newDoc)
+        .send(newDocument)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          docData = res.body;
+          documentDetails = res.body;
           expect(res.status).toEqual(201);
           expect(res.body.message).toEqual(
             'Document created successfully.');
@@ -121,12 +121,12 @@ describe('Document API', () => {
 
     it('should return document with specified id', (done) => {
       server
-        .get(`/documents/${docData.document.id}`)
+        .get(`/documents/${documentDetails.document.id}`)
         .set('x-access-token', regUserData.token)
         .expect('Content-Type', /json/)
         .end((err, res) => {
           expect(res.status).toEqual(200);
-          expect(res.body.title).toEqual(docData.document.title);
+          expect(res.body.title).toEqual(documentDetails.document.title);
           if (err) return done(err);
           done();
         });
@@ -219,7 +219,7 @@ describe('Document API', () => {
 
     it('should update document data ', (done) => {
       server
-        .put(`/documents/${docData.document.id}`)
+        .put(`/documents/${documentDetails.document.id}`)
         .set('x-access-token', regUserData.token)
         .send(fieldsToUpdate)
         .expect('Content-Type', /json/)
@@ -268,7 +268,7 @@ describe('Document API', () => {
 
     it('should return Error updating document ', (done) => {
       server
-        .put(`/documents/${docData.document.id}`)
+        .put(`/documents/${documentDetails.document.id}`)
         .set('x-access-token', regUserData.token)
         .send({ userId: 10 })
         .expect('Content-Type', /json/)
@@ -283,7 +283,7 @@ describe('Document API', () => {
 
     it('should return Error updating document ', (done) => {
       server
-        .put(`/documents/${docData.document.id}`)
+        .put(`/documents/${documentDetails.document.id}`)
         .set('x-access-token', anotherUser.token)
         .send(fieldsToUpdate)
         .expect('Content-Type', /json/)
@@ -301,7 +301,7 @@ describe('Document API', () => {
   describe('/DELETE document data', () => {
     it('should delete document data ', (done) => {
       server
-        .delete(`/documents/${docData.document.id}`)
+        .delete(`/documents/${documentDetails.document.id}`)
         .set('x-access-token', regUserData.token)
         .expect('Content-Type', /json/)
         .end((err, res) => {

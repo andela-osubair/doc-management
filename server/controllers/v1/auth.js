@@ -40,6 +40,7 @@ export default {
         message: 'Error occurred while authenticating user'
       }));
   },
+
   logout(req, res) {
     return res.status(200).send({
       message: 'You have successfully logged out'

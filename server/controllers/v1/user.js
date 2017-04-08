@@ -41,6 +41,7 @@ export default {
             error, message: `Error creating ${req.body.name}` }));
       });
   },
+
   list(req, res) {
     let limit = req.query.limit, offset = req.query.offset;
     if (limit === 'undefined') {
@@ -72,6 +73,7 @@ export default {
       .catch(error => res.status(400).send({
         error, message: 'Error retrieving users' }));
   },
+
   retrieve(req, res) {
     return User
       .findById(req.params.id, {
@@ -93,6 +95,7 @@ export default {
       .catch(error => res.status(400).send({
         error, message: 'Error occurred while retrieving user' }));
   },
+
   update(req, res) {
     Roles.findById(req.decoded.data.roleId)
     .then(() => {
@@ -119,6 +122,7 @@ export default {
          .send({ message: 'Unauthorized Access' }));
     });
   },
+
   destroy(req, res) {
     Roles.findById(req.decoded.data.roleId)
     .then(() => {
@@ -145,6 +149,7 @@ export default {
          .send({ message: 'Unauthorized Access' }));
     });
   },
+
   findUserDocuments(req, res) {
     return User
       .findById(req.params.id, {
@@ -163,6 +168,7 @@ export default {
       .catch(error => res.status(400).send({
         error, message: 'Error occurred while retrieving user document' }));
   },
+
   getExistingUser(req, res) {
     return User
       .find({
@@ -186,6 +192,7 @@ export default {
       .catch(error => res.status(400).send({
         error, message: 'Error occurred while retrieving user' }));
   },
+
   getAllUsers(req, res) {
     return User
       .findAll()

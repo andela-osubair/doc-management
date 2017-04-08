@@ -1,6 +1,6 @@
 import faker from 'faker';
 
-const newData = {
+const helper = {
   newRole: {
     title: 'users'
   },
@@ -88,4 +88,4 @@ const newData = {
   }
 };
 
-export default newData;
+export default helper;

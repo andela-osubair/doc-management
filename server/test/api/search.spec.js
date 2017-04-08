@@ -39,12 +39,12 @@ describe('Search API', () => {
   describe('User Search', () => {
     it('Should return a list of users based on search criteria', (done) => {
       server
-        .get('/search/users/?term=r')
+        .get('/search/users/?term=dupe')
         .set({
           'x-access-token': adminDetails.token
         })
         .end((err, res) => {
-          expect(res.body.user[0].username).toExist();
+          expect(res.body.user[0].username).toEqual('dupe');
           done();
         });
     });
