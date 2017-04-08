@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/andela-osubair/doc-management/badge.svg?branch=staging)](https://coveralls.io/github/andela-osubair/doc-management?branch=staging) [![Build Status](https://travis-ci.org/andela-osubair/doc-management.svg?branch=master)](https://travis-ci.org/andela-osubair/doc-management)
+[![Coverage Status](https://coveralls.io/repos/github/andela-osubair/doc-management/badge.svg?branch=staging)](https://coveralls.io/github/andela-osubair/doc-management?branch=staging) [![Build Status](https://travis-ci.org/andela-osubair/doc-management.svg?branch=master)](https://travis-ci.org/andela-osubair/doc-management) [![Code Climate](https://codeclimate.com/github/andela-osubair/doc-management/badges/gpa.svg)](https://codeclimate.com/github/andela-osubair/doc-management)
 
 # Document Management System
 Document Management System is a react redux application based on RESTful API for users to create and manage documents giving different privileges based on user roles and managing authentication using JWT.
