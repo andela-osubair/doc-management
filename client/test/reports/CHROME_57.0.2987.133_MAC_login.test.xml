@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="1"
+            tests="4">
+
+  <testsuite name="login.test"
+    errors="0" failures="1" hostname="" id="" package="login.test" skipped="2"
+    tests="4" time="37.65" timestamp="Fri, 07 Apr 2017 22:22:24 GMT">
+  
+    <testcase name="Doc Management Title" classname="login.test" time="13.11" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Login Users" classname="login.test" time="24.55" assertions="2">
+<system-out>[[ATTACHMENT|/Users/oyinda/Documents/Checkpoints/doc-management/screenshots/login.test/Login-Users_ERROR_Apr-07-2017-232301-GMT+0100.png]]</system-out>
+      <failure message="Testing if the URL equals &quot;http://localhost:4000/&quot;.">    at Object.LoginUsers [as Login Users] (/Users/oyinda/Documents/Checkpoints/doc-management/client/test/e2e/login.test.js:23:15)
+    at _combinedTickCallback (internal/process/next_tick.js:67:7)</failure>
+
+    
+    </testcase>
+  
+  
+    
+    <testcase
+      name="Admin User Dashboard Page" classname="login.test">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="Regular Users Dashboard Page" classname="login.test">
+      <skipped />
+    </testcase>
+    
+  
+  </testsuite>
+</testsuites>

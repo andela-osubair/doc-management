@@ -15,8 +15,8 @@ export default function documentReducer(
 
   case types.CREATE_DOCUMENT_SUCCESS:
     return [
-      ...state,
-      Object.assign({}, { documents: action.documents })
+      ...state.documents,
+      Object.assign({}, { documents: action.document })
     ];
 
   default:

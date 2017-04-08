@@ -50,7 +50,7 @@ describe('User Actions', () => {
   describe('loadUserSuccess', () => {
     it('should load user, LOAD_USER_SUCCESS action', (done) => {
       // arrange
-      const user = {
+      const users = {
         name: 'test actions',
         username: 'testreduce',
         email: 'testreduce@gmail.com',
@@ -59,10 +59,10 @@ describe('User Actions', () => {
       };
       const expectedAction = {
         type: types.LOAD_USERS_SUCCESS,
-        user
+        users
       };
       // act
-      const action = userActions.loadUserSuccess(user);
+      const action = userActions.loadUserSuccess(users);
       // assert
       expect(action).toEqual(expectedAction);
       done();

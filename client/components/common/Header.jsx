@@ -36,25 +36,27 @@ class Header extends React.Component {
           <i className="material-icons">search</i></a>
         </li>
         <li activeClassName="active">
-          <Link to="/profile">Hello, {
+          <Link to="/profile" activeClassName="active">Hello, {
               isAuthenticated ? this.props.auth.user.data.name : 'Guest'
             }!</Link>
         </li>
         <li activeClassName="active">
-          <Link to="/">
+          <Link to="/" activeClassName="active">
             <i className="material-icons left">dashboard</i>Dashboard</Link>
         </li>
         <li activeClassName="active" id="docClick">
-          <Link to="/document">My Documents</Link>
+          <Link to="/document" activeClassName="active">My Documents</Link>
         </li>
           {this.props.isAdmin ?
-            <li className="admin">
-              <Link to="/admin/manageroles">Manage Roles</Link>
+            <li className="admin" activeClassName="active">
+              <Link to="/admin/manageroles" activeClassName="active">
+                Manage Roles</Link>
             </li>
              : ''}
              {this.props.isAdmin ?
-               <li className="admin" id="adminTab">
-                 <Link to="/admin/manageusers">Manage Users</Link>
+               <li className="admin" id="adminTab" activeClassName="active">
+                 <Link to="/admin/manageusers" activeClassName="active">
+                   Manage Users</Link>
                </li>
                : ''
              }

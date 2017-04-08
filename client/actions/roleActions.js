@@ -6,10 +6,10 @@ import types from './actionTypes';
  * @param  {object} role [description]
  * @return {object}      [description]
  */
-export function loadRoleSuccess(role) {
+export function loadRoleSuccess(roles) {
   return {
     type: types.LOAD_ROLE_SUCCESS,
-    role
+    roles
   };
 }
 

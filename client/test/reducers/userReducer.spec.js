@@ -1,10 +1,14 @@
 import expect from 'expect';
 import userReducer from '../../../client/reducers/userReducer';
 import * as actions from '../../../client/actions/userActions';
-import initialState from '../../../client/reducers/initialState';
+import currentlySelectedReducer from
+'../../../client/reducers/currentlySelectedReducers';
 
 describe('User Reducer', () => {
   it('should add user when passed CREATE_USER_SUCCESS', (done) => {
+    const initialState = {
+      manageUsers: { allUsers: [], userDetails: false, authUser: [] }
+    };
     // arrange
     const user = {
       name: 'test reducer',
@@ -26,6 +30,10 @@ describe('User Reducer', () => {
   });
 
   it('should get user when passed GET_USERS_SUCCESS', (done) => {
+    const initialState = {
+      manageUsers: { allUsers: [], userDetails: false, authUser: [] }
+    };
+
     const action = actions.getUserSuccess('Subair Oyindamola');
 
     // act
@@ -37,6 +45,9 @@ describe('User Reducer', () => {
   });
 
   it('should load users when passed LOAD_USERS_SUCCESS', (done) => {
+    const initialState = {
+      manageUsers: { allUsers: [], userDetails: false, authUser: [] }
+    };
     // arrange
     const data = { user: [{
       name: 'test reducer',
@@ -70,6 +81,9 @@ describe('User Reducer', () => {
   });
 
   it('should set selected users when passed SET_SELECTED_USER', (done) => {
+    const initialState = {
+      manageUsers: { allUsers: [], userDetails: false, authUser: [] }
+    };
     // arrange
     const user = [{
       id: 1,
@@ -90,7 +104,7 @@ describe('User Reducer', () => {
     const action = actions.setSelectedUser(user[0].id);
 
     // act
-    const newState = userReducer(initialState.manageUsers, action);
+    const newState = currentlySelectedReducer(initialState.manageUsers, action);
 
     // assert
     expect(newState.selectedUser).toEqual(1);
@@ -99,6 +113,9 @@ describe('User Reducer', () => {
 
   it('should set userDetails to true when passed DISPLAY_SELECT_USER',
   (done) => {
+    const initialState = {
+      manageUsers: { allUsers: [], userDetails: false, authUser: [] }
+    };
     // arrange
     const user = [{
       id: 1,
@@ -127,6 +144,9 @@ describe('User Reducer', () => {
   });
 
   it('should get user when passed DELETE_SELECTED_USER', (done) => {
+    const initialState = {
+      manageUsers: { allUsers: [], userDetails: false, authUser: [] }
+    };
     // arrange
     const user = [{
       id: 1,
@@ -147,13 +167,13 @@ describe('User Reducer', () => {
     let action;
     action = actions.setSelectedUser(user[0].id);
 
-    newState = userReducer(initialState.manageUsers, action);
+    newState = currentlySelectedReducer(initialState.manageUsers, action);
     expect(newState.selectedUser).toEqual(1);
 
     action = actions.deleteSelectedUser(user[0].id);
 
     // act
-    newState = userReducer(initialState.manageUsers, action);
+    newState = currentlySelectedReducer(initialState.manageUsers, action);
     // assert
     expect(newState.selectedUser).toNotExist();
     done();

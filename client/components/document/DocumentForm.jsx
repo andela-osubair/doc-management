@@ -126,6 +126,7 @@ class DocumentForm extends React.Component {
   render() {
     const isValue = this.props.currentDocument;
     const { showSaveBtn } = this.state;
+
     const form = (
       <form>
         <div className="row">
