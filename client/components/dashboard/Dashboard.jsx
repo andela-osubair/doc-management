@@ -81,7 +81,7 @@ class DashboardPage extends React.Component {
                     </ul>
                   </div>
                   <div className="col s12">
-                    <Modal />
+                    <Modal documentDetails={this.props.documentDetails} />
                     <div id="public" className="col s12 tab-style">
                       <h6>All Public Documents</h6>
                       <PublicDocumentList
@@ -110,6 +110,10 @@ class DashboardPage extends React.Component {
 
 }
 
+DashboardPage.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
+
 DashboardPage.propTypes = {
   publicDocuments: PropTypes.array.isRequired,
   privateDocuments: PropTypes.array.isRequired,
@@ -117,7 +121,9 @@ DashboardPage.propTypes = {
   loadUserDocument: PropTypes.func.isRequired,
   loadAllDocument: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired
+  isAuthenticated: PropTypes.bool.isRequired,
+  authenticate: PropTypes.object.isRequired,
+  documentDetails: PropTypes.bool.isRequired
 };
 
 
@@ -150,7 +156,9 @@ const mapStateToProps = (state) => {
     auth: state.auth.user.data,
     isAuthenticated: state.auth.isAuthenticated,
     roleDocuments,
-    privateDocuments
+    privateDocuments,
+    authenticate: state.auth,
+    documentDetails: currentState.documentDetails
   };
 };
 

@@ -41,6 +41,20 @@ export function setCurrentDocument(id) {
 }
 
 /**
+ *
+ * set in state the selcted document
+ * @export
+ * @param {any} id
+ * @returns {any} document id
+ */
+export function displayCurrentDocument(id) {
+  return {
+    type: types.DISPLAY_SELECTED_DOCUMENT,
+    id
+  };
+}
+
+/**
  * delete from state the current selected document
  * @return {[type]} [description]
  */

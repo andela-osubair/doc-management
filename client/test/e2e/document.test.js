@@ -5,6 +5,7 @@ import faker from 'faker';
 const config = require('../../../nightwatch.conf.js');
 
 module.exports = {
+  '@disabled': true,
   'My Documents Page': function (browser) {
     browser
       .url('http://localhost:4000/login')

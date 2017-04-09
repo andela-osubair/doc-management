@@ -13,6 +13,7 @@ class PrivateDocumentList extends React.Component {
     event.preventDefault();
     const documentId = event.target.id;
     this.props.actions.setCurrentDocument(documentId);
+    this.props.actions.displayCurrentDocument(documentId);
     $('#modal1').modal('open');
   }
   render() {

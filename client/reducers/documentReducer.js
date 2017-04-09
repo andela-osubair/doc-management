@@ -1,3 +1,4 @@
+import isEmpty from 'lodash/isEmpty';
 import types from '../actions/actionTypes';
 import initialState from './initialState';
 
@@ -18,6 +19,9 @@ export default function documentReducer(
       ...state.documents,
       Object.assign({}, action.document)
     ];
+
+  case types.DISPLAY_SELECTED_DOCUMENT:
+    return Object.assign({}, state, { documentDetails: !isEmpty(action.id) });
 
   default:
     return state;

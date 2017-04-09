@@ -32,6 +32,7 @@ class DocumentForm extends React.Component {
   }
 
   componentDidMount() {
+    $('select').material_select();
     $('#mySelectBox').on('change', this.updateSelectState);
   }
 
@@ -130,7 +131,6 @@ class DocumentForm extends React.Component {
     const form = (
       <form>
         <div className="row">
-          {showSaveBtn ? '' : 'View Only'}
           <div className="input-field col s12">
             <input
               id="title"
@@ -200,7 +200,7 @@ DocumentForm.propTypes = {
  * @param {any} id
  * @returns {any} object
  */
-function getDocumentById(documents, id) {
+const getDocumentById = (documents, id) => {
   const document = documents.filter((doc) => {
     return String(doc.id) === id;
   });
@@ -208,7 +208,7 @@ function getDocumentById(documents, id) {
     return document[0];
   } // since filter returns an array, have to grab the first.
   return null;
-}
+};
 
 /**
  *
@@ -216,7 +216,7 @@ function getDocumentById(documents, id) {
  * @param {any} state
  * @returns {any}
  */
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   const currentState = state.manageDocuments;
   const documentId = state.currentlySelected.selectedDocument;
   let document = {
@@ -235,7 +235,7 @@ function mapStateToProps(state) {
     docValue: document,
     auth: state.auth
   };
-}
+};
 
 /**
  *
@@ -243,11 +243,11 @@ function mapStateToProps(state) {
  * @param {any} dispatch
  * @returns {any}
  */
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(documentActions, dispatch),
     addFlashMessage: bindActionCreators(addFlashMessage, dispatch)
   };
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DocumentForm);

@@ -19,7 +19,7 @@ module.exports = {
       .setValue('input[type=email]', 'oyendah@gmail.com')
       .setValue('input[type=password]', 'password')
       .click('input[type="submit"]')
-      .pause(1000)
+      .waitForElementVisible('h4')
       .assert.urlEquals('http://localhost:4000/')
       .end();
   },
@@ -31,7 +31,7 @@ module.exports = {
       .setValue('input[type=email]', 'oyendah@gmail.com')
       .setValue('input[type=password]', 'password')
       .click('input[type="submit"]')
-      .pause(1000)
+      .waitForElementVisible('nav', 5000)
       .assert.urlEquals('http://localhost:4000/')
       .assert.containsText('h4', 'DASHBOARD')
       .assert.containsText('nav', 'Doc Management')
@@ -51,7 +51,7 @@ module.exports = {
       .setValue('input[type=email]', 'uyi.sosa@gmail.com')
       .setValue('input[type=password]', 'password')
       .click('input[type="submit"]')
-      .pause(1000)
+      .waitForElementVisible('nav', 5000)
       .assert.urlEquals('http://localhost:4000/')
       .assert.containsText('h4', 'DASHBOARD')
       .assert.containsText('nav', 'Doc Management')

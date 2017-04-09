@@ -24,6 +24,7 @@ class DocumentList extends React.Component {
     event.preventDefault();
     const documentId = event.target.id;
     this.props.actions.setCurrentDocument(documentId);
+    this.props.actions.displayCurrentDocument(documentId);
   }
   deleteDocument() {
     const documentId = this.state.id;

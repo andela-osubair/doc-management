@@ -2,16 +2,15 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import DocumentForm from '../document/DocumentForm.jsx';
+import DocumentDetails from '../document/DocumentDetails.jsx';
 
 class Modal extends React.Component {
   componentDidMount() {
-    $('.modal').modal();
     $('select').material_select();
-    $('#title').parent().find('label').addClass('active');
   }
 
   render() {
-    const { auth } = this.props;
+    const { documentDetails } = this.props;
     return (
       <div>
         <div id="modal1" className="modal">
@@ -22,7 +21,7 @@ class Modal extends React.Component {
           </div>
           <div className="modal-content">
             <h4>Document</h4>
-            <DocumentForm auth={auth}/>
+            {documentDetails ? <DocumentDetails /> : <DocumentForm />}
           </div>
         </div>
       </div>
@@ -31,18 +30,7 @@ class Modal extends React.Component {
 }
 
 Modal.propTypes = {
-  auth: PropTypes.object.isRequired
+  documentDetails: PropTypes.bool.isRequired
 };
 
-/**
- * [mapStateToProps description]
- * @param  {object} state [description]
- * @return {object}  state     [description]
- */
-function mapStateToProps(state) {
-  return {
-    auth: state.auth,
-  };
-}
-
-export default connect(mapStateToProps)(Modal);
+export default Modal;
