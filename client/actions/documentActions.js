@@ -1,23 +1,28 @@
+/**
+ * Documents action, disptach action and
+ * action types of each action to the reducer
+ */
+
 import axios from 'axios';
 import types from './actionTypes';
 
 /**
  *
- *
+ * loaddocumentsuccess
  * @export
- * @param {any} documents
- * @returns {any} document
+ * @param {any} documents  returned documents from api call
+ * @returns {any} action and action types
  */
 export function loadDocumentSuccess(documents) {
   return { type: types.LOAD_DOCUMENT_SUCCESS, documents };
 }
 
 /**
- *
+ * create new document success action
  *
  * @export
- * @param {any} document
- * @returns {any} document
+ * @param {any} document newly create document reponse from api post
+ * @returns {any} action and action types
  */
 export function createDocumentSuccess(document) {
   return {
@@ -28,7 +33,7 @@ export function createDocumentSuccess(document) {
 
 /**
  *
- * set in state the selcted document
+ * dispatch to reducer the selected document
  * @export
  * @param {any} id
  * @returns {any} document id
@@ -42,7 +47,7 @@ export function setCurrentDocument(id) {
 
 /**
  *
- * set in state the selcted document
+ * disptch to reducer the currently displayed document details
  * @export
  * @param {any} id
  * @returns {any} document id
@@ -55,7 +60,7 @@ export function displayCurrentDocument(id) {
 }
 
 /**
- * delete from state the current selected document
+ * delete from state the currently selected document
  * @return {[type]} [description]
  */
 export function deleteCurrentDocument() {
@@ -65,7 +70,8 @@ export function deleteCurrentDocument() {
 }
 
 /**
- *
+ * get user documents from database
+ * by calling api route /user/:id/alldocuments
  *
  * @export
  * @returns {object} documents
@@ -80,7 +86,8 @@ export function loadUserDocument() {
 }
 
 /**
- *
+ * get all document from data base with admin authentication
+ * using api route /documents
  *
  * @export
  * @returns {object} documents
@@ -94,7 +101,7 @@ export function loadAllDocument() {
 }
 
 /**
- *
+ * save new documents to database using POST api route /documents/
  *
  * @export
  * @param {any} document
@@ -109,7 +116,7 @@ export function saveDocument(document) {
 }
 
 /**
- *
+ * update documents to database using PUT api route /documents/:id
  *
  * @export
  * @param {any} document
@@ -125,7 +132,7 @@ export function updateDocument(document) {
 }
 
 /**
- *
+ * delete document from database using DELETE api route /documents/:id
  *
  * @export
  * @param {any} id

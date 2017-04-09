@@ -27,7 +27,8 @@ export function searchDocumentsSuccess(documents) {
 }
 
 /**
- * search user function, GET function
+ * search user function,
+ * GET /search/users/?term={term}
  * @param  {String} term   search term
  * @param  {number} limit  limit of records to be returned
  * @param  {numebr} offset offset of user data
@@ -44,10 +45,11 @@ export function searchUsers(term, limit, offset) {
 }
 
 /**
- * search user function, GET function
+ * search document function,
+ * GET /search/documents/?term={term}
  * @param  {String} term   search term
  * @param  {number} limit  limit of records to be returned
- * @param  {numebr} offset offset of user data
+ * @param  {numebr} offset offset of document data
  * @return {object}        reponse from the api
  */
 export function searchDocuments(term, limit, offset) {
