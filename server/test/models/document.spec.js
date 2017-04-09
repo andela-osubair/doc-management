@@ -67,6 +67,7 @@ describe('Document Model', () => {
           done();
         });
     });
+
     it('requires unique title field to create a document', (done) => {
       Document.create(publicDocument)
         .catch((error) => {
@@ -74,6 +75,16 @@ describe('Document Model', () => {
           expect(/SequelizeUniqueConstraintError/.test(error.name)).toBeTruthy;
           done();
         });
+    });
+
+    it('requires public, private, role as document access', (done) => {
+      Document.create(invalid.invalidDocumentAccess)
+      .catch((error) => {
+        expect(/SequelizeDatabaseError/.test(error.name)).toBeTruthy;
+        expect(/invalid input value for enum "enum_Documents_viewAccess"/.test(
+          error.message)).toBeTruthy;
+        done();
+      });
     });
   });
 });
