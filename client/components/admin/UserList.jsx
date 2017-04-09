@@ -21,7 +21,21 @@ class UserList extends React.Component {
     this.deleteUser = this.deleteUser.bind(this);
     this.viewUser = this.viewUser.bind(this);
     this.renderAlert = this.renderAlert.bind(this);
+    this.updateSelectState = this.updateSelectState.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
+  }
+
+  componentDidMount() {
+    $('select').material_select();
+    $('#mySelectBox').on('change', this.updateSelectState);
+  }
+
+  updateSelectState(event) {
+    let limit = this.state.limit;
+    limit = event.target.value;
+    this.setState({ limit }, () => {
+      this.props.actions.loadUsers(limit, this.state.offset);
+    });
   }
 
   viewUser(event) {
@@ -121,19 +135,35 @@ class UserList extends React.Component {
             </ul>
           </div>
         </div>)}
-        <ReactPaginate previousLabel={'previous'}
-                       nextLabel={'next'}
-                       breakLabel={<a href="">...</a>}
-                       breakClassName={'break-me'}
-                       pageCount={this.props.pageCount}
-                       marginPagesDisplayed={2}
-                       pageRangeDisplayed={5}
-                       onPageChange={this.handlePageClick}
-                       containerClassName={'pagination'}
-                       subContainerClassName={'pages pagination'}
-                       pageClassName={'waves-effect'}
-                       activeClassName={'active'} />
-        <ReduxSweetAlert />
+        <div className="row">
+          <div className="col s7">
+            <ReactPaginate previousLabel={'previous'}
+                           nextLabel={'next'}
+                           breakLabel={<a href="">...</a>}
+                           breakClassName={'break-me'}
+                           pageCount={this.props.pageCount}
+                           marginPagesDisplayed={2}
+                           pageRangeDisplayed={5}
+                           onPageChange={this.handlePageClick}
+                           containerClassName={'pagination'}
+                           subContainerClassName={'pages pagination'}
+                           pageClassName={'waves-effect'}
+                           activeClassName={'active'} />
+            <ReduxSweetAlert />
+          </div>
+          <div className="col s5">
+            <select name="viewAccess" id="mySelectBox"
+            value={this.state.limit}
+            className="browser-default">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+            Select number of users to be displayed
+          </div>
+        </div>
       </div>
     );
   }
