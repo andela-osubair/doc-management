@@ -1,6 +1,5 @@
 /* eslint class-methods-use-this: "off"*/
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
 import DocumentForm from '../document/DocumentForm.jsx';
 import DocumentDetails from '../document/DocumentDetails.jsx';
 

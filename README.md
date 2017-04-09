@@ -4,7 +4,12 @@
 Document Management System is a react redux application based on RESTful API for users to create and manage documents giving different privileges based on user roles and managing authentication using JWT.
 
 ## Development
-This application was developed using [NodeJs](https://nodejs.org) with [React Redux](http://redux.js.org/docs/basics/UsageWithReact.html) for frontend and [express](https://expressjs.com/) for routing. Postgres was used for persisting data with [Sequelize](https://sequelizejs.org) as [ORM](https://en.wikipedia.org/wiki/Object-relational_mapping)
+This application was developed using the following frameworks.
+
+*   [NodeJs](https://nodejs.org)
+*   [React Redux](http://redux.js.org/docs/basics/UsageWithReact.html)
+*   [express](https://expressjs.com/)
+*   [Sequelize](https://sequelizejs.org) as [ORM](https://en.wikipedia.org/wiki/Object-relational_mapping)
 
 ## Application Features
 ###### User Authentication
@@ -34,7 +39,7 @@ Users are authenticated and validated us JWT web token. Generating tokens on sig
 ## Installation
 -   Ensure that you have NodeJs and Postgres installed on your machine
 -   Clone the repository `$ git clone https://github.com/andela-osubair/doc-management.git`
--   Change into the directory `$ cd /doc-management`
+-   Change into the directory `$ cd doc-management`
 -   Install all required dependencies with `$ npm install`
 -   Create a `.env` file in your root directory as described in `.env.sample` file
 
@@ -241,3 +246,22 @@ GET /api/users/:identifier|Find user with email or username containing the ident
   "updatedAT": "2017-04-05T14:22:46.984z"
 }
 ```
+
+#### Contribution
+### Prerequisites includes
+-   [Postgresql](https://www.postgresql.org/) and
+-   [Node.js](http://nodejs.org/) >= v6.8.0.
+
+### Procedure
+1.  Clone this repository from a terminal `git clone https://github.com/andela-osubair/doc-management.git`.
+2.  Move into the project directory `cd doc-management`
+3.  Install project dependencies `npm install`
+4.  Create Postgresql database and run migrations `npm run db:migrations`.
+5.  Start the express server `npm run start:dev`.
+6.  Run test `npm test`.
+7.  Branch out of master `git checkout -b [new-branch-name]`
+8.  Make changes and commit your changes
+9.  Git push and make a pull request to my repo
+
+#### Limitations
+Currently, we can't say our API can handle larger requests, this may be a problem when our user base grows to over million.

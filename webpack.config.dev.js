@@ -82,7 +82,11 @@ export default {
         },
       }, {
         test: /materialize-css\/bin\//,
-        loader: 'imports?jQuery=jquery,$=jquery,hammerjs' },
+        loader: 'imports?jQuery=jquery,$=jquery,hammerjs'
+      }, {
+        test: /\.json$/,
+        loader: 'json-loader',
+      },
     ]
   }
 };
