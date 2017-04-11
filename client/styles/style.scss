@@ -121,3 +121,33 @@ body {
   cursor: pointer;
   color: #999;
 }
+
+.user-details{
+  margin: 105px 0px 0px 0px ;
+}
+
+@media only screen and (min-width: 1063px) {
+  nav a.button-collapse {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1062px) {
+  nav .brand-logo {
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+  }
+  nav .brand-logo.left, nav .brand-logo.right {
+    padding: 0;
+    -webkit-transform: none;
+            transform: none;
+  }
+  nav .brand-logo.left {
+    left: 0.5rem;
+  }
+  nav .brand-logo.right {
+    right: 0.5rem;
+    left: auto;
+  }
+}

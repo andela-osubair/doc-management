@@ -39,19 +39,19 @@ describe('Search API', () => {
   describe('User Search', () => {
     it('Should return a list of users based on search criteria', (done) => {
       server
-        .get('/search/users/?q=r')
+        .get('/search/users/?term=dupe')
         .set({
           'x-access-token': adminDetails.token
         })
         .end((err, res) => {
-          expect(res.body.user[0].username).toExist();
+          expect(res.body.user[0].username).toEqual('dupe');
           done();
         });
     });
 
     it('Should return users not found', (done) => {
       server
-        .get('/search/users/?q=zu')
+        .get('/search/users/?term=zu')
         .set({
           'x-access-token': adminDetails.token
         })
@@ -64,7 +64,7 @@ describe('Search API', () => {
 
     it('Should return error for non-admin search', (done) => {
       server
-        .get('/search/users/?q=r')
+        .get('/search/users/?term=r')
         .set({ 'x-access-token': regularDetails.token })
         .end((err, res) => {
           expect(res.body.message)
@@ -77,7 +77,7 @@ describe('Search API', () => {
   describe('Document Search', () => {
     it('Should return a list of documents based on search criteria', (done) => {
       server
-        .get('/search/documents/?q=test')
+        .get('/search/documents/?term=test')
         .set({
           'x-access-token': adminDetails.token
         })
@@ -92,7 +92,7 @@ describe('Search API', () => {
 
     it('Should return documents not found', (done) => {
       server
-        .get('/search/documents/?q=zu')
+        .get('/search/documents/?term=zu')
         .set({
           'x-access-token': adminDetails.token
         })
@@ -105,7 +105,7 @@ describe('Search API', () => {
 
     it('Should return error for non-admin search', (done) => {
       server
-        .get('/search/documents/?q=in')
+        .get('/search/documents/?term=in')
         .set({ 'x-access-token': regularDetails.token })
         .end((err, res) => {
           expect(res.body.message)

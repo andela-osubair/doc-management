@@ -51,6 +51,13 @@ export default {
         loaders: ['babel-loader?presets[]=es2015']
 
       }, {
+        test: /.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        query: {
+          presets: ['es2015', 'react']
+        }
+      }, {
         test: /(\.css)$/,
         loader: ExtractTextPlugin.extract('css?sourceMap')
       }, {
@@ -79,7 +86,11 @@ export default {
         },
       }, {
         test: /materialize-css\/bin\//,
-        loader: 'imports?jQuery=jquery,$=jquery,hammerjs' },
+        loader: 'imports?jQuery=jquery,$=jquery,hammerjs'
+      }, {
+        test: /\.json$/,
+        loader: 'json-loader',
+      },
     ]
   }
 };

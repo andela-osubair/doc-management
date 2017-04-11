@@ -1,8 +1,10 @@
 export default {
-  manageUsers: { allUsers: [], userDetails: false },
+  manageUsers: { allUsers: [], userDetails: false, authUser: [] },
   isAuthenticated: false,
   user: {},
-  manageDocuments: { documents: [] },
+  manageDocuments: { documents: [], documentDetails: false },
   manageRoles: { roles: [] },
-  manageSearch: { searchedUsers: [] }
+  manageSearch: { searchedUsers: [], searchedDocuments: [] },
+  currentlySelected: {},
+  selectedDocument: ''
 };

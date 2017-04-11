@@ -2,7 +2,7 @@ import supertest from 'supertest';
 import expect from 'expect';
 
 import app from '../../../bin/www';
-import newData from '../helper/test-helper';
+import helper from '../helper/test-helper';
 
 process.env.NODE_ENV = 'test';
 
@@ -10,21 +10,21 @@ process.env.NODE_ENV = 'test';
 // This agent refers to PORT where program is runninng.
 
 const server = supertest.agent(app);
-const role = newData.newRole;
-const adminUser = newData.administrator;
-const regUser = newData.regular;
+const role = helper.newRole;
+const adminUser = helper.administrator;
+const regularUser = helper.regular;
 
 describe('Roles API', () => {
-  let userData;
-  let regData;
-  let roleData;
+  let userDetails;
+  let regularDetails;
+  let roleDetails;
 
   before((done) => {
     server
       .post('/users')
-      .send(regUser)
+      .send(regularUser)
       .end((err, res) => {
-        regData = res.body;
+        regularDetails = res.body;
         done();
       });
   });
@@ -35,7 +35,7 @@ describe('Roles API', () => {
         .post('/users')
         .send(adminUser)
         .end((err, res) => {
-          userData = res.body;
+          userDetails = res.body;
           done();
         });
     });
@@ -43,11 +43,11 @@ describe('Roles API', () => {
     it('should create new role', (done) => {
       server
         .post('/roles')
-        .set('x-access-token', userData.token)
+        .set('x-access-token', userDetails.token)
         .send(role)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          roleData = res.body;
+          roleDetails = res.body;
           expect(res.body.message).toEqual('Role created succesfully');
           expect(res.status).toEqual(201);
           if (err) return done(err);
@@ -58,7 +58,7 @@ describe('Roles API', () => {
     it('should not create role without admin access', (done) => {
       server
         .post('/roles')
-        .set('x-access-token', regData.token)
+        .set('x-access-token', regularDetails.token)
         .send(role)
         .expect('Content-Type', /json/)
         .end((err, res) => {
@@ -73,7 +73,7 @@ describe('Roles API', () => {
     it('should not create new role, should return 400', (done) => {
       server
         .post('/roles')
-        .set('x-access-token', userData.token)
+        .set('x-access-token', userDetails.token)
         .expect('Content-Type', /json/)
         .end((err, res) => {
           expect(res.body.message).toEqual('Error creating new role');
@@ -88,7 +88,7 @@ describe('Roles API', () => {
     it('should return 200 for role endpoint', (done) => {
       server
         .get('/roles')
-        .set('x-access-token', userData.token)
+        .set('x-access-token', userDetails.token)
         .expect('Content-Type', /json/)
         .end((err, res) => {
           expect(res.status).toEqual(200);
@@ -100,7 +100,7 @@ describe('Roles API', () => {
     it('should return administrator for role id 1', (done) => {
       server
         .get('/roles/1')
-        .set('x-access-token', userData.token)
+        .set('x-access-token', userDetails.token)
         .expect('Content-Type', /json/)
         .end((err, res) => {
           expect(res.status).toEqual(200);
@@ -113,7 +113,7 @@ describe('Roles API', () => {
     it('should return Role not found', (done) => {
       server
         .get('/roles/10')
-        .set('x-access-token', userData.token)
+        .set('x-access-token', userDetails.token)
         .expect('Content-Type', /json/)
         .end((err, res) => {
           expect(res.status).toEqual(404);
@@ -125,7 +125,7 @@ describe('Roles API', () => {
     it('should return Role not found', (done) => {
       server
         .get('/roles/role')
-        .set('x-access-token', userData.token)
+        .set('x-access-token', userDetails.token)
         .expect('Content-Type', /json/)
         .end((err, res) => {
           expect(res.status).toEqual(400);
@@ -143,8 +143,8 @@ describe('Roles API', () => {
     };
     it('should update role data ', (done) => {
       server
-        .put(`/roles/${roleData.role.id}`)
-        .set('x-access-token', userData.token)
+        .put(`/roles/${roleDetails.role.id}`)
+        .set('x-access-token', userDetails.token)
         .send(fieldsToUpdate)
         .expect('Content-Type', /json/)
         .end((err, res) => {
@@ -159,8 +159,8 @@ describe('Roles API', () => {
       'should return Not authorize when user other than the admin updates role',
       (done) => {
         server
-          .put(`/roles/${roleData.role.id}`)
-          .set('x-access-token', regData.token)
+          .put(`/roles/${roleDetails.role.id}`)
+          .set('x-access-token', regularDetails.token)
           .send(fieldsToUpdate)
           .expect('Content-Type', /json/)
           .end((err, res) => {
@@ -175,7 +175,7 @@ describe('Roles API', () => {
     it('should return Role Not Found when udating invalid role', (done) => {
       server
         .put('/roles/10')
-        .set('x-access-token', userData.token)
+        .set('x-access-token', userDetails.token)
         .send(fieldsToUpdate)
         .expect('Content-Type', /json/)
         .end((err, res) => {
@@ -189,7 +189,7 @@ describe('Roles API', () => {
     it('should return 400 updating invalid role', (done) => {
       server
         .put('/roles/role')
-        .set('x-access-token', userData.token)
+        .set('x-access-token', userDetails.token)
         .send(fieldsToUpdate)
         .expect('Content-Type', /json/)
         .end((err, res) => {
@@ -204,8 +204,8 @@ describe('Roles API', () => {
   describe('/DELETE Role', () => {
     it('should delete role data ', (done) => {
       server
-          .delete(`/roles/${roleData.role.id}`)
-          .set('x-access-token', userData.token)
+          .delete(`/roles/${roleDetails.role.id}`)
+          .set('x-access-token', userDetails.token)
           .expect('Content-Type', /json/)
           .end((err, res) => {
             expect(res.status).toEqual(200);
@@ -218,7 +218,7 @@ describe('Roles API', () => {
     it('should not delete invalid role', (done) => {
       server
           .delete('/roles/10')
-          .set('x-access-token', userData.token)
+          .set('x-access-token', userDetails.token)
           .expect('Content-Type', /json/)
           .end((err, res) => {
             expect(res.status).toEqual(404);
@@ -231,7 +231,7 @@ describe('Roles API', () => {
     it('should return 403 deleting a role without admin right', (done) => {
       server
           .delete('/roles/1')
-          .set('x-access-token', regData.token)
+          .set('x-access-token', regularDetails.token)
           .expect('Content-Type', /json/)
           .end((err, res) => {
             expect(res.status).toEqual(403);
@@ -246,7 +246,7 @@ describe('Roles API', () => {
     (done) => {
       server
         .delete('/roles/role')
-        .set('x-access-token', userData.token)
+        .set('x-access-token', userDetails.token)
         .expect('Content-Type', /json/)
         .end((err, res) => {
           expect(res.status).toEqual(400);

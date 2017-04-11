@@ -1,7 +1,7 @@
 /* eslint no-unused-expressions: "off"*/
 
 import expect from 'expect';
-import newData from '../helper/test-helper';
+import helper from '../helper/test-helper';
 import model from '../../models';
 import invalid from '../helper/invalid-data-helper';
 
@@ -9,8 +9,8 @@ process.env.NODE_ENV = 'test';
 
 const Shared = model.Shared;
 const Document = model.Documents;
-const doc = newData.sharedDoc;
-const sharedDoc = newData.shared;
+const doc = helper.sharedDoc;
+const sharedDoc = helper.shared;
 
 describe('Shared Model', () => {
   let docData;
@@ -31,14 +31,13 @@ describe('Shared Model', () => {
       Shared.create(sharedDoc)
         .then((shared) => {
           sharedData = shared;
+          expect(sharedData).toExist();
+          expect(typeof sharedData).toEqual('object');
+          expect(sharedData).toExist('email');
           done();
         });
     });
-    it('shared document data should exist', () => {
-      expect(sharedData).toExist();
-      expect(typeof sharedData).toEqual('object');
-      expect(sharedData).toExist('email');
-    });
+
     it('created new document should have name, email', () => {
       expect(sharedData.email).toEqual(sharedDoc.email);
       expect(sharedData.documentId).toEqual(sharedDoc.documentId);

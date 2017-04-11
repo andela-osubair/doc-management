@@ -24,6 +24,7 @@ export default {
         message: 'An error occured while creating document'
       }));
   },
+
   list(req, res) {
     return Documents
       .findAll({
@@ -38,6 +39,7 @@ export default {
         message: 'Error retrieving documents'
       }));
   },
+
   retrieve(req, res) {
     return Documents
       .findById(req.params.id, {
@@ -56,6 +58,7 @@ export default {
         message: 'Error occurred while retrieving documents'
       }));
   },
+
   findAllUserDocument(req, res) {
     return Documents
     .findAll({
@@ -86,6 +89,7 @@ export default {
       message: 'Error occurred while retrieving documents'
     }));
   },
+
   update(req, res) {
     Roles.findById(req.decoded.data.roleId)
     .then(() => {
@@ -116,6 +120,7 @@ export default {
           }));
     });
   },
+
   destroy(req, res) {
     return Documents
       .find({

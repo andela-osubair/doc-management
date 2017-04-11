@@ -1,15 +1,14 @@
 /* eslint no-unused-expressions: "off"*/
 
 import expect from 'expect';
-import newData from '../helper/test-helper';
+import helper from '../helper/test-helper';
 import model from '../../models';
 import invalid from '../helper/invalid-data-helper';
 
 process.env.NODE_ENV = 'test';
 
 const User = model.Users;
-const newUser = newData.adminUser;
-// const requiredFields = ['name', 'email', 'username'];
+const newUser = helper.adminUser;
 
 describe('Users Model', () => {
   let user;
@@ -19,13 +18,10 @@ describe('Users Model', () => {
       User.create(newUser)
         .then((createdUser) => {
           user = createdUser;
+          expect(user).toExist();
+          expect(user).toExist('email');
           done();
         });
-    });
-
-    it('created new user should exist', () => {
-      expect(user).toExist();
-      expect(user).toExist('email');
     });
 
     it('created new user should have name, email', () => {

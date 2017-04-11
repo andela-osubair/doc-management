@@ -3,19 +3,19 @@ import types from './actionTypes';
 
 /**
  * loadRoleSuccess action
- * @param  {object} role [description]
+ * @param  {object} roles [description]
  * @return {object}      [description]
  */
-export function loadRoleSuccess(role) {
+export function loadRoleSuccess(roles) {
   return {
     type: types.LOAD_ROLE_SUCCESS,
-    role
+    roles
   };
 }
 
 /**
+ * select current role action
  *
- * set in state the selcted role
  * @export
  * @param {any} id
  * @returns {any} role id
@@ -50,7 +50,8 @@ export function loadRoles() {
 }
 
 /**
- * save new role
+ * create new role
+ * POST /roles/
  * @param  {object} role role object to be svaed
  * @return {object}      response from api
  */
@@ -63,13 +64,14 @@ export function saveRole(role) {
 }
 
 /**
- * [updateRole description]
+ * update role
+ * PUT /roles/:id
  * @param  {object} role role object to be updated
  * @return {object}      response from api
  */
 export function updateRole(role) {
   return (dispatch, getState) => {
-    const roleId = getState().manageRoles.selectedRole;
+    const roleId = getState().currentlySelected.selectedRole;
     return axios.put(`/roles/${roleId}`, role).then(() => {
       dispatch(loadRoles());
     });
@@ -78,6 +80,7 @@ export function updateRole(role) {
 
 /**
  * delete role from db
+ * DELETE /roles/:id
  * @param  {number} id role id
  * @return {object}    api response
  */

@@ -1,32 +1,27 @@
+import isEmpty from 'lodash/isEmpty';
 import types from '../actions/actionTypes';
 import initialState from './initialState';
 
 /**
- * [documentReducer description]
- * @param  {[type]} [state=initialState.manageDocuments] [description]
- * @param  {[type]} action                               [description]
- * @return {[type]}                                      [description]
+ * documents reducers
+ * @param  {object} state=initialState initial state of the application
+ * @param  {any} action                 dispatched action fron the action
+ * @return {object}                   return current state of the application
  */
 export default function documentReducer(
   state = initialState.manageDocuments, action) {
   switch (action.type) {
   case types.LOAD_DOCUMENT_SUCCESS:
-    return Object.assign({}, ...state, { documents: action.document });
+    return Object.assign({}, ...state, { documents: action.documents });
 
   case types.CREATE_DOCUMENT_SUCCESS:
     return [
-      ...state,
-      Object.assign({}, { documents: action.document })
+      ...state.documents,
+      Object.assign({}, action.document)
     ];
 
-  case types.SET_CURRENT_DOCUMENT:
-    return Object.assign({}, state, { selectedDocument: action.id });
-
-  case types.DELETE_CURRENT_DOCUMENT: {
-    const newState = JSON.parse(JSON.stringify(state));
-    delete newState.selectedDocument;
-    return newState;
-  }
+  case types.DISPLAY_SELECTED_DOCUMENT:
+    return Object.assign({}, state, { documentDetails: !isEmpty(action.id) });
 
   default:
     return state;

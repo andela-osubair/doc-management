@@ -1,13 +1,13 @@
 /* eslint no-unused-expressions: "off"*/
 
 import expect from 'expect';
-import newData from '../helper/test-helper';
+import helper from '../helper/test-helper';
 import model from '../../models';
 
 process.env.NODE_ENV = 'test';
 
 const Role = model.Roles;
-const newRole = newData.newRole;
+const newRole = helper.newRole;
 
 describe('Roles Model', () => {
   let role;
@@ -17,6 +17,8 @@ describe('Roles Model', () => {
       Role.create(newRole)
         .then((createdRole) => {
           role = createdRole;
+          expect(role).toExist();
+          expect(role).toExist('title');
           done();
         });
     });

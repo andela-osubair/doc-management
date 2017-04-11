@@ -4,34 +4,36 @@ import types from './actionTypes';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 
 /**
- * [loadUserSuccess description]
- * @param  {object} user user response fron api call in the thunk
+ * loadUserSuccess,
+ * action dispatched on getting a user records from db
+ * @param  {object} users user response fron api call in the thunk
  * @return {object}      reponse dispatched to reducer
  */
-export function loadUserSuccess(user) {
+export function loadUserSuccess(users) {
   return {
-    type: types.LOAD_USER_SUCCESS,
-    user
+    type: types.LOAD_USERS_SUCCESS,
+    users
   };
 }
 
 /**
- * [loadAllUserSuccess description]
- * @param  {object} user user response fron api call in the thunk
+ * loadAllUsersSuccess
+ * action dispatched on getting all users records from db
+ * @param  {object} users user response fron api call in the thunk
  * @return {object}      reponse dispatched to reducer
  */
-export function loadAllUserSuccess(user) {
+export function loadAllUsersSuccess(users) {
   return {
     type: types.LOAD_ALLUSERS_SUCCESS,
-    user
+    users
   };
 }
 
 /**
- *
+ * setCurrentUser
  *
  * @export
- * @param {any} user
+ * @param {any} user selected user data
  * @returns {any} data
  */
 export function setCurrentUser(user) {
@@ -43,10 +45,10 @@ export function setCurrentUser(user) {
 
 /**
  *
- * set in state the selcted role
+ * add to state the currently selected user
  * @export
  * @param {any} id
- * @returns {any} role id
+ * @returns {any} user id
  */
 export function setSelectedUser(id) {
   return {
@@ -58,7 +60,7 @@ export function setSelectedUser(id) {
 /**
  * display details of current user
  * @param {number} id selected user id
- * @return {object} object of action type
+ * @return {object} object of action
  */
 export function displaySelectedUser(id) {
   return {
@@ -68,8 +70,8 @@ export function displaySelectedUser(id) {
 }
 
 /**
- * delete from state the current selected role
- * @return {[type]} [description]
+ * remove from state the currently selected user
+ * @return {object} action [description]
  */
 export function deleteSelectedUser() {
   return {
@@ -78,7 +80,7 @@ export function deleteSelectedUser() {
 }
 
 /**
- * createUserSuccess
+ * action dispatched on creating new user success
  *
  * @export
  * @param {any} user
@@ -89,19 +91,31 @@ export function createUserSuccess(user) {
 }
 
 /**
- *  create user failure
+ *  action dispatched on creating new user failure
  *
  * @export
  * @param {any} name
  * @returns {Object} json object
  */
 export function getUserSuccess(name) {
-  return { type: types.GET_USER_SUCCESS, name };
+  return { type: types.GET_USERS_SUCCESS, name };
+}
+
+/**
+ * update user success
+ * @param  {object} user updated user new details
+ * @return {object}
+ */
+export function updateUserSuccess(user) {
+  return {
+    type: types.UPDATE_USER_SUCCESS,
+    user
+  };
 }
 
 
 /**
- *  login users
+ *  login users action dispatch on success authentication
  *
  * @export
  * @param {any} token
@@ -110,7 +124,7 @@ export function getUserSuccess(name) {
 export function loginUserSuccess(token) {
   localStorage.setItem('token', token);
   return {
-    type: type.LOGIN_USER_SUCCESS,
+    type: types.LOGIN_USER_SUCCESS,
     payload: {
       token
     }
@@ -118,19 +132,33 @@ export function loginUserSuccess(token) {
 }
 
 /**
- *  login users
+ * get authenticated user details
+ * @param  {object} user
+ * @return {object}
+ */
+export function getAuthUserSuccess(user) {
+  return {
+    type: types.GET_AUTH_USER_SUCCESS,
+    user
+  };
+}
+
+/**
+ *  login users failure
+ *  dispatch on login failure
  *
  * @export
  * @returns {Object} json object
  */
 export function loginUserFailure() {
   return {
-    type: type.LOGIN_USER_FAILURE
+    type: types.LOGIN_USER_FAILURE
   };
 }
 
 /**
- *
+ * create new user using api route
+ * POST /users/
  *
  * @export saveUser
  * @param {object} user
@@ -152,7 +180,8 @@ export function saveUser(user) {
 
 
 /**
- * [loadUsers description]
+ * load users from the database using api route setting limit and offset
+ * GET /users/?limit=%offset=
  * @param  {number} limit  [description]
  * @param  {number} offset [description]
  * @return {object}        [description]
@@ -166,34 +195,67 @@ export function loadUsers(limit, offset) {
 }
 
 /**
- * [loadAllUser description]
+ * load users from the database using api route setting limit and offset
+ * GET /users/
  * @return {object} [all users]
  */
-export function loadAllUser() {
+export function loadAllUsers() {
   return (dispatch) => {
     return axios.get('/users').then((res) => {
-      dispatch(loadAllUserSuccess(res.data.user));
+      dispatch(loadAllUsersSuccess(res.data.user));
+    });
+  };
+}
+
+
+/**
+ * get currently authenticated user using parameter user id
+ * GET /users/:id
+ * @param  {number} id
+ * @return {object}
+ */
+export function getAuthUser(id) {
+  return (dispatch) => {
+    return axios.get(`/users/${id}`).then((res) => {
+      dispatch(getAuthUserSuccess(res.data.user));
     });
   };
 }
 
 /**
- * user update by admin
- * @param  {object} user [user data object]
+ * user update with admin authentication
+ * PUT /users/:id
+ * @param  {object} user [user data object to update]
+ * @param  {number} id   user id
  * @return {object}      [api response]
  */
-export function updateUserAdmin(user) {
-  return (dispatch, getState) => {
-    const userId = getState().manageUsers.selectedUser;
-    return axios.put(`/users/${userId}`, user).then(() => {
+export function updateUserAdmin(user, id) {
+  return (dispatch) => {
+    return axios.put(`/users/${id}`, user).then(() => {
       dispatch(loadUsers());
     });
   };
 }
 
 /**
+ * user update by account owner
+ * GET /users/:id
+ * @param  {object} user [user data object to update]
+ * @param  {number} id   user id
+ * @return {object}      [api response]
+ */
+export function updateUser(user, id) {
+  return (dispatch) => {
+    return axios.put(`/users/${id}`, user).then(() => {
+      dispatch(getAuthUser(id));
+    });
+  };
+}
+
+/**
  *
- *
+ *create a new user by admin
+ *POST /users/
  * @export saveUser
  * @param {any} user
  * @returns {Object} json object
@@ -208,7 +270,8 @@ export function saveUserAdmin(user) {
 }
 
 /**
- *
+ * get selected user details
+ * GET /users/:id
  *
  * @export getUser
  * @param {any} id
@@ -240,7 +303,8 @@ export function deleteUser(id) {
 }
 
 /**
- *
+ * isUserExists to check if passed parameter already exist in the db
+ * using the route GET /api/users/:identifier
  *
  * @export
  * @param {any} identifier
@@ -253,7 +317,9 @@ export function isUserExists(identifier) {
 }
 
 /**
- *
+ * login user function
+ * set user token to local storage on successfull login
+ * and set headers for authorization
  *
  * @export
  * @param {any} user
@@ -273,7 +339,7 @@ export function login(user) {
 
 /**
  *
- *
+ * logout user and clear token from localStorage
  * @export
  * @returns {any} data
  */
