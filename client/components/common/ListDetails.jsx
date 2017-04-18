@@ -1,4 +1,6 @@
 import React, { PropTypes } from 'react';
+import ListDetailBody from './ListDetailBody.jsx';
+import ListDetailHeader from './ListDetailHeader.jsx';
 
 const ListDetails = ({
   fullname, username, email, createdAt, showHeader, onEditClick, onChangeClick
@@ -8,64 +10,14 @@ const ListDetails = ({
       <ul id = "profile-page-about-details"
       className = "collection z-depth-1" >
       {showHeader ?
-        <li className="collection-header pink darken-3 white-text">
-          <div className="row">
-            <div className="col s5 ">
-              <p>
-                <input
-                  type="submit"
-                  value="Edit Profile"
-                  onClick={onEditClick}
-                  className="btn waves-effect pink darken-4 waves-light"
-                  />
-              </p>
-              </div>
-            <div className="col s7 right-align">
-              <p>
-              <input
-                type="submit"
-                value="Change Password"
-                onClick={onChangeClick}
-                className="btn waves-effect pink darken-4 waves-light"
-                /></p>
-            </div>
-          </div>
-
-                  </li>
+        <ListDetailHeader onEditClick={onEditClick}
+          onChangeClick={onChangeClick}/>
            : ''
       }
-      <li className="collection-item">
-          <div className="row">
-            <div className="col s5 grey-text darken-1">
-            <i className="mdi-action-wallet-travel"></i> Name</div>
-            <div className="col s7 grey-text text-darken-4 right-align">
-            {fullname}</div>
-          </div>
-        </li>
-        <li className="collection-item">
-            <div className="row">
-              <div className="col s5 grey-text darken-1">
-              <i className="mdi-action-wallet-travel"></i> Username</div>
-              <div className="col s7 grey-text text-darken-4 right-align">
-              {username}</div>
-            </div>
-          </li>
-      <li className="collection-item">
-          <div className="row">
-            <div className="col s5 grey-text darken-1">
-            <i className="mdi-action-wallet-travel"></i> Email Address</div>
-            <div className="col s7 grey-text text-darken-4 right-align">
-            {email}</div>
-          </div>
-        </li>
-        <li className="collection-item">
-            <div className="row">
-              <div className="col s5 grey-text darken-1">
-              <i className="mdi-action-wallet-travel"></i> Date Created</div>
-              <div className="col s7 grey-text text-darken-4 right-align">
-              {createdAt}</div>
-            </div>
-          </li>
+      <ListDetailBody title="Name" value={fullname} />
+      <ListDetailBody title="Username" value={username} />
+      <ListDetailBody title="Email Address" value={email} />
+      <ListDetailBody title="Created" value={createdAt} />
       </ul>
     </div>
   );

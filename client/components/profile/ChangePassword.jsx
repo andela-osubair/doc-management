@@ -5,6 +5,8 @@ import toastr from 'toastr';
 import TextInput from '../common/TextInput.jsx';
 import * as userActions from '../../actions/userActions';
 import { addFlashMessage } from '../../actions/flashMessages';
+import Button from '../common/Button.jsx';
+import CancelButton from '../common/CancelButton.jsx';
 
 class ChangePassword extends React.Component {
   constructor(props) {
@@ -122,14 +124,8 @@ class ChangePassword extends React.Component {
           </div>
           <div className="row">
             <div className="input-field">
-              <input
-                type="submit"
-                value="Save"
-                className="btn waves-effect waves-light pink darken-1"
-                onClick={this.updateUser}/>
-              <a
-                  className="btn waves-effect waves-light blue-grey lighten-3"
-                  onClick={this.props.cancelClick}>Cancel</a>
+              <Button type="submit" value="Save" onClick={this.updateUser}/>
+              <CancelButton onClick={this.props.cancelClick} />
             </div>
           </div>
         </form>
