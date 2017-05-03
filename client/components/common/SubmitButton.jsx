@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-const Button = ({ type, value, onClick }) => {
+const SubmitButton = ({ type, value, onClick }) => {
   return (
     <input
       type={type}
@@ -10,10 +10,10 @@ const Button = ({ type, value, onClick }) => {
   );
 };
 
-Button.propTypes = {
+SubmitButton.propTypes = {
   type: PropTypes.string.isRequired,
   value: PropTypes.string,
   onClick: PropTypes.func.isRequired
 };
 
-export default Button;
+export default SubmitButton;

@@ -5,7 +5,7 @@ import toastr from 'toastr';
 import TextInput from '../common/TextInput.jsx';
 import * as userActions from '../../actions/userActions';
 import { addFlashMessage } from '../../actions/flashMessages';
-import Button from '../common/Button.jsx';
+import SubmitButton from '../common/SubmitButton.jsx';
 import CancelButton from '../common/CancelButton.jsx';
 
 class UpdateProfile extends React.Component {
@@ -101,7 +101,8 @@ class UpdateProfile extends React.Component {
           </div>
           <div className="row">
             <div className="input-field">
-              <Button type="submit" value="Save" onClick={this.updateUser}/>
+              <SubmitButton type="submit" value="Save"
+                onClick={this.updateUser}/>
               <CancelButton onClick={cancelClick} />
             </div>
           </div>

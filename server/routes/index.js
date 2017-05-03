@@ -86,7 +86,7 @@ const Routes = (app) => {
 
   app
     .route('/search/documents/')
-    .get(verify, adminAccess, searchController.documentSearch);
+    .get(verify, searchController.documentSearch);
 };
 
 export default Routes;

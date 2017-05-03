@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 import util from 'util';
+import bcrypt from 'bcryptjs';
+
 import model from '../../models/';
 import Helpers from '../../helper/Helper';
 
@@ -109,7 +111,14 @@ export default {
                 return res.status(404).send({ message: 'User Not Found' });
               }
               return user
-              .update(req.body)
+              .update({
+                name: req.body.name || user.name,
+                username: req.body.username || user.username,
+                email: req.body.email || user.email,
+                password: bcrypt.hashSync(req.body.password,
+                  bcrypt.genSaltSync(10)) || user.password,
+                roleId: req.body.roleId || user.roleId
+              })
                 .then(updatedUser => res
                   .status(200).send({ updatedUser,
                     message: 'User updated successfully',

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Button from './Button.jsx';
+import SubmitButton from './SubmitButton.jsx';
 
 const ListDetailHeader = ({ onEditClick, onChangeClick }) => {
   return (
@@ -8,12 +8,13 @@ const ListDetailHeader = ({ onEditClick, onChangeClick }) => {
         <div className="row">
           <div className="col s5 ">
             <p>
-              <Button type="submit" value="Edit Profile" onClick={onEditClick}/>
+              <SubmitButton type="submit" value="Edit Profile"
+                onClick={onEditClick}/>
             </p>
             </div>
           <div className="col s7 right-align">
             <p>
-              <Button type="submit"
+              <SubmitButton type="submit"
                 value="Change Password" onClick={onChangeClick}/>
             </p>
           </div>
