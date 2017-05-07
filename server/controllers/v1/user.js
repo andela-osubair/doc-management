@@ -110,13 +110,15 @@ export default {
               if (!user) {
                 return res.status(404).send({ message: 'User Not Found' });
               }
+              const password = req.body.password ?
+              bcrypt.hashSync(req.body.password,
+                bcrypt.genSaltSync(10)) : null;
               return user
               .update({
                 name: req.body.name || user.name,
                 username: req.body.username || user.username,
                 email: req.body.email || user.email,
-                password: bcrypt.hashSync(req.body.password,
-                  bcrypt.genSaltSync(10)) || user.password,
+                password: password || user.password,
                 roleId: req.body.roleId || user.roleId
               })
                 .then(updatedUser => res
@@ -124,7 +126,8 @@ export default {
                     message: 'User updated successfully',
 
                   }));
-            }).catch(error => res.status(400).send({
+            })
+            .catch(error => res.status(400).send({
               error, message: 'Error updating user' }));
       }
       return (res.status(403)
