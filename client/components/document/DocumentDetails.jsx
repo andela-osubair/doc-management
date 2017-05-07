@@ -102,7 +102,6 @@ const mapStateToProps = (state) => {
     document = getDocumentById(currentState.documents, documentId);
   }
 
-  console.log(document);
   return {
     documents: currentState.documents,
     currentDocument: documentId,

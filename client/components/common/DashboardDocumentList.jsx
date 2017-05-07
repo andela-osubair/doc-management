@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import CardOptionButton from './CardOptionButton.jsx';
 
 const DashboardDocumentList = ({ onClick, documents }) => {
   return (
@@ -17,10 +18,7 @@ const DashboardDocumentList = ({ onClick, documents }) => {
             </a>
           </div>
           <div className="fixed-action-btn horizontal edit">
-            <a className="btn-floating btn-flat pink"
-              onClick={onClick}>
-              <i id={document.id} className="material-icons">view_list</i>
-            </a>
+            <CardOptionButton onClick={onClick} id={document.id} />
           </div>
         </div>)}
     </div>

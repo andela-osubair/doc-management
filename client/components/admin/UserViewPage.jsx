@@ -70,7 +70,7 @@ function getUserId(users, id) {
  * @param {any} state
  * @returns {any}
  */
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   const currentState = state.manageUsers;
   const userId = state.currentlySelected.selectedUser;
   let user = {
@@ -88,6 +88,6 @@ function mapStateToProps(state) {
     currentUser: state.currentlySelected.selectedUser,
     userValue: user
   };
-}
+};
 
 export default connect(mapStateToProps)(UserViewPage);
