@@ -1,0 +1,153 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f1f4fa;
+}
+
+.navheader {
+    padding: 0px 0px 0px 5px;
+}
+
+.edit {
+    position: absolute !important;
+}
+
+#modal1 {
+    width: 75% !important;
+    max-height: 80vh !important;
+}
+
+#modal2 {
+    width: 95% !important;
+    max-height: 100%;
+}
+
+.closeModal{
+  margin: 10px !important;
+  float: right;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.hide{
+  display: none
+}
+
+.card-body{
+  max-height: 100% !important;
+  overflow: auto !important;
+}
+
+.loginmargin{
+  padding: 15px 0px 0px 0px;
+}
+
+#logincontainer{
+  margin: 75px 0px 0px 0px ;
+}
+
+#dashboardBG{
+  height: 90vh;
+  overflow-y: scroll;
+}
+
+#documentPage{
+  height: 90vh;
+  overflow-y: scroll;
+}
+
+.tab-style{
+  border: 1px solid #eceff1;
+}
+
+.list-badge{
+  margin-right: 105px
+}
+
+.wrap {
+  margin: 0 auto;
+  width: 1000px;
+}
+
+.logo {
+  margin-top: 50px;
+
+  h1 {
+    color: #8f8e8c;
+    font-size: 200px;
+    margin-bottom: 1px;
+    text-align: center;
+    text-shadow: 1px 1px 6px #fff;
+  }
+
+  p {
+    color: rgb(228, 146, 162);
+    font-size: 20px;
+    margin-top: 1px;
+    text-align: center;
+
+    span {
+      color: #90ee90;
+    }
+  }
+}
+
+.sub a {
+  color: #ffffff;
+  background: #8f8e8c;
+  text-decoration: none;
+  padding: 7px 120px;
+  font-size: 13px;
+  font-family: arial, serif;
+  font-weight: bold;
+  -webkit-border-radius: 3em;
+  -moz-border-radius: 0.1em;
+  -border-radius: 0.1em;
+}
+
+.footer {
+  color: #8f8e8c;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+
+  a {
+    color: rgb(228, 146, 162);
+  }
+}
+
+.pagination li a {
+  cursor: pointer;
+  color: #999;
+}
+
+.user-details{
+  margin: 105px 0px 0px 0px ;
+}
+
+@media only screen and (min-width: 1063px) {
+  nav a.button-collapse {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1062px) {
+  nav .brand-logo {
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+  }
+  nav .brand-logo.left, nav .brand-logo.right {
+    padding: 0;
+    -webkit-transform: none;
+            transform: none;
+  }
+  nav .brand-logo.left {
+    left: 0.5rem;
+  }
+  nav .brand-logo.right {
+    right: 0.5rem;
+    left: auto;
+  }
+}

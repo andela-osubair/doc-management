@@ -29,6 +29,12 @@ build/Release
 # Dependency directories
 node_modules
 jspm_packages
+.coveralls.yml
+coverage
+.env
+screenshots
+server/test/reports/
+client/test/reports/
 
 # Optional npm cache directory
 .npm

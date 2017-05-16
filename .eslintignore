@@ -1,0 +1,8 @@
+node_modules
+server/models/*
+server/migrations/*
+server/seeders/*
+server/test/testSetUp.js
+nightwatch.conf.js
+nightwatch.conf.TRAVIS.js
+dist/
