@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as documentActions from '../../actions/documentActions';
 import { addFlashMessage } from '../../actions/flashMessages';
+import SubmitButton from '../common/SubmitButton.jsx';
 
 class DocumentForm extends React.Component {
   constructor(props) {
@@ -163,13 +164,9 @@ class DocumentForm extends React.Component {
           <div className={classnames('input-field col s12', {
             hide: showSaveBtn === false
           })}>
-            <input
-              id="btnSave"
-              type="submit"
-              value="Save"
-              className="btn waves-effect waves-light pink darken-1"
-              onClick={isValue ? this.updateDocument : this.saveDocument}/>
-
+          <SubmitButton type="submit" id="btnSave"
+            value="save"
+            onClick={isValue ? this.updateDocument : this.saveDocument}/>
             </div>
         </div>
       </form>

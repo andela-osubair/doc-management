@@ -24,19 +24,13 @@ class DashboardPage extends React.Component {
   componentWillMount() {
     if (this.props.isAuthenticated) {
       if (this.props.auth.roleId === 1) {
-        this.props.loadAllDocument().catch((err) => {
-          if (err.response.data.status === 401 ||
-            err.response.data.status === '401') {
-            this.context.router.push('/login');
-          }
+        this.props.loadAllDocument().catch(() => {
+          this.context.router.push('/login');
         });
         this.setState({ isPrivate: true });
       } else {
-        this.props.loadUserDocument().catch((err) => {
-          if (err.response.data.status === 401 ||
-            err.response.data.status === '401') {
-            this.context.router.push('/login');
-          }
+        this.props.loadUserDocument().catch(() => {
+          this.context.router.push('/login');
         });
       }
     }

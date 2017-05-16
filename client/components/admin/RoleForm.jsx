@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import toastr from 'toastr';
 import * as roleActions from '../../actions/roleActions';
 import { addFlashMessage } from '../../actions/flashMessages';
+import SubmitButton from '../common/SubmitButton.jsx';
 
 class RoleForm extends React.Component {
   constructor(props) {
@@ -68,11 +69,10 @@ class RoleForm extends React.Component {
             <label htmlFor="title" className="active">Title</label>
             </div>
         <div className="input-field col s12">
-        <input
+        <SubmitButton
           id="btnSave"
           type="submit"
           value="Save"
-          className="btn waves-effect waves-light pink darken-1"
           onClick={hasValue ? this.updateRole : this.saveRole}/>
           </div>
           </div>

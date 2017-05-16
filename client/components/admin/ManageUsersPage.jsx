@@ -10,6 +10,7 @@ import * as searchActions from '../../actions/searchActions';
 import UserViewPage from './UserViewPage.jsx';
 import UserForm from './UserForm.jsx';
 import UserSearchList from './UserSearchList.jsx';
+import SubmitButton from '../common/SubmitButton.jsx';
 
 class ManageUserPage extends React.Component {
   constructor(props) {
@@ -123,11 +124,9 @@ class ManageUserPage extends React.Component {
                                search with username or email</label>
                           </div>
                           {this.state.search ?
-                            <input type="submit" value="Clear"
-                  className="btn waves-effect waves-light pink darken-1 right"
+                            <SubmitButton type="submit" value="Clear"
                   onClick={this.clearSearchResult}
-                          /> : <input type="submit" value="Search"
-                className="btn waves-effect waves-light pink darken-1 right"
+                          /> : <SubmitButton type="submit" value="Search"
                 onClick={this.searchUserClick}/>
               }
                         </div>
